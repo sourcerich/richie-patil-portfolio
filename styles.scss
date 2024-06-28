@@ -1,0 +1,79 @@
+body {
+    font-family: 'Brawler', serif;
+    font-weight: 900;
+    
+    &, * {
+      cursor: none;
+    }
+  }
+  
+  .shapes {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    background: #86ca53;
+    overflow: hidden;
+  }
+  
+  .shape {
+    will-change: transform;
+    position: absolute;
+    border-radius: 50%;
+    
+    $shapes: (#E5EBB2: 550px, #F8C4B4: 340px, #FF8787: 170px);
+    
+    @each $color, $size in $shapes {
+      &.shape-#{index($shapes, ($color $size))} {
+        background: $color;
+        width: $size;
+        height: $size;
+        margin: (-$size/2) 0 0 (-$size/2);
+      }
+    }
+  }
+  
+  .content {
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: #fff;
+    mix-blend-mode: screen;
+  }
+  
+  h1 {
+    font-size: 80px;
+    color:#000;
+    margin: 0;
+    text-align: center;
+  }
+  
+  h5{
+    margin: 0;
+    text-align: center;
+    position: absolute;
+    top: 650px;
+  }
+  
+  
+  .cursor {
+    position: fixed;
+    background: #BCE29E;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border-radius: 50%;
+    will-change: transform;
+    user-select: none;
+    pointer-events: none;
+    z-index: 10000;
+  }
+  
+  ::selection {
+    color: #fff;
+    background: #BCE29E;
+  }
