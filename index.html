@@ -1,13 +1,116 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sourcerich | Portfolio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+   integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+   crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://kit.fontawesome.com/0c9566a560.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="styles.css">
+  <title>Sourcerich's Portfolio</title>
+</head>
+<body>
+  <!--NAVBAR-->
+  <nav>
+    <div class="left"> 
+      <a href="/">Richie Patil</a>
+    </div>
+    <div class="right">
+      <a href="http://github.com" target="_blank" rel="noopener no-referrer">
+        <i class="fa-brands fa-github fa-lg"></i>
+        <span>Github</span>
+      </a>
+
+      <a href="http://linkedin.com" target="_blank" rel="noopener no-referrer">
+        <i class="fa-brands fa-linkedin-in fa-lg"></i>
+        <span>LinkedIn</span>
+      </a>
+      
+      <a href="mailto:richiepatilwork@gmail.com">
+        <i class="fa-solid fa-envelope"></i>
+        <span>Email</span>
+      </a>
+    </div>
+  </nav>
+  
+  <main>
+    <!--SECTION 1: Hero-->
+    <section class="hero-section">
+      <div class="text">
+        <h2>Hi, I'm Richie 👋</h2>
+        <p>
+          A developer based in Mumbai. I develop full stack applications, explore & analyse data and create models based on scientific methodologies 
+          and visualize complex relationships within data insights.
+        </p>
+        
+        <div class="links">
+          <a href="#skills">
+            <i class="fa-solid fa-code"></i>
+            <span>Skills</span>
+          </a>
+
+          <a href="#testimony">
+            <i class="fa-solid fa-pen"></i>
+            <span>Testimony</span>
+          </a>
+
+          <a href="#contact">
+            <i class="fa-solid fa-envelope"></i>
+            <span>Contact</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="headshot">
+        <img src="images/hero-headshot.webp" alt="my headshot">
+      </div>
+    </section>
+    <!--SECTION 2: Skills-->
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="text">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </div>
+
+      <div class="cells">
+        <div class="cell">
+          <img src="" alt="">
+          <span></span>
+        </div>
+
+        <div class="cell">
+          <img src="" alt="">
+          <span></span>
+        </div>
+
+        <div class="cell">
+          <img src="" alt="">
+          <span></span>
+        </div>
+
+        <div class="cell">
+          <img src="" alt="">
+          <span></span>
+        </div>
+
+        <div class="cell">
+          <img src="" alt="">
+          <span></span>
+        </div>
+      </div>
+    </section> 
+    <!--SECTION 3: Testimony-->
+    <section id="testimony"></section>
+    <!--SECTION 4: Contact-->
+    <section id="contact"></section>
+
+  </main>
+</body>
 </html>
