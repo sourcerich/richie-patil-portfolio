@@ -11,7 +11,7 @@
    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/0c9566a560.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="./images/logo.png" type="image/png">
+  <link rel="icon" href="images/logo.png" type="image/png">
   <title>Sourcerich's Portfolio</title>
 </head>
 <body>
@@ -42,7 +42,7 @@
     <!--SECTION 1: Hero-->
     <section class="hero-section">
       <div class="text">
-        <h2>Hi, I'm Richie 👋</h2>
+        <h2>Hi,&nbsp;I'm&nbsp;Richie&nbsp;👋</h2>
         <p>
           A developer based in Mumbai. I develop full stack applications, explore & analyse data and create models based on scientific methodologies 
           and visualize complex relationships within data insights.
@@ -71,7 +71,7 @@
       </div>
     </section>
     <!--SECTION 2: Skills-->
-    <section id="skills">
+    <section id="skills" class="skills-section">
       <h2>Skills</h2>
       <div class="text">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
@@ -82,35 +82,76 @@
 
       <div class="cells">
         <div class="cell">
-          <img src="" alt="">
-          <span></span>
+          <img src="images/html-logo.png" alt="html-logo">
+          <span>HTML</span>
         </div>
 
         <div class="cell">
-          <img src="" alt="">
-          <span></span>
+          <img src="images/css-logo.png" alt="css-logo">
+          <span>CSS</span>
         </div>
 
         <div class="cell">
-          <img src="" alt="">
-          <span></span>
+          <img src="images/nodejs.png" alt="nodejs">
+          <span>Node.js</span>
         </div>
 
         <div class="cell">
-          <img src="" alt="">
-          <span></span>
+          <img src="images/typescript-logo.png" alt="typescript-logo">
+          <span>Typescript</span>
         </div>
 
         <div class="cell">
-          <img src="" alt="">
-          <span></span>
+          <img src="images/python-logo.png" alt="python-logo">
+          <span>Python</span>
         </div>
       </div>
     </section> 
     <!--SECTION 3: Testimony-->
-    <section id="testimony"></section>
+    <section id="testimony" class="testimony-section">
+      <h2>Testimony</h2>
+
+      <div class="group">
+        <div class="person-details">
+          <img src="images/testimony-image.jpg">
+          <p>Mary Sue</p>
+          <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+        
+        <div class="text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+      </div>
+    </section>
     <!--SECTION 4: Contact-->
-    <section id="contact"></section>
+    <section id="contact" class="contact-section">
+      <h2>Contact</h2>
+
+      <div class="group">
+        <div class="text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+        
+        <form>
+          <label for="name">Name</label>
+          <input type="text" id="name">
+
+          <label for="email">Email</label>
+          <input type="email" id="email">
+
+          <label for="message">Message</label>
+          <textarea id="message" cols="30" rows="30"></textarea>
+
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
 
   </main>
 </body>
