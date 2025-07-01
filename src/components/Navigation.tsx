@@ -39,8 +39,28 @@ export default function Navigation({
       gsap.to(pillRef.current, {
         width: pillWidth,
         x: pillLeft,
-        duration: 0.4,
-        ease: "power2.out",
+        duration: 0.8,
+        ease: "power2.inOut",
+      });
+
+      // Animate text colors with delay to match pill movement
+      buttonRefs.current.forEach((button, index) => {
+        if (button) {
+          const isActiveButton = index === activeIndex;
+          const originalText = button.querySelector(
+            ".original-text"
+          ) as HTMLElement;
+          const hoverText = button.querySelector(".hover-text") as HTMLElement;
+
+          if (originalText && hoverText) {
+            gsap.to([originalText, hoverText], {
+              color: isActiveButton ? "#ffffff" : "#000000",
+              duration: 0.4,
+              delay: 0.2,
+              ease: "power2.inOut",
+            });
+          }
+        }
       });
     }
   };
@@ -91,8 +111,15 @@ export default function Navigation({
       position: "relative" as const,
       zIndex: 2,
       whiteSpace: "nowrap" as const,
-      color: isActive ? "#ffffff" : "#000000",
+      // Remove color from here as GSAP will handle it
       overflow: "hidden",
+      userSelect: "none" as const,
+      border: "none",
+      outline: "none",
+      WebkitUserSelect: "none" as const,
+      MozUserSelect: "none" as const,
+      msUserSelect: "none" as const,
+      transition: "none", // Disable CSS transitions since GSAP handles it
     };
   };
 
@@ -133,7 +160,7 @@ export default function Navigation({
         {navItems.map((item, index) => {
           const isActive = activeSection === item.id;
           return (
-            <div
+            <button
               key={item.id}
               ref={(el) => {
                 buttonRefs.current[index] = el;
@@ -207,6 +234,10 @@ export default function Navigation({
                   display: "block",
                   filter: "blur(0px)",
                   transform: "translateY(-5%)",
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                  MozUserSelect: "none",
+                  msUserSelect: "none",
                 }}
               >
                 {item.label}
@@ -223,11 +254,15 @@ export default function Navigation({
                   opacity: "0",
                   pointerEvents: "none",
                   color: "#000000",
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                  MozUserSelect: "none",
+                  msUserSelect: "none",
                 }}
               >
                 {item.label}
               </span>
-            </div>
+            </button>
           );
         })}
       </div>
