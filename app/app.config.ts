@@ -1,9 +1,6 @@
 export default defineAppConfig({
   global: {
-    picture: {
-      src: "/richie.jpg",
-      alt: "/richie.jpg",
-    },
+    picture: "/richie.jpg",
     meetingLink: "https://cal.com/richie-patil",
     email: "richiepatilwork@gmail.com",
     available: true,
