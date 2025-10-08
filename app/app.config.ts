@@ -2,7 +2,7 @@ export default defineAppConfig({
   global: {
     picture: {
       src: "/richie.jpg",
-      alt: "Richie Patil - Backend Developer & ML Engineer",
+      alt: "/richie.jpg",
     },
     meetingLink: "https://cal.com/richie-patil",
     email: "richiepatilwork@gmail.com",
