@@ -23,26 +23,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 8
-          
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        
+
       - name: Install dependencies
         run: pnpm install
-        
+
       - name: Static HTML export with Nuxt
         run: pnpm run generate
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
