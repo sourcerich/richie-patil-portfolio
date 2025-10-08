@@ -1,8 +1,8 @@
 export default defineAppConfig({
   global: {
     picture: {
-      dark: "/richie.jpg",
-      light: "/richie.jpg",
+      dark: "/richie.avif",
+      light: "/richie.avif",
       alt: "Richie Patil - Backend Developer & ML Engineer",
     },
     meetingLink: "https://cal.com/richie-patil",
