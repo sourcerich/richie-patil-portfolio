@@ -35,8 +35,8 @@ defineProps<{
       >
         <NuxtImg
           class="size-18 rounded-full ring ring-default ring-offset-3 ring-offset-(--ui-bg) object-cover"
-          :src="global.picture?.light!"
-          :alt="global.picture?.dark!"
+          :src="global.picture?.src!"
+          :alt="global.picture?.alt!"
           width="72"
           height="72"
           quality="95"
