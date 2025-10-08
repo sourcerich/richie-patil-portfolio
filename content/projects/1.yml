@@ -1,0 +1,39 @@
+title: "Sankalp NGO Website"
+description: "A high-performance, full-stack web application for the Sankalp NGO, designed to manage certificates and user data at scale."
+image: "/content/projects/sankalp.png"
+url: "https://thesankalp.org/"
+tags: ["React", "Node.js", "TypeScript", "DevSecOps"]
+date: "2025"
+content: |
+  ## Project Overview
+
+  Designed, engineered, and deployed a high-performance, full-stack web application for the Sankalp NGO, utilizing modern technologies to create a robust platform for certificate management.
+
+  ## Key Features
+
+  ### Frontend Development
+  - Built with **React and TypeScript** for a modern, fluid user interface
+  - Responsive design ensuring accessibility across all devices
+  - Intuitive user experience for certificate management
+
+  ### Backend Architecture
+  - **Node.js backend** to efficiently manage user data and certificates
+  - **SQL database** integration for reliable data storage
+  - Robust authentication system with encryption and decryption capabilities
+
+  ### Infrastructure & Deployment
+  - Configured **Linux VPS infrastructure** for robust cloud deployment
+  - Implemented **DevSecOps practices** with comprehensive security configurations
+  - Utilized **Git for version control** and automated deployment pipelines
+  - **Load capacity of over a million certificates** with optimized performance
+
+  ## Technical Achievements
+
+  - **Scalable Architecture**: Designed to handle high-volume certificate processing
+  - **Security First**: Implemented end-to-end encryption for user data and certificates
+  - **Performance Optimized**: Efficient database queries and caching strategies
+  - **Cloud Native**: Leveraged cloud hosting for reliability and scalability
+
+  ## Impact
+
+  The platform successfully streamlined the NGO's certificate management process, reducing manual work by 80% and providing a secure, scalable solution for their growing user base.

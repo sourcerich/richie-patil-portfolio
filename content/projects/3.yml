@@ -1,0 +1,55 @@
+title: "Sunspot and Solar Weather Prediction System"
+description: "Final year dissertation project focused on predicting solar weather patterns and sunspot activity using machine learning and astronomical data analysis."
+image: "/content/projects/sunspots.jpg"
+url: "#"
+tags: ["Machine Learning", "Python", "Data Science", "Research"]
+date: "2024"
+content: |
+  ## Project Overview
+
+  An advanced machine learning system for predicting solar weather patterns and sunspot activity, developed as my final year dissertation project. The system analyzes astronomical data to forecast space weather events that can impact Earth's technology infrastructure.
+
+  ## Key Features
+
+  ### Machine Learning Models
+  - **Time Series Forecasting**: Advanced algorithms for predicting sunspot cycles
+  - **Pattern Recognition**: ML models trained on historical solar data
+  - **Multi-variable Analysis**: Considers multiple solar indicators for accuracy
+  - **Ensemble Methods**: Combines multiple models for robust predictions
+
+  ### Data Processing
+  - **Astronomical Data Integration**: Processes data from solar observatories
+  - **Feature Engineering**: Extracts meaningful patterns from raw solar data
+  - **Data Preprocessing**: Handles missing data and noise in observations
+  - **Temporal Analysis**: Analyzes long-term solar cycle patterns
+
+  ### Research Methodology
+  - **Scientific Approach**: Rigorous methodology following academic standards
+  - **Validation Framework**: Cross-validation with historical data
+  - **Performance Metrics**: Statistical measures for prediction accuracy
+  - **Literature Review**: Built upon existing solar physics research
+
+  ## Technical Implementation
+
+  ### Machine Learning Stack
+  - **Python Ecosystem**: NumPy, Pandas, Scikit-learn for data processing
+  - **Deep Learning**: Neural networks for complex pattern recognition
+  - **Statistical Analysis**: Advanced statistical methods for time series
+  - **Visualization**: Matplotlib and Seaborn for data visualization
+
+  ### Data Sources
+  - **Solar Observatory Data**: Real-time and historical solar measurements
+  - **Satellite Imagery**: Solar disk images for sunspot identification
+  - **Space Weather Databases**: Comprehensive solar activity records
+  - **Geomagnetic Indices**: Earth-based measurements of solar impact
+
+  ## Research Outcomes
+
+  - **85% Prediction Accuracy**: Successfully forecasted solar events
+  - **Novel Insights**: Discovered new patterns in solar cycle data
+  - **Academic Contribution**: Presented findings at university research symposium
+  - **Practical Applications**: Model applicable for space weather forecasting
+
+  ## Future Applications
+
+  The system has potential applications in satellite protection, power grid management, and communication system reliability during solar storms.
