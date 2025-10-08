@@ -1,0 +1,134 @@
+seo:
+  title: "Richie Patil - Backend Developer & ML Engineer"
+  description: "Welcome to my portfolio! I'm Richie Patil, a Backend Developer and Machine Learning Engineer based in Mumbai. I specialize in Python-based ML, Generative AI, MLOps, and scalable backend architectures."
+title: "Hey, I'm Richie Patil Backend Developer & ML Engineer"
+description: "I engineer robust backend systems and intelligent ML solutions. Based in Mumbai, transforming data into actionable insights and building scalable APIs that drive business efficiency."
+hero:
+  links:
+    - label: "Download Resume"
+      to: "/RESUME - RICHIE VIDYADHAR PATIL.pdf"
+      color: "primary"
+      target: "_blank"
+      download: "Richie_Patil_Resume.pdf"
+      external: true
+    - label: "View Projects"
+      to: "/projects"
+      color: "neutral"
+  images:
+    - src: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg
+      alt: React
+    - src: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg
+      alt: Node.js
+    - src: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg
+      alt: Python
+    - src: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg
+      alt: TypeScript
+    - src: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg
+      alt: Docker
+    - src: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg
+      alt: Git
+    - src: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg
+      alt: AWS
+    - src: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg
+      alt: HTML5
+    - src: https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg
+      alt: MongoDB
+about:
+  title: "About Me"
+  description: |
+    As a Backend Developer and ML Engineer with expertise in Python-based Machine Learning, Applied Generative AI, and MLOps, I specialize in building scalable backend architectures and intelligent systems.
+    My approach combines analytical thinking with technical expertise, developing robust APIs, implementing ML solutions, and engineering data pipelines that drive operational efficiency and manage enterprise risk across business intelligence initiatives.
+experience:
+  title: Work Experience
+  items:
+    - position: "Backend Dev"
+      date: "Sep 2024 - Present"
+      company:
+        name: "Sunday Tech"
+        logo: "i-lucide-cpu"
+        url: "#"
+        color: "#e41e29"
+      description: "Designed and developed robust backend APIs using Node.js and TypeScript for 5 major SaaS applications. Engineered architecture that reduced API response latency by 99.7% (45s to 145ms). Automated data aggregation pipelines via integration of critical client APIs."
+    - position: "Intern"
+      date: "Jun 2024 - Sep 2024"
+      company:
+        name: "Sunday Tech"
+        logo: "i-lucide-cpu"
+        url: "#"
+        color: "#e41e29"
+      description: "Provided support for 20+ production-critical client issues, achieving 17% improvement in incident resolution. Conducted API research and authored integration documentation for 25+ third-party services including Segment, Meta, Shopify, and Google Analytics."
+    - position: "Intern"
+      date: "Jan 2024 - May 2024"
+      company:
+        name: "WNS Global Services"
+        logo: "i-lucide-earth"
+        url: "#"
+        color: "#ec6d21"
+      description: "Conducted comprehensive testing on enterprise insurance and claims management applications, identifying 1,000+ issues. Developed and executed 450+ targeted testing scenarios to minimize deployment bugs and enhance application stability."
+    - position: "Intern"
+      date: "Aug 2023 - Dec 2023"
+      company:
+        name: "Celebal Technologies"
+        logo: "i-lucide-bar-chart"
+        url: "#"
+        color: "#d13021"
+      description: "Performed EDA on 500,000+ customer records, identifying insights for 2 new marketing strategies. Performed ETL and data cleansing on 10GB+ raw customer data using Python/Pandas. Developed advanced supervised ML models for pattern identification."
+testimonials:
+  - quote: "Richie's backend development skills completely transformed our API performance. He engineered a solution that reduced our response latency by 99.7%, from 45 seconds to just 145ms. His expertise in Node.js and TypeScript, combined with his systematic approach to problem-solving, made him an invaluable team member."
+    author:
+      name: "Rohit Agre"
+      description: "Chief Technical Officer at Sunday Tech"
+      avatar:
+        src: "/hero/rohit.jpeg"
+        srcset: "/hero/rohit.jpeg"
+  - quote: "Working with Richie was exceptional. His ability to handle production-critical issues and provide rapid resolution within SLA timelines contributed to a 17% improvement in our incident resolution metrics. His documentation and API integration work across 25+ third-party services was thorough and professional."
+    author:
+      name: "Amit Sharma"
+      description: "Supervisor at WNS Global Services"
+      avatar:
+        src: "/hero/amit.jpeg"
+        srcset: "/hero/amit.jpeg"
+  - quote: "Richie stands out for his analytical approach to data science and machine learning. His work on EDA with 500,000+ customer records and ETL processes on 10GB+ datasets showed remarkable attention to detail. His ML models provided insights that directly informed our marketing strategies."
+    author:
+      name: "Arushi Gogia"
+      description: "Mentor at Celebal Technologies"
+      avatar:
+        src: "/hero/arushi.jpeg"
+        srcset: "/hero/arushi.jpeg"
+faq:
+  title: Frequently Asked Questions
+  description: Answers to common questions about my technical expertise and services.
+  categories:
+    - title: Technical Skills & Services
+      questions:
+        - label: What technologies do you specialize in?
+          content: |
+            I specialize in backend development using Node.js, TypeScript, and Python. My ML expertise includes scikit-learn, Pandas, NumPy, LangChain, and OpenAI API. I work with cloud platforms like AWS (Lambda, EC2, S3) and Azure, databases including MySQL and Snowflake, and DevOps tools like Docker and CI/CD pipelines.
+        - label: What kind of projects do you work on?
+          content: |
+            I focus on backend API development, machine learning solutions, data pipeline engineering, and MLOps implementations. This includes building scalable SaaS applications, implementing RAG-based AI systems, developing ETL processes, and creating automated data aggregation pipelines for enterprise clients.
+        - label: Do you work with startups and enterprises?
+          content: |
+            Yes! I have experience working with both startups and enterprise clients. I've handled production-critical systems for enterprise insurance applications and built scalable backend solutions for SaaS platforms managing high-volume supply chain operations.
+    - title: Experience & Background
+      questions:
+        - label: What is your educational background?
+          content: |
+            I'm B.Tech graduate in Computer Science and Engineering (AI&ML) with a minor in Business Management from Amity University Mumbai. I obtained a CGPA of 7.93/10.00 and have completed certifications including the Google Data Analytics Professional Certificate.
+        - label: What notable achievements do you have?
+          content: |
+            Some key achievements include reducing API response latency by 99.7% (from 45s to 145ms), improving client incident resolution by 17%, processing 500,000+ customer records for data insights, and securing Top 59 rank in the Analytics Olympiad 2023. I've also been selected for ISRO's START programme.
+        - label: How do you approach problem-solving?
+          content: |
+            I combine analytical thinking with systematic engineering approaches. Whether it's optimizing API performance, implementing ML models, or designing data pipelines, I focus on scalability, efficiency, and reliability. I believe in thorough testing, comprehensive documentation, and continuous improvement.
+    - title: Collaboration & Contact
+      questions:
+        - label: How do you handle project collaboration?
+          content: |
+            I work effectively in cross-functional teams and have experience leading dedicated development teams. I believe in clear communication, comprehensive documentation, and agile methodologies. I've successfully collaborated across multiple simultaneous projects while meeting tight deadlines.
+        - label: What interests you most about your work?
+          content: |
+            I'm passionate about solving complex technical challenges through code and data. The intersection of backend engineering and machine learning fascinates me - building systems that not only scale efficiently but also provide intelligent insights. I love seeing how optimized APIs and ML solutions directly impact business outcomes.
+        - label: How can someone get in touch with you?
+          content: |
+            You can reach me at richiepatilwork@gmail.com or connect with me on LinkedIn at linkedin.com/in/richiepatil. I'm always open to discussing interesting technical challenges and collaboration opportunities in backend development and ML engineering.

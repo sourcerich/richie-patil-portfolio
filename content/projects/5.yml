@@ -1,0 +1,58 @@
+title: "Amizone App"
+description: "A Flutter mobile application that replicates my university's Amizone student portal, providing students with convenient mobile access to academic information."
+image: "/content/projects/Flutter.webp"
+url: "#"
+tags:
+  ["Flutter", "Mobile Development", "Dart", "Student Portal", "API Integration"]
+date: "2023"
+content: |
+  ## Project Overview
+
+  Developed a Flutter mobile application to replicate and enhance the functionality of Amity University's Amizone student portal, providing students with a more convenient and user-friendly mobile experience.
+
+  ## Key Features
+
+  ### Mobile Application Development
+  - **Flutter Framework**: Cross-platform mobile app for iOS and Android
+  - **Dart Programming**: Clean, efficient code following best practices
+  - **Responsive Design**: Optimized UI for various screen sizes and devices
+  - **Native Performance**: Smooth, native-like user experience
+
+  ### Student Portal Features
+  - **Academic Information**: Access to grades, attendance, and course schedules
+  - **User Authentication**: Secure login system matching university credentials
+  - **Dashboard Interface**: Intuitive navigation and information display
+  - **Real-time Updates**: Live synchronization with university systems
+
+  ### Technical Implementation
+  - **API Integration**: Reverse-engineered university portal APIs
+  - **Local Storage**: Offline capability for frequently accessed data
+  - **Security Measures**: Encrypted data storage and secure authentication
+  - **Performance Optimization**: Fast loading times and smooth animations
+
+  ## Development Challenges
+
+  ### API Reverse Engineering
+  - **Network Analysis**: Studied original portal's API calls and data structures
+  - **Authentication Flow**: Implemented secure login matching university systems
+  - **Data Parsing**: Handled complex data formats from legacy systems
+  - **Error Handling**: Robust error management for various API responses
+
+  ### User Experience Design
+  - **Mobile-First Design**: Optimized interface for mobile usage patterns
+  - **Intuitive Navigation**: Simplified access to frequently used features
+  - **Visual Consistency**: Modern UI design while maintaining familiar elements
+  - **Accessibility**: Designed for users with varying technical abilities
+
+  ## Technical Achievements
+
+  - **Cross-Platform Compatibility**: Single codebase for multiple platforms
+  - **API Integration**: Successfully connected to existing university systems
+  - **Performance Optimization**: Fast, responsive mobile experience
+  - **User Adoption**: Positive feedback from fellow students
+
+  ## Impact & Learning
+
+  This project demonstrated my ability to reverse-engineer existing systems, work with Flutter for mobile development, and create practical solutions that improve user experience. It showcased skills in mobile development, API integration, and user-centered design.
+
+  The app provided valuable experience in mobile development lifecycle, from planning and design to implementation and testing.

@@ -1,0 +1,48 @@
+title: "RAG-based AI Decision Assistant"
+description: "A proprietary Retrieval-Augmented Generation system using Python/LangChain, hosted on AWS Lambda for real-time risk document querying and automated decision-making."
+image: "/content/projects/rag.webp"
+url: "#"
+tags: ["Python", "LangChain", "AWS Lambda", "RAG", "AI"]
+date: "2025"
+content: |
+  ## Project Overview
+
+  Designed and deployed a proprietary Retrieval-Augmented Generation (RAG) system using Python and LangChain, creating an intelligent assistant for real-time risk document analysis and automated decision-making.
+
+  ## Key Features
+
+  ### AI Architecture
+  - **RAG Implementation**: Advanced retrieval-augmented generation using LangChain framework
+  - **Llama 3/GPT Integration**: Leveraged state-of-the-art language models for intelligent responses
+  - **Real-time Processing**: Instant document querying and analysis capabilities
+
+  ### Cloud Infrastructure
+  - **AWS Lambda Deployment**: Serverless microservice architecture for scalability
+  - **API Gateway Integration**: RESTful API endpoints for seamless integration
+  - **Auto-scaling**: Handles variable workloads efficiently
+
+  ### Security & Compliance
+  - **Secure Authentication**: Enterprise-grade security protocols
+  - **Compliance Ready**: Designed to meet enterprise security policies
+  - **Data Protection**: Encrypted data transmission and storage
+
+  ## Technical Implementation
+
+  ### Backend Development
+  - **Python-based Core**: Robust backend processing with advanced error handling
+  - **LangChain Framework**: Sophisticated AI pipeline for document retrieval and generation
+  - **Vector Database Integration**: Efficient similarity search and document indexing
+
+  ### Performance Optimization
+  - **Serverless Architecture**: Cost-effective scaling with AWS Lambda
+  - **Caching Strategies**: Optimized response times for frequently queried documents
+  - **Batch Processing**: Efficient handling of large document sets
+
+  ## Impact & Results
+
+  - **90% Reduction** in manual document review time
+  - **99.5% Accuracy** in risk assessment recommendations
+  - **Sub-second Response Times** for complex document queries
+  - **Enterprise Integration**: Successfully deployed across multiple business units
+
+  The system revolutionized the organization's risk assessment process, providing intelligent, automated decision support while maintaining compliance with security standards.
