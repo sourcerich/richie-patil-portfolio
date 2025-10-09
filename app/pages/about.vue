@@ -33,7 +33,7 @@ useSeoMeta({
         links: 'justify-start',
       }"
     >
-      <NuxtImg
+      <img
         class="sm:rotate-4 size-36 rounded-lg ring ring-default ring-offset-3 ring-offset-(--ui-bg) object-cover"
         src="/richie.jpg"
         alt="Richie Patil - Backend Developer & ML Engineer"
