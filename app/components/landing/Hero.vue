@@ -33,7 +33,7 @@ defineProps<{
           delay: 0.1,
         }"
       >
-        <NuxtImg
+        <img
           class="size-18 rounded-full ring ring-default ring-offset-3 ring-offset-(--ui-bg) object-cover"
           src="/richie.jpg"
           alt="Richie Patil - Backend Developer & ML Engineer"
