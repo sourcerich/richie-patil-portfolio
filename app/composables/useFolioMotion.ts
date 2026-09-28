@@ -94,18 +94,26 @@ const scan = () => {
   document.querySelectorAll<HTMLElement>('[data-reveal]:not([data-rv])').forEach(prepareReveal)
 }
 
-const updateZoom = (vh: number, vw: number, k: number) => {
+// Progress runs from the moment the stage sticks to the moment it unsticks.
+// Everything is measured from the stage itself (not the window), because the
+// stage is full-screen on landscape screens but a fixed-proportion box on
+// portrait ones, and because iOS changes innerHeight as its toolbars move.
+const updateZoom = (k: number) => {
   const section = document.querySelector<HTMLElement>('[data-zoom]')
-  if (!section) return
+  const stage = section?.querySelector<HTMLElement>('[data-zoom-stage]')
+  if (!section || !stage) return
   const grid = section.querySelector<HTMLElement>('[data-zoom-grid]')
   const left = section.querySelector<HTMLElement>('[data-zoom-left]')
   const right = section.querySelector<HTMLElement>('[data-zoom-right]')
   const rect = section.getBoundingClientRect()
-  const p = k ? Math.min(1, Math.max(0, -rect.top / (rect.height - vh))) : 1
+  const stickyTop = parseFloat(getComputedStyle(stage).top) || 0
+  const runway = rect.height - stage.offsetHeight
+  const p = k && runway > 0 ? Math.min(1, Math.max(0, (stickyTop - rect.top) / runway)) : 1
   const eased = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2
   const scale = 0.22 + 0.78 * eased
   if (grid) grid.style.transform = `scale(${scale})`
-  const offset = scale * vw / 2 + vw * 0.015
+  const width = stage.offsetWidth
+  const offset = scale * width / 2 + width * 0.015
   if (left) left.style.transform = `translate3d(${-offset}px,0,0)`
   if (right) right.style.transform = `translate3d(${offset}px,0,0)`
 }
@@ -130,7 +138,6 @@ const tick = () => {
   const k = motionScale()
   const y = window.scrollY
   const vh = window.innerHeight
-  const vw = window.innerWidth
   const max = document.documentElement.scrollHeight - vh
   if (chrome.progress) chrome.progress.style.width = `${max > 0 ? (y / max) * 100 : 0}%`
 
@@ -146,7 +153,7 @@ const tick = () => {
     const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)))
     el.style.transform = `scale(${1 + 0.14 * (1 - p) * k})`
   })
-  updateZoom(vh, vw, k)
+  updateZoom(k)
   updateChrome(vh)
 }
 
