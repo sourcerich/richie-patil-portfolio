@@ -4,6 +4,7 @@ title: "RAG Decision Assistant"
 type: "AI system"
 year: "2025"
 image: "/content/projects/rag.webp"
+imagePortrait: "/content/projects/portrait/rag.webp"
 tags: ["Python", "LangChain", "AWS Lambda", "RAG", "Llama 3 / GPT"]
 summary: "A retrieval-augmented system for querying risk documents in real time and supporting automated decisions."
 problem: "Risk decisions depended on dense documents that people had to read and cross-check by hand."

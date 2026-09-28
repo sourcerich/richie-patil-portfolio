@@ -13,7 +13,7 @@ useSeoMeta({
   ogDescription: page.value.seo?.description || page.value.description
 })
 
-const stills = computed(() => projects.value.flatMap(p => (p.image ? [p.image] : [])))
+const stills = computed(() => projects.value.flatMap(p => (p.image ? [{ src: p.image, portrait: p.imagePortrait }] : [])))
 </script>
 
 <template>
@@ -22,7 +22,7 @@ const stills = computed(() => projects.value.flatMap(p => (p.image ? [p.image] :
     <HomeIntro :intro="page.intro" />
     <HomeStats :stats="page.stats" />
     <HomeWorkZoom
-      :images="stills"
+      :stills="stills"
       :span="page.work.span"
     />
     <HomeSelectedWork

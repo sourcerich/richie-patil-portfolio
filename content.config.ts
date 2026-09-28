@@ -89,6 +89,8 @@ export default defineContentConfig({
         type: z.string(),
         year: z.string(),
         image: z.string().optional(),
+        // 4:5 crop used where the layout is portrait (the home zoom on phones).
+        imagePortrait: z.string().optional(),
         link: z.string().optional(),
         linkLabel: z.string().optional(),
         confidential: z.boolean().optional(),

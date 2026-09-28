@@ -4,6 +4,7 @@ title: "Sankalp NGO Platform"
 type: "Full-stack platform"
 year: "2025"
 image: "/content/projects/sankalp/01.webp"
+imagePortrait: "/content/projects/portrait/sankalp.webp"
 link: "https://thesankalp.org"
 tags: ["React", "TypeScript", "Node.js", "SQL", "DevSecOps"]
 summary: "A high-performance full-stack platform for managing certificates and user data at scale."
