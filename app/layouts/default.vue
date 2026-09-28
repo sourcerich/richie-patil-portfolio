@@ -93,5 +93,11 @@ watch(() => route.fullPath, async () => {
   background: var(--color-accent);
   z-index: 60;
 }
-main { padding-top: var(--header-h); }
+main {
+  padding-top: var(--header-h);
+  /* Stops sideways drift on iOS Safari, which doesn't always honour
+     overflow-x on body. Unlike hidden, clip creates no scroll container, so
+     the sticky zoom still works. */
+  overflow-x: clip;
+}
 </style>
