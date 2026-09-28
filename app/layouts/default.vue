@@ -3,13 +3,16 @@ const route = useRoute()
 const motion = useFolioMotion()
 
 // The year-roll intro plays once, only when the visit starts on the home page.
-const showIntro = ref(route.path === '/' && motion.motionScale() > 0)
+// It is part of the prerendered home page (so it covers the first paint) and
+// is dismissed on mount for visitors who prefer reduced motion.
+const showIntro = ref(route.path === '/')
 
 // The nav wraps onto a second row on narrow screens, so offset the page by
 // the header's real height rather than a fixed value.
 let headerObserver: ResizeObserver | undefined
 
 onMounted(() => {
+  if (!motion.motionScale()) showIntro.value = false
   const header = document.getElementById('site-header')
   motion.start({
     progress: document.getElementById('scroll-progress'),

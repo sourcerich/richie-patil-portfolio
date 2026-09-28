@@ -29,7 +29,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="intro ink-band"
+    class="site-intro ink-band"
     :class="{ lifted }"
     aria-hidden="true"
   >
@@ -64,7 +64,7 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-.intro {
+.site-intro {
   position: fixed;
   inset: 0;
   z-index: 90;
@@ -74,7 +74,7 @@ onBeforeUnmount(() => {
   padding: clamp(24px, 5vw, 72px);
   transition: transform 1.1s var(--ease-in-out);
 }
-.intro.lifted { transform: translateY(-100%); }
+.site-intro.lifted { transform: translateY(-100%); }
 .intro-meta {
   display: flex;
   justify-content: space-between;
