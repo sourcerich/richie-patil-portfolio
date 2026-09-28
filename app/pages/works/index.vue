@@ -4,7 +4,9 @@ const { data: projects } = await useProjects()
 
 useSeoMeta({
   title: 'Works and Collaborations',
-  description: page.value?.works.body
+  ogTitle: 'Works and Collaborations – Richie Patil',
+  description: page.value?.works.body,
+  ogDescription: page.value?.works.body
 })
 </script>
 

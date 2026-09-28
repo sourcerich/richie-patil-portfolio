@@ -164,6 +164,11 @@ summary::-webkit-details-marker { display: none; }
 .muted { color: color-mix(in srgb, var(--color-text) 72%, transparent); }
 .justify { text-align: justify; hyphens: auto; }
 
+/* Pages are prerendered with their content visible. When JS is running, keep
+   reveal targets hidden until useFolioMotion has set their starting state, so
+   they don't flash in and then out again on load. */
+html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
+
 /* A line that slides up from behind a mask (pair with data-from). */
 .mask-line {
   display: block;

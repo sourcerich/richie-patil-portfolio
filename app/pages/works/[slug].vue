@@ -17,10 +17,14 @@ const sections = computed(() => {
     .map(([label, body], i) => ({ label, body, num: projectNumber(i) }))
 })
 
+const { site } = useAppConfig()
+
 useSeoMeta({
   title: () => project.value?.title,
+  ogTitle: () => project.value?.title,
   description: () => project.value?.summary,
-  ogImage: () => project.value?.image
+  ogDescription: () => project.value?.summary,
+  ogImage: () => (project.value?.image ? site.url + project.value.image : undefined)
 })
 </script>
 

@@ -6,9 +6,9 @@
   "compatibility_date": "2026-09-01",
   "assets": {
     "directory": "./.output/public",
-    // Every route is prerendered; anything else falls back to the app shell,
-    // which renders the site's own 404 page.
-    "not_found_handling": "single-page-application",
+    // Every route is prerendered; anything else gets 404.html (the site's own
+    // 404 page) with a real 404 status.
+    "not_found_handling": "404-page",
     // Serve /about from about/index.html (no trailing slash), matching the
     // app's links and the sitemap.
     "html_handling": "drop-trailing-slash"
