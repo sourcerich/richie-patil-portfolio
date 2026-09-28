@@ -55,6 +55,7 @@ img {
   object-fit: cover;
 }
 .typeset {
+  container-type: size;
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -124,5 +125,29 @@ img {
 }
 @media (prefers-reduced-motion: reduce) {
   .tape-track { animation: none; }
+}
+
+/* Small plates on phones: keep the tape clear of the title. */
+@container (max-width: 440px) {
+  .typeset .display { font-size: 26px; }
+  .tape {
+    font-size: 10px;
+    padding: .6em 0;
+  }
+  .tape-a { top: 26%; }
+  .tape-b { top: 42%; }
+}
+/* Short plates (the 16:9 case-study plate on narrow screens): one flatter
+   ribbon and a one-line title. */
+@container (max-height: 220px) {
+  .typeset .display {
+    font-size: 22px;
+    max-width: none;
+  }
+  .tape-a {
+    top: 38%;
+    transform: rotate(-5deg);
+  }
+  .tape-b { display: none; }
 }
 </style>

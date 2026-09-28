@@ -91,6 +91,14 @@ defineProps<{ images: string[], span: string }>()
   margin-top: -.55em;
   will-change: transform;
 }
+/* Portrait screens: two columns by three rows, so the stills aren't
+   squeezed into tall slivers as the grid fills the screen. */
+@media (max-aspect-ratio: 1 / 1) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+}
 .left { right: 50%; }
 .right {
   left: 50%;

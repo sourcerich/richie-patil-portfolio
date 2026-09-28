@@ -54,4 +54,21 @@ defineProps<{ stats: IndexCollectionItem['stats'] }>()
   line-height: 1.6;
   max-width: 26ch;
 }
+
+/* Two by two on phones rather than one long column. */
+@media (max-width: 640px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px 16px;
+  }
+  .stat {
+    gap: 10px;
+    padding-left: 14px;
+  }
+  .value { font-size: clamp(36px, 11vw, 48px); }
+  .caption {
+    font-size: 11px;
+    letter-spacing: .08em;
+  }
+}
 </style>

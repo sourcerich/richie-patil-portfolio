@@ -156,4 +156,31 @@ onBeforeUnmount(() => clearInterval(timer))
   max-width: 40ch;
   color: color-mix(in srgb, var(--color-text) 72%, transparent);
 }
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: calc(100svh - var(--header-h));
+    padding-block: 32px 36px;
+    gap: 32px;
+  }
+  .meta {
+    grid-template-columns: 1fr auto;
+    gap: 10px 16px;
+    font-size: 11px;
+  }
+  .role { grid-column: 1 / -1; }
+  .foot {
+    gap: 24px;
+    padding-top: 24px;
+  }
+  .stack {
+    justify-self: start;
+    text-align: left;
+    font-size: 11px;
+  }
+}
+@media (max-width: 359px) {
+  .meta { grid-template-columns: 1fr; }
+  .status { justify-self: start; }
+}
 </style>
