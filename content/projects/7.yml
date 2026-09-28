@@ -4,6 +4,7 @@ title: "72Street.ai"
 type: "Fintech platform"
 year: "2026"
 image: "/content/projects/72street/cover.webp"
+imagePortrait: "/content/projects/portrait/72street.webp"
 link: "https://play.google.com/store/apps/details?id=com.everisseai.app72street"
 linkLabel: "View on Google Play ↗"
 tags: ["Fintech", "Mobile & tablet", "Market data", "Subscriptions", "SEBI-aligned"]

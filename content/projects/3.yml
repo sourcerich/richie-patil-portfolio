@@ -4,6 +4,7 @@ title: "Sunspot & Solar Weather Prediction"
 type: "ML research"
 year: "2024"
 image: "/content/projects/sunspots.jpg"
+imagePortrait: "/content/projects/portrait/sunspots.webp"
 tags: ["Python", "Machine learning", "Time series", "Research"]
 summary: "My final-year dissertation: forecasting sunspot activity and space weather with machine learning."
 problem: "Solar activity disrupts satellites, communications and power grids, and it is notoriously hard to forecast."

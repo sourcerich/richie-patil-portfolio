@@ -1,9 +1,11 @@
 <script setup lang="ts">
 // A sticky grid of project stills that scales up to fill its stage while
 // "The" and "Work" slide apart. Driven by useFolioMotion's data-zoom handler,
-// which measures the stage itself, so the stage can be full-screen on
-// landscape screens and a fixed-proportion box on portrait ones.
-defineProps<{ images: string[], span: string }>()
+// which measures the stage itself rather than the window. Portrait screens
+// get each still's hand-made 4:5 crop where one exists.
+type Still = { src: string, portrait?: string }
+
+defineProps<{ stills: Still[], span: string }>()
 </script>
 
 <template>
@@ -20,13 +22,21 @@ defineProps<{ images: string[], span: string }>()
         data-zoom-grid
         class="grid"
       >
-        <img
-          v-for="src in images.slice(0, 5)"
-          :key="src"
-          :src="src"
-          alt=""
-          loading="lazy"
+        <picture
+          v-for="still in stills.slice(0, 5)"
+          :key="still.src"
         >
+          <source
+            v-if="still.portrait"
+            media="(max-aspect-ratio: 1/1)"
+            :srcset="still.portrait"
+          >
+          <img
+            :src="still.src"
+            alt=""
+            loading="lazy"
+          >
+        </picture>
         <div class="span display tnum">
           {{ span }}
         </div>
@@ -74,6 +84,12 @@ defineProps<{ images: string[], span: string }>()
   transform-origin: 50% 50%;
   will-change: transform;
 }
+.grid picture {
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
 .grid img {
   width: 100%;
   height: 100%;
@@ -110,26 +126,30 @@ defineProps<{ images: string[], span: string }>()
 }
 
 /*
- * Portrait screens (phones, portrait tablets): instead of a full-screen
- * stage, the stage is exactly as tall as a 2 × 3 grid of 4:3 tiles, so the
- * stills keep their proportions. It sticks centred in the visible area below
- * the header; svh doesn't change as iOS toolbars show and hide, so nothing
- * jumps mid-scroll.
+ * Portrait screens (phones, portrait tablets): the stage fills the visible
+ * area below the header (dvh tracks iOS toolbars; svh is the fallback), so
+ * there's no empty page around it. The grid is 2 × 3 and each tile shows the
+ * still's 4:5 portrait crop, so tall cells don't slice through text. The
+ * runway is in svh, so it doesn't shift as the toolbars move.
  */
 @media (max-aspect-ratio: 1 / 1) {
   .zoom {
-    --stage-h: calc(100vw * 1.125);
+    --stage-h: calc(100svh - var(--header-h));
     height: calc(var(--stage-h) + 130svh);
   }
-  .stage {
-    top: max(var(--header-h), calc(var(--header-h) + (100svh - var(--header-h) - var(--stage-h)) / 2));
+  @supports (height: 100dvh) {
+    .zoom { --stage-h: calc(100dvh - var(--header-h)); }
   }
+  .stage { top: var(--header-h); }
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: repeat(3, minmax(0, 1fr));
     gap: 4px;
     padding: 4px;
   }
+  /* Near-square tiles (short screens) trim the 4:5 crops top and bottom;
+     favour the top, where the headlines sit. */
+  .grid img { object-position: 50% 15%; }
   .span { font-size: clamp(16px, 5vw, 32px); }
   .title { font-size: clamp(44px, 14vw, 120px); }
 }

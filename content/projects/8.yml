@@ -4,6 +4,7 @@ title: "TavcoGrowth"
 type: "SaaS CRM"
 year: "2026"
 image: "/content/projects/tavco/01.webp"
+imagePortrait: "/content/projects/portrait/tavco.webp"
 link: "https://tavcogrowth.com/"
 tags: ["Node.js", "TypeScript", "Express", "Sequelize", "Multi-tenant SaaS"]
 summary: "GrowthPipe, a lead-management CRM, and the site that feeds it: one partner for the software and the leads."
