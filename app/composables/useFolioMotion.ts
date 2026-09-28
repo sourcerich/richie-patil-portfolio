@@ -105,8 +105,15 @@ const updateZoom = (k: number) => {
   const grid = section.querySelector<HTMLElement>('[data-zoom-grid]')
   const left = section.querySelector<HTMLElement>('[data-zoom-left]')
   const right = section.querySelector<HTMLElement>('[data-zoom-right]')
+  // Phones and portrait screens use a plain, non-sticky layout (see
+  // WorkZoom.vue); leave it alone there.
+  const stageStyle = getComputedStyle(stage)
+  if (stageStyle.position !== 'sticky') {
+    [grid, left, right].forEach(el => el?.style.removeProperty('transform'))
+    return
+  }
   const rect = section.getBoundingClientRect()
-  const stickyTop = parseFloat(getComputedStyle(stage).top) || 0
+  const stickyTop = parseFloat(stageStyle.top) || 0
   const runway = rect.height - stage.offsetHeight
   const p = k && runway > 0 ? Math.min(1, Math.max(0, (stickyTop - rect.top) / runway)) : 1
   const eased = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2

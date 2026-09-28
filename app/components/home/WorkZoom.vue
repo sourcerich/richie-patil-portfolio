@@ -1,11 +1,15 @@
 <script setup lang="ts">
-// A sticky grid of project stills that scales up to fill its stage while
-// "The" and "Work" slide apart. Driven by useFolioMotion's data-zoom handler,
-// which measures the stage itself rather than the window. Portrait screens
-// get each still's hand-made 4:5 crop where one exists.
+// "The Work". On desktop, a sticky grid of project stills scales up to fill
+// the screen while "The" and "Work" slide apart, driven by useFolioMotion's
+// data-zoom handler. On phones and other portrait screens it is a plain
+// section instead (heading, then a grid of 4:5 crops) with no sticky or
+// scroll-linked motion; the handler stands down when the stage isn't sticky.
 type Still = { src: string, portrait?: string }
 
 defineProps<{ stills: Still[], span: string }>()
+
+// Keep in sync with the "simple layout" media query in the styles below.
+const SIMPLE_LAYOUT = '(max-width: 767px), (max-aspect-ratio: 1/1)'
 </script>
 
 <template>
@@ -28,7 +32,7 @@ defineProps<{ stills: Still[], span: string }>()
         >
           <source
             v-if="still.portrait"
-            media="(max-aspect-ratio: 1/1)"
+            :media="SIMPLE_LAYOUT"
             :srcset="still.portrait"
           >
           <img
@@ -67,7 +71,7 @@ defineProps<{ stills: Still[], span: string }>()
   height: var(--stage-h);
   overflow: hidden;
 }
-/* Track the visible viewport where supported (iOS toolbars). */
+/* Track the visible viewport where supported. */
 @supports (height: 100dvh) {
   .zoom { --stage-h: 100dvh; }
 }
@@ -126,31 +130,47 @@ defineProps<{ stills: Still[], span: string }>()
 }
 
 /*
- * Portrait screens (phones, portrait tablets): the stage fills the visible
- * area below the header (dvh tracks iOS toolbars; svh is the fallback), so
- * there's no empty page around it. The grid is 2 × 3 and each tile shows the
- * still's 4:5 portrait crop, so tall cells don't slice through text. The
- * runway is in svh, so it doesn't shift as the toolbars move.
+ * Simple layout for phones and portrait screens: an ordinary section with
+ * the heading above an edge-to-edge 2 × 3 grid of the stills' 4:5 portrait
+ * crops. Nothing sticks and nothing is tied to scroll position.
  */
-@media (max-aspect-ratio: 1 / 1) {
+@media (max-width: 767px), (max-aspect-ratio: 1 / 1) {
   .zoom {
-    --stage-h: calc(100svh - var(--header-h));
-    height: calc(var(--stage-h) + 130svh);
+    height: auto;
+    padding-top: clamp(56px, 12vw, 96px);
   }
-  @supports (height: 100dvh) {
-    .zoom { --stage-h: calc(100dvh - var(--header-h)); }
+  .stage {
+    position: static;
+    height: auto;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
   }
-  .stage { top: var(--header-h); }
+  .title {
+    position: static;
+    order: -1;
+    padding-inline: var(--gutter);
+    font-size: clamp(56px, 17vw, 120px);
+    pointer-events: auto;
+  }
+  .title span {
+    position: static;
+    margin: 0;
+    will-change: auto;
+  }
+  .title .left { margin-right: .22em; }
   .grid {
+    position: static;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(3, minmax(0, 1fr));
+    grid-template-rows: none;
     gap: 4px;
     padding: 4px;
+    transform: none;
+    will-change: auto;
   }
-  /* Near-square tiles (short screens) trim the 4:5 crops top and bottom;
-     favour the top, where the headlines sit. */
-  .grid img { object-position: 50% 15%; }
+  .grid picture,
+  .span { aspect-ratio: 4 / 5; }
   .span { font-size: clamp(16px, 5vw, 32px); }
-  .title { font-size: clamp(44px, 14vw, 120px); }
 }
 </style>
