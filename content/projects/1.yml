@@ -1,39 +1,23 @@
-title: "Sankalp NGO Website"
-description: "A high-performance, full-stack web application for the Sankalp NGO, designed to manage certificates and user data at scale."
-image: "/content/projects/sankalp.png"
-url: "https://thesankalp.org/"
-tags: ["React", "Node.js", "TypeScript", "DevSecOps"]
-date: "2025"
-content: |
-  ## Project Overview
-
-  Designed, engineered, and deployed a high-performance, full-stack web application for the Sankalp NGO, utilizing modern technologies to create a robust platform for certificate management.
-
-  ## Key Features
-
-  ### Frontend Development
-  - Built with **React and TypeScript** for a modern, fluid user interface
-  - Responsive design ensuring accessibility across all devices
-  - Intuitive user experience for certificate management
-
-  ### Backend Architecture
-  - **Node.js backend** to efficiently manage user data and certificates
-  - **SQL database** integration for reliable data storage
-  - Robust authentication system with encryption and decryption capabilities
-
-  ### Infrastructure & Deployment
-  - Configured **Linux VPS infrastructure** for robust cloud deployment
-  - Implemented **DevSecOps practices** with comprehensive security configurations
-  - Utilized **Git for version control** and automated deployment pipelines
-  - **Load capacity of over a million certificates** with optimized performance
-
-  ## Technical Achievements
-
-  - **Scalable Architecture**: Designed to handle high-volume certificate processing
-  - **Security First**: Implemented end-to-end encryption for user data and certificates
-  - **Performance Optimized**: Efficient database queries and caching strategies
-  - **Cloud Native**: Leveraged cloud hosting for reliability and scalability
-
-  ## Impact
-
-  The platform successfully streamlined the NGO's certificate management process, reducing manual work by 80% and providing a secure, scalable solution for their growing user base.
+slug: "sankalp"
+order: 4
+title: "Sankalp NGO Platform"
+type: "Full-stack platform"
+year: "2025"
+image: "/content/projects/sankalp/01.webp"
+link: "https://thesankalp.org"
+tags: ["React", "TypeScript", "Node.js", "SQL", "DevSecOps"]
+summary: "A high-performance full-stack platform for managing certificates and user data at scale."
+problem: "The Sankalp Organisation needed one reliable system to issue, store and verify certificates and user records, at a volume manual processes couldn’t keep up with."
+build: "React and TypeScript on the front, Node.js and SQL behind it, on a Linux VPS. Authentication encrypts and decrypts sensitive data end to end, and DevSecOps practice is built into every deploy."
+outcome: "Headroom for over a million certificates, and a live site the team runs every day."
+metric: "1M+"
+metricLabel: "Certificate capacity"
+gallery:
+  - src: "/content/projects/sankalp/02.webp"
+    alt: "Sankalp projects section: Drishti Mitra, Nari tu Narayani, Dhara and Sharda"
+  - src: "/content/projects/sankalp/03.webp"
+    alt: "Stories from the field, written by volunteers"
+  - src: "/content/projects/sankalp/04.webp"
+    alt: "Impact counters: drives conducted, education drives, slums adopted, government cards made"
+  - src: "/content/projects/sankalp/05.webp"
+    alt: "More impact counters: health camps, cleanup drives, saplings planted, members active"

@@ -1,6 +1,6 @@
 # Richie Patil - Portfolio
 
-A modern, responsive portfolio website showcasing my work as a Backend Developer & Machine Learning Engineer. Built with Nuxt 3, Vue.js, and deployed on GitHub Pages.
+A modern, responsive portfolio website showcasing my work as a Developer & Creative Solutions Architect. Built with Nuxt 3, Vue.js, and deployed on GitHub Pages.
 
 ## 🚀 Features
 

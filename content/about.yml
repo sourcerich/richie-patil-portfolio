@@ -1,31 +1,65 @@
-title: About Me
-description: Learn more about my journey as a Backend Developer & ML Engineer based in Mumbai, my technical philosophy, and my passion for building scalable systems and intelligent solutions.
-content: |
-  Hi, I'm **Richie Patil**, a Backend Developer and Machine Learning Engineer based in Mumbai. For the past few years, I've been immersed in the world of backend systems and ML engineering, focusing on building solutions that are not just functional, but scalable, efficient, and intelligent.
+title: "About"
+description: "Richie Patil is a developer and creative solutions architect in Mumbai, designing systems in Node.js, TypeScript and Python that hold steady under load."
+seo:
+  title: "About – Richie Patil"
+  description: "Richie Patil is a developer and creative solutions architect in Mumbai, designing systems in Node.js, TypeScript and Python that hold steady under load."
 
-  My journey started with a **B.Tech in Computer Science and Engineering (AI&ML)** with a minor in Business Management from Amity University Mumbai. It was there I discovered my passion for the logical puzzle of backend architecture and the fascinating world of machine learning. Since then, I've honed my skills across multiple domains, believing that the best technical solutions come from understanding both the business context and the technical implementation.
+headline:
+  - "I begin with the why,"
+  - "then build systems"
+  - "that hold under load."
 
-  ### My Technical Philosophy
+paragraphs:
+  - "I’m Richie Vidyadhar Patil, a developer and creative solutions architect based in Mumbai. I read Computer Science, specialising in Artificial Intelligence and Machine Learning, with a minor in Business Management, at Amity University Mumbai. It was there that systems architecture and machine learning became a discipline, and there that I came to believe the finest solutions are shaped as much by business context as by code."
+  - "My practice rests on two principles: efficiency and scale. Every engagement begins with the why: the commercial objective, the performance it must meet and the expectations of the people who will rely on it. From there I build iteratively in Node.js, TypeScript and Python, and test with rigour, so that what ships feels effortless and stays dependable."
+  - "What moves me is distilling complex requirements into systems that are simple, considered and quietly resilient, and then watching them hold steady under pressure."
 
-  My approach to development is rooted in **efficiency** and **scalability**. I believe great backend systems start with understanding the 'why' – the business requirements, performance needs, and user expectations. I use systematic analysis, iterative development (often with Node.js, TypeScript, and Python), and comprehensive testing to ensure the solutions I build are truly robust. I strive to create APIs and systems that feel effortless to use, where performance and reliability work hand-in-hand. Whether I'm optimizing API response times or implementing ML models for pattern identification, my focus is always on creating value and solving real problems.
+skills:
+  - label: "Languages"
+    value: "TypeScript, Python, R"
+  - label: "Runtime"
+    value: "Node.js, Linux"
+  - label: "Frameworks"
+    value: "Express.js, React, Pandas, NumPy, scikit-learn, Matplotlib"
+  - label: "Cloud"
+    value: "AWS (Lambda, EC2, S3) and Azure (Functions, Cognitive Services)"
+  - label: "Data"
+    value: "MySQL, Snowflake"
+  - label: "AI & ML"
+    value: "Predictive modelling, generative AI, large language models, retrieval-augmented generation, NLP, LangChain, the OpenAI API"
+  - label: "DevOps"
+    value: "Docker, CI/CD, serverless architecture, Git"
+  - label: "APIs & tools"
+    value: "REST, GraphQL, Postman, Segment, Google Analytics"
 
-  ### What Drives Me
+achievements:
+  - title: "B.Tech, Computer Science (AI & ML)"
+    detail: "Amity University Mumbai · Minor in Business Management · CGPA 7.93"
+    year: "2020–24"
+  - title: "Google Data Analytics Professional Certificate"
+    detail: "Google"
+    year: "2024"
+  - title: "Analytics Olympiad, Top 59"
+    detail: "Shiv Nadar Institution × MachineHack"
+    year: "2023"
+  - title: "ISRO & IIRS START Programme"
+    detail: "Participant"
+    year: "2023"
+  - title: "Google Developer Student Clubs"
+    detail: "Content Design Team, Amity University Mumbai"
+    year: "2022–23"
+  - title: "Ami Psych"
+    detail: "Mental-health awareness facilitator, Amity University Mumbai"
+    year: "2020–22"
 
-  What keeps me excited about this work is the constant learning and the challenge of translating complex business requirements into elegant technical solutions. There's nothing more rewarding than seeing a system perform flawlessly under load and knowing it's making operations more efficient for the entire team.
+beyond: "Strategy games, long-distance running, the kitchen and the trail. Each sharpens something the work depends on: foresight, endurance and the art of improvisation."
 
-  ### Beyond the Screen
-
-  When I'm not coding or training ML models, you'll find me gaming (always up for a good strategy game), running through Mumbai's scenic routes, or experimenting in the kitchen as a home chef. I love exploring nature, whether it's hiking trails or discovering new outdoor spots around the city. I'm also an avid reader and constantly learning about new technologies, business strategies, and emerging trends in AI/ML.
-
-  These hobbies keep me balanced and often inspire creative solutions to technical challenges. There's something about the strategy in gaming, the endurance from running, and the creativity in cooking that translates well into problem-solving in software engineering.
-
-  ### My Expertise
-
-  I specialize in backend development using Node.js and TypeScript, ML engineering with Python (scikit-learn, Pandas, NumPy), and cloud platforms like AWS and Azure. I've worked on everything from high-volume supply chain applications to enterprise insurance systems, always focusing on performance, scalability, and reliability.
-
-  Thanks for stopping by. Feel free to browse my [projects](/projects) or [get in touch](mailto:richiepatilwork@gmail.com) if you'd like to collaborate on something interesting!
-images:
-  - src: https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=1587&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-    alt: My coding workspace
-  - src: https://images.unsplash.com/photo-1567157577867-05ccb1388e66?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-    alt: Running in Mumbai
+faq:
+  - question: "What is your area of focus?"
+    answer: "Backend systems in Node.js, TypeScript and Python; machine learning with scikit-learn, Pandas and LangChain; cloud infrastructure on AWS and Azure; data on MySQL and Snowflake; and delivery through Docker and CI/CD."
+  - question: "Which engagements do you take on?"
+    answer: "Backend platforms, applied machine learning, data pipelines and MLOps, from scalable SaaS and retrieval-augmented AI to ETL and automated data aggregation."
+  - question: "Startups or enterprises?"
+    answer: "Both. My work spans enterprise insurance systems and high-volume supply-chain SaaS, and I shape the process to the scale of the organisation."
+  - question: "How do you prefer to collaborate?"
+    answer: "Within cross-functional teams, with clear communication and thorough written documentation. I have also led small development teams to delivery against demanding timelines."
