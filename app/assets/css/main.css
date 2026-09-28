@@ -163,6 +163,10 @@ summary::-webkit-details-marker { display: none; }
 .tnum { font-feature-settings: 'tnum' 1; }
 .muted { color: color-mix(in srgb, var(--color-text) 72%, transparent); }
 .justify { text-align: justify; hyphens: auto; }
+/* Justified text opens wide gaps between words on narrow columns. */
+@media (max-width: 640px) {
+  .justify { text-align: left; hyphens: manual; }
+}
 
 /* Pages are prerendered with their content visible. When JS is running, keep
    reveal targets hidden until useFolioMotion has set their starting state, so

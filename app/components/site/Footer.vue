@@ -139,4 +139,14 @@ const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
   border-top: 1px solid color-mix(in srgb, var(--color-bg) 20%, transparent);
   padding-top: 24px;
 }
+
+@media (max-width: 640px) {
+  .footer { padding-bottom: max(28px, env(safe-area-inset-bottom)); }
+  .email { font-size: 26px; }
+  .colophon {
+    flex-direction: column;
+    gap: 10px;
+    font-size: 11px;
+  }
+}
 </style>

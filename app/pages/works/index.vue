@@ -173,4 +173,24 @@ useSeoMeta({
   flex-wrap: wrap;
   gap: 6px;
 }
+
+/* Tablets: two columns rather than one column of oversized cards. */
+@media (min-width: 700px) and (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 56px 28px;
+  }
+  .name { font-size: 26px; }
+}
+@media (max-width: 640px) {
+  .head {
+    padding-bottom: 28px;
+    margin-bottom: 40px;
+  }
+  .intro-heading { font-size: 24px; }
+  .grid { gap: 48px; }
+  .card { gap: 14px; }
+  .card-title { gap: 12px; }
+  .name { font-size: 28px; }
+}
 </style>

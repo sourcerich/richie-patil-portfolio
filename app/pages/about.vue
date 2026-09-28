@@ -287,4 +287,31 @@ useSeoMeta({
   line-height: 1.7;
   color: color-mix(in srgb, var(--color-text) 80%, transparent);
 }
+
+@media (max-width: 640px) {
+  .headline { margin-bottom: 48px; }
+  .bio { gap: 36px; }
+  .bio-text {
+    gap: 20px;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .block,
+  .block.first {
+    margin-top: 64px;
+    gap: 24px;
+    padding-top: 36px;
+  }
+  .skill {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 14px 0;
+  }
+  .skill dt { padding-top: 0; }
+  .record { padding: 14px 0; }
+  .faq summary {
+    font-size: 20px;
+    padding: 16px 0;
+  }
+}
 </style>

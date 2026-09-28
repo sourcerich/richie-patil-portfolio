@@ -338,7 +338,28 @@ useSeoMeta({
 }
 @media (max-width: 767px) {
   .sections { grid-column: auto; }
-  .facts .wide { grid-column: auto; }
   .section { grid-template-columns: 1fr; }
+  .facts {
+    margin: 40px 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .facts > div { padding: 16px 16px 16px 0; }
+  .facts .wide {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--color-divider);
+  }
+  .body { gap: 32px; }
+  .section {
+    gap: 12px;
+    padding: 24px 0;
+  }
+  .section-title { font-size: 26px; }
+  .section p { font-size: 16px; }
+  .gallery-grid { gap: 32px; }
+  .next {
+    gap: 16px;
+    padding-top: 36px;
+  }
+  .next-summary { justify-self: start; }
 }
 </style>

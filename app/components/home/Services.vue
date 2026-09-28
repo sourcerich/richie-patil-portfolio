@@ -166,4 +166,18 @@ const setBlind = (panel: EventTarget | null, open: boolean) => {
   line-height: 1.65;
   color: color-mix(in srgb, var(--color-bg) 82%, transparent);
 }
+
+@media (max-width: 640px) {
+  .head { margin-bottom: 40px; }
+  .panel { min-height: 0; }
+  .panel-body {
+    padding: 24px 20px 28px;
+    gap: 12px;
+  }
+  .num { font-size: 44px; }
+  .panel-title {
+    margin-top: 12px;
+    font-size: 24px;
+  }
+}
 </style>
