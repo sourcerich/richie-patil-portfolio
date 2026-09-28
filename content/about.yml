@@ -56,7 +56,7 @@ beyond: "Strategy games, long-distance running, the kitchen and the trail. Each 
 
 faq:
   - question: "What is your area of focus?"
-    answer: "Backend systems in Node.js, TypeScript and Python; machine learning with scikit-learn, Pandas and LangChain; cloud infrastructure on AWS and Azure; data on MySQL and Snowflake; and delivery through Docker and CI/CD."
+    answer: "Software systems in Node.js, TypeScript and Python; machine learning with scikit-learn, Pandas and LangChain; cloud infrastructure on AWS and Azure; data on MySQL and Snowflake; and delivery through Docker and CI/CD."
   - question: "Which engagements do you take on?"
     answer: "Backend platforms, applied machine learning, data pipelines and MLOps, from scalable SaaS and retrieval-augmented AI to ETL and automated data aggregation."
   - question: "Startups or enterprises?"

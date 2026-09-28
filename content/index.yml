@@ -8,7 +8,7 @@ hero:
   role: "Developer & Creative Solutions Architect"
   location: "Mumbai"
   status: "Available for work"
-  lead: "I build robust backend systems and intelligent ML — scalable APIs and data pipelines that turn raw data into decisions."
+  lead: "I build robust software systems and intelligent ML — scalable APIs and data pipelines that turn raw data into decisions."
   stack:
     - "Python · TypeScript · Node.js · React"
     - "AWS · Docker · MongoDB · Git"
