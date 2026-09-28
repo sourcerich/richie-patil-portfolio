@@ -1,35 +1,36 @@
 <script setup lang="ts">
-const { data: page } = await useAsyncData("index", () => {
-  return queryCollection("index").first();
-});
+const { data: page } = await useAsyncData('index', () => queryCollection('index').first())
+const { data: projects } = await useProjects()
+
 if (!page.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: "Page not found",
-    fatal: true,
-  });
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 
 useSeoMeta({
-  title: page.value?.seo.title || page.value?.title,
-  ogTitle: page.value?.seo.title || page.value?.title,
-  description: page.value?.seo.description || page.value?.description,
-  ogDescription: page.value?.seo.description || page.value?.description,
-});
+  title: '',
+  ogTitle: page.value.seo?.title || page.value.title,
+  description: page.value.seo?.description || page.value.description,
+  ogDescription: page.value.seo?.description || page.value.description
+})
+
+const stills = computed(() => projects.value.flatMap(p => (p.image ? [p.image] : [])))
 </script>
 
 <template>
-  <UPage v-if="page">
-    <LandingHero :page />
-    <UPageSection
-      :ui="{
-        container: '!pt-0 lg:grid lg:grid-cols-2 lg:gap-8',
-      }"
-    >
-      <LandingAbout :page />
-      <LandingWorkExperience :page />
-    </UPageSection>
-    <LandingTestimonials :page />
-    <LandingFAQ :page />
-  </UPage>
+  <div v-if="page">
+    <HomeHero :hero="page.hero" />
+    <HomeIntro :intro="page.intro" />
+    <HomeStats :stats="page.stats" />
+    <HomeWorkZoom
+      :images="stills"
+      :span="page.work.span"
+    />
+    <HomeSelectedWork
+      :projects="projects"
+      :heading="page.work.heading"
+      :note="page.work.note"
+    />
+    <HomeServices :services="page.services" />
+    <HomeExperience :experience="page.experience" />
+  </div>
 </template>

@@ -1,0 +1,25 @@
+// Cloudflare Workers config: serves the static `nuxt generate` output as
+// Workers static assets. No Worker script is needed.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "richie-patil-portfolio",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./.output/public",
+    // Every route is prerendered; anything else falls back to the app shell,
+    // which renders the site's own 404 page.
+    "not_found_handling": "single-page-application",
+    // Serve /about from about/index.html (no trailing slash), matching the
+    // app's links and the sitemap.
+    "html_handling": "drop-trailing-slash"
+  },
+  // Both hostnames must be on a Cloudflare zone in the same account. Send
+  // www to the apex with a Redirect Rule in the Cloudflare dashboard.
+  "routes": [
+    { "pattern": "richiepatil.com", "custom_domain": true },
+    { "pattern": "www.richiepatil.com", "custom_domain": true }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

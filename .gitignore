@@ -25,3 +25,7 @@ logs
 
 # VSC
 .history
+
+# Cloudflare Wrangler local state
+.wrangler
+.dev.vars*

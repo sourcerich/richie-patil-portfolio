@@ -1,66 +1,290 @@
 <script setup lang="ts">
-const { data: page } = await useAsyncData("about", () => {
-  return queryCollection("about").first();
-});
+const { data: page } = await useAsyncData('about', () => queryCollection('about').first())
+const { site } = useAppConfig()
+
 if (!page.value) {
-  throw createError({
-    statusCode: 404,
-    statusMessage: "Page not found",
-    fatal: true,
-  });
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 
-const { global } = useAppConfig();
-
 useSeoMeta({
-  title: page.value?.seo?.title || page.value?.title,
-  ogTitle: page.value?.seo?.title || page.value?.title,
-  description: page.value?.seo?.description || page.value?.description,
-  ogDescription: page.value?.seo?.description || page.value?.description,
-});
+  title: page.value.title,
+  ogTitle: page.value.seo?.title || page.value.title,
+  description: page.value.seo?.description || page.value.description,
+  ogDescription: page.value.seo?.description || page.value.description
+})
 </script>
 
 <template>
-  <UPage v-if="page">
-    <UPageHero
-      :title="page.title"
-      :description="page.description"
-      orientation="horizontal"
-      :ui="{
-        container: 'lg:flex sm:flex-row items-center',
-        title: '!mx-0 text-left',
-        description: '!mx-0 text-left',
-        links: 'justify-start',
-      }"
+  <section
+    v-if="page"
+    class="wrap about"
+    data-chapter="About"
+  >
+    <div
+      data-reveal="0"
+      class="eyebrow chapter-rule"
     >
-      <img
-        class="sm:rotate-4 size-36 rounded-lg ring ring-default ring-offset-3 ring-offset-(--ui-bg) object-cover"
-        src="/richie.jpg"
-        alt="Richie Patil - Backend Developer & ML Engineer"
-        width="144"
-        height="144"
-        quality="95"
-        format="avif,webp,jpg"
-        sizes="144px sm:144px md:144px lg:144px xl:144px"
-        densities="1x 2x"
-      />
-    </UPageHero>
-    <UPageSection
-      :ui="{
-        container: '!pt-0',
-      }"
-    >
-      <MDC :value="page.content" unwrap="p" />
-      <div
-        class="flex flex-row justify-center items-center py-10 space-x-[-2rem]"
+      <span>02.</span><span class="line" /><span>About</span>
+    </div>
+    <h1 class="display headline">
+      <span
+        v-for="(line, i) in page.headline"
+        :key="line"
+        class="mask-line"
+      ><span
+        :data-reveal="100 + i * 70"
+        data-from="102%"
+        :class="{ accent: i === page.headline.length - 1 }"
+      >{{ line }}</span></span>
+    </h1>
+
+    <div class="bio">
+      <figure
+        data-reveal="0"
+        data-wipe
+        class="plate portrait"
       >
-        <PolaroidItem
-          v-for="(image, index) in page.images"
-          :key="index"
-          :image="image"
-          :index
-        />
+        <img
+          data-py="-0.1"
+          src="/richie.jpg"
+          alt="Portrait of Richie Patil"
+        >
+      </figure>
+      <div class="bio-text justify">
+        <p
+          v-for="(paragraph, i) in page.paragraphs"
+          :key="i"
+          :data-reveal="100 + i * 60"
+        >
+          {{ paragraph }}
+        </p>
+        <div
+          :data-reveal="100 + page.paragraphs.length * 60"
+          class="actions"
+        >
+          <a
+            :href="`mailto:${site.email}`"
+            class="btn btn-primary"
+          >Start a conversation →</a>
+        </div>
       </div>
-    </UPageSection>
-  </UPage>
+    </div>
+
+    <div class="block first">
+      <div
+        data-reveal="0"
+        class="block-head"
+      >
+        <span class="eyebrow">Toolkit</span>
+        <h2 class="display block-title">
+          The instruments.
+        </h2>
+      </div>
+      <dl class="rows">
+        <div
+          v-for="(skill, i) in page.skills"
+          :key="skill.label"
+          :data-reveal="i * 50"
+          class="skill"
+        >
+          <dt class="label">
+            {{ skill.label }}
+          </dt>
+          <dd>{{ skill.value }}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="block">
+      <div
+        data-reveal="0"
+        class="block-head"
+      >
+        <span class="eyebrow">Education &amp; recognition</span>
+        <h2 class="display block-title">
+          The record.
+        </h2>
+      </div>
+      <div class="rows">
+        <div
+          v-for="(item, i) in page.achievements"
+          :key="item.title"
+          :data-reveal="i * 60"
+          class="record"
+        >
+          <span class="record-text">
+            <span class="record-title">{{ item.title }}</span>
+            <span class="record-detail">{{ item.detail }}</span>
+          </span>
+          <span class="record-year tnum">{{ item.year }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div
+        data-reveal="0"
+        class="block-head"
+      >
+        <span class="eyebrow">Beyond the screen</span>
+        <p class="beyond">
+          {{ page.beyond }}
+        </p>
+      </div>
+      <div class="rows">
+        <details
+          v-for="(item, i) in page.faq"
+          :key="item.question"
+          :data-reveal="i * 70"
+          class="faq"
+        >
+          <summary>{{ item.question }}<span class="plus">+</span></summary>
+          <p class="justify">
+            {{ item.answer }}
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
 </template>
+
+<style scoped>
+.about { padding-block: clamp(56px, 8vw, 112px) var(--section-y); }
+.chapter-rule {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  margin-bottom: 32px;
+}
+.line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-divider);
+}
+.headline {
+  margin-bottom: clamp(56px, 8vw, 112px);
+  font-size: clamp(44px, 7vw, 108px);
+  line-height: .98;
+  letter-spacing: -.015em;
+  max-width: 17ch;
+}
+.headline .mask-line {
+  padding-bottom: .18em;
+  margin-bottom: -.18em;
+}
+.accent { color: var(--color-accent); }
+.bio {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+.portrait {
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  max-width: 520px;
+}
+.portrait img {
+  width: 100%;
+  height: 118%;
+  margin-top: -9%;
+  object-fit: cover;
+}
+.bio-text {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  font-size: 16.5px;
+  line-height: 1.75;
+  max-width: 58ch;
+}
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+}
+.block {
+  margin-top: clamp(56px, 8vw, 112px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: 48px 80px;
+  border-top: 1px solid var(--color-divider);
+  padding-top: 48px;
+}
+.block.first { margin-top: var(--section-y); }
+.block-head {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.block-title {
+  font-size: clamp(32px, 3.6vw, 48px);
+  line-height: 1.1;
+}
+.beyond {
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1.25;
+}
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+.skill {
+  display: grid;
+  grid-template-columns: minmax(120px, 160px) minmax(0, 1fr);
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+.skill dt { padding-top: 3px; }
+.skill dd {
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+.record {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-divider);
+  align-items: baseline;
+}
+.record-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.record-title { font-size: 15.5px; }
+.record-detail {
+  font-size: 13px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+.record-year {
+  font-size: 13px;
+  color: var(--color-accent-700);
+}
+.faq { border-bottom: 1px solid var(--color-divider); }
+.faq summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  font-family: var(--font-heading);
+  font-size: 22px;
+  line-height: 1.25;
+}
+.plus {
+  color: var(--color-accent);
+  transition: transform .3s var(--ease-out);
+}
+.faq[open] .plus { transform: rotate(45deg); }
+.faq p {
+  margin-bottom: 20px;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+}
+</style>
