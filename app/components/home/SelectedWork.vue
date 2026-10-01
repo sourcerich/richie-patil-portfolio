@@ -20,7 +20,7 @@ const onMove = (e: MouseEvent) => {
 </script>
 
 <template>
-  <section data-chapter="Chapter II — Selected work">
+  <section data-chapter="Selected work">
     <div class="wrap section-pad">
       <div class="head">
         <h2
@@ -32,7 +32,7 @@ const onMove = (e: MouseEvent) => {
         <span
           data-reveal="100"
           class="eyebrow"
-        >Chapter II — Selected work</span>
+        >Selected work</span>
       </div>
       <ol
         class="list"
@@ -124,7 +124,7 @@ const onMove = (e: MouseEvent) => {
 }
 .num {
   font-size: 13px;
-  color: var(--color-accent-700);
+  color: var(--color-accent-text);
 }
 .title {
   font-size: clamp(28px, 4vw, 56px);

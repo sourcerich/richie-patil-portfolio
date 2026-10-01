@@ -9,24 +9,24 @@ const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
   <section
     class="ink-band"
     data-theme="dark"
-    data-chapter="Next chapter"
+    data-chapter="Contact"
   >
     <div class="wrap footer">
       <div class="head">
         <span
           data-reveal="0"
           class="kicker"
-        >Where systems find their form</span>
+        >Open to work</span>
         <h2 class="display big">
           <span class="mask-line"><span
             data-reveal="0"
             data-from="102%"
-          >Next</span></span>
+          >Say</span></span>
           <span class="mask-line right"><span
             data-reveal="200"
             data-from="102%"
             class="accent"
-          >chapter</span></span>
+          >hello</span></span>
         </h2>
       </div>
       <div class="cols">
@@ -57,8 +57,8 @@ const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
         </div>
       </div>
       <div class="colophon">
-        <span>© {{ year }} — {{ site.name }}</span>
-        <span>Folio — Edition</span>
+        <span>© {{ year }} {{ site.name }}</span>
+        <span>{{ site.city }}</span>
         <a
           href="#top"
           @click.prevent="toTop"
@@ -97,7 +97,7 @@ const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 32px 64px;
-  border-top: 1px solid color-mix(in srgb, var(--color-bg) 20%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--color-on-ink) 20%, transparent);
   padding-top: 32px;
 }
 .col {
@@ -109,7 +109,7 @@ const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
   font-size: 13px;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-bg) 70%, transparent);
+  color: color-mix(in srgb, var(--color-on-ink) 70%, transparent);
 }
 .email {
   font-family: var(--font-heading);
@@ -135,8 +135,8 @@ const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
   font-size: 12px;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-bg) 65%, transparent);
-  border-top: 1px solid color-mix(in srgb, var(--color-bg) 20%, transparent);
+  color: color-mix(in srgb, var(--color-on-ink) 65%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--color-on-ink) 20%, transparent);
   padding-top: 24px;
 }
 

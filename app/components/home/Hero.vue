@@ -45,7 +45,7 @@ onBeforeUnmount(() => clearInterval(timer))
       <span class="mask-line right"><span
         data-reveal="300"
         data-from="102%"
-      ><span data-px="0.16"><span class="accent">—</span> Patil</span></span></span>
+      ><span data-px="0.16"><BrandMark class="mark" /> Patil</span></span></span>
     </h1>
     <div class="foot">
       <div class="lead-col">
@@ -101,7 +101,7 @@ onBeforeUnmount(() => clearInterval(timer))
   letter-spacing: .1em;
   text-transform: uppercase;
 }
-.role { color: var(--color-accent-700); }
+.role { color: var(--color-accent-text); }
 .status {
   display: flex;
   align-items: center;
@@ -121,7 +121,13 @@ onBeforeUnmount(() => clearInterval(timer))
   letter-spacing: -.02em;
 }
 .name span { display: block; }
-.name .accent { display: inline; color: var(--color-accent); }
+/* The monogram sits on the line in place of a dash, sized to the cap height. */
+.name .mark {
+  height: .5em;
+  margin-right: .02em;
+  vertical-align: baseline;
+  color: var(--color-accent);
+}
 .right { text-align: right; }
 .foot {
   display: grid;

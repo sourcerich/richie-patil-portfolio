@@ -24,7 +24,7 @@ useSeoMeta({
       data-reveal="0"
       class="eyebrow chapter-rule"
     >
-      <span>02.</span><span class="line" /><span>About</span>
+      <span>About</span><span class="line" />
     </div>
     <h1 class="display headline">
       <span
@@ -264,7 +264,7 @@ useSeoMeta({
 }
 .record-year {
   font-size: 13px;
-  color: var(--color-accent-700);
+  color: var(--color-accent-text);
 }
 .faq { border-bottom: 1px solid var(--color-divider); }
 .faq summary {

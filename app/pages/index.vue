@@ -20,7 +20,6 @@ const stills = computed(() => projects.value.flatMap(p => (p.image ? [{ src: p.i
   <div v-if="page">
     <HomeHero :hero="page.hero" />
     <HomeIntro :intro="page.intro" />
-    <HomeStats :stats="page.stats" />
     <HomeWorkZoom
       :stills="stills"
       :span="page.work.span"

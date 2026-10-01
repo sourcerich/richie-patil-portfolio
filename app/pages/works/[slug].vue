@@ -271,7 +271,7 @@ useSeoMeta({
 .section-title .tnum {
   font-family: var(--font-body);
   font-size: 13px;
-  color: var(--color-accent-700);
+  color: var(--color-accent-text);
 }
 .section p {
   font-size: 17px;

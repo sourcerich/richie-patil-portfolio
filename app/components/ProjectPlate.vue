@@ -65,7 +65,7 @@ img {
   justify-content: space-between;
   padding: clamp(20px, 3vw, 36px);
   background: var(--color-ink);
-  color: var(--color-bg);
+  color: var(--color-on-ink);
 }
 .typeset > .tnum,
 .typeset > .display {

@@ -1,18 +1,18 @@
 title: "About"
-description: "Richie Patil is a developer and creative solutions architect in Mumbai, designing systems in Node.js, TypeScript and Python that hold steady under load."
+description: "Richie Patil is a full-stack developer in Mumbai who builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
 seo:
   title: "About – Richie Patil"
-  description: "Richie Patil is a developer and creative solutions architect in Mumbai, designing systems in Node.js, TypeScript and Python that hold steady under load."
+  description: "Richie Patil is a full-stack developer in Mumbai who builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
 
 headline:
-  - "I begin with the why,"
-  - "then build systems"
-  - "that hold under load."
+  - "I like to know"
+  - "what a system is for"
+  - "before I build it."
 
 paragraphs:
-  - "I’m Richie Vidyadhar Patil, a developer and creative solutions architect based in Mumbai. I read Computer Science, specialising in Artificial Intelligence and Machine Learning, with a minor in Business Management, at Amity University Mumbai. It was there that systems architecture and machine learning became a discipline, and there that I came to believe the finest solutions are shaped as much by business context as by code."
-  - "My practice rests on two principles: efficiency and scale. Every engagement begins with the why: the commercial objective, the performance it must meet and the expectations of the people who will rely on it. From there I build iteratively in Node.js, TypeScript and Python, and test with rigour, so that what ships feels effortless and stays dependable."
-  - "What moves me is distilling complex requirements into systems that are simple, considered and quietly resilient, and then watching them hold steady under pressure."
+  - "I’m Richie Vidyadhar Patil, a full-stack developer in Mumbai. I studied Computer Science at Amity University Mumbai, specialising in AI and machine learning, with a minor in Business Management. The minor turned out to matter more than I expected, because most of the hard calls in a system are business calls first."
+  - "When I pick something up, I start by asking what it’s for: what the business needs from it, how fast it has to be, and who will use it. Then I build in small steps in React, Node.js, TypeScript or Python, and test more than feels necessary."
+  - "The part I enjoy most is taking a messy set of requirements and ending up with something small and a bit boring that keeps working when traffic spikes."
 
 skills:
   - label: "Languages"
@@ -52,14 +52,14 @@ achievements:
     detail: "Mental-health awareness facilitator, Amity University Mumbai"
     year: "2020–22"
 
-beyond: "Strategy games, long-distance running, the kitchen and the trail. Each sharpens something the work depends on: foresight, endurance and the art of improvisation."
+beyond: "Strategy games, long runs, cooking, and a trail whenever I can get out of the city."
 
 faq:
-  - question: "What is your area of focus?"
-    answer: "Software systems in Node.js, TypeScript and Python; machine learning with scikit-learn, Pandas and LangChain; cloud infrastructure on AWS and Azure; data on MySQL and Snowflake; and delivery through Docker and CI/CD."
-  - question: "Which engagements do you take on?"
-    answer: "Backend platforms, applied machine learning, data pipelines and MLOps, from scalable SaaS and retrieval-augmented AI to ETL and automated data aggregation."
+  - question: "What do you mostly work on?"
+    answer: "Full-stack web apps in React, Node.js and TypeScript, with Python where there’s data or ML involved. On the ML side I use scikit-learn, Pandas and LangChain. I deploy to AWS or Azure, keep data in MySQL or Snowflake, and ship with Docker and CI/CD."
+  - question: "What kind of projects do you take on?"
+    answer: "Full-stack platforms, applied ML, data pipelines and MLOps. Recent ones include a multi-tenant CRM, a RAG assistant for risk documents and a scraper that tracks 10,000 products a day."
   - question: "Startups or enterprises?"
-    answer: "Both. My work spans enterprise insurance systems and high-volume supply-chain SaaS, and I shape the process to the scale of the organisation."
-  - question: "How do you prefer to collaborate?"
-    answer: "Within cross-functional teams, with clear communication and thorough written documentation. I have also led small development teams to delivery against demanding timelines."
+    answer: "Both. I’ve worked on enterprise insurance systems and on small SaaS products, and I adjust how much process there is to fit the team."
+  - question: "How do you like to work with a team?"
+    answer: "In a mixed team, with decisions written down. I’ve also led a team of three through two projects running at the same time."

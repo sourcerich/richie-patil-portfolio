@@ -19,14 +19,6 @@ export default defineContentConfig({
           quote: z.string(),
           beyond: z.string()
         }),
-        stats: z.array(z.object({
-          value: z.number(),
-          decimals: z.number().default(0),
-          prefix: z.string().default(''),
-          suffix: z.string().default(''),
-          caption: z.string(),
-          accent: z.boolean().default(false)
-        })),
         work: z.object({
           heading: z.string(),
           note: z.string(),
@@ -48,6 +40,7 @@ export default defineContentConfig({
             org: z.string(),
             role: z.string(),
             when: z.string(),
+            metric: z.string().optional(),
             note: z.string()
           }))
         }),

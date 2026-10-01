@@ -1,60 +1,45 @@
 title: "Richie Patil – Developer & Creative Solutions Architect"
-description: "Developer and Creative Solutions Architect based in Mumbai, specialising in Python-based ML, Generative AI, MLOps, and scalable backend architectures."
+description: "Richie Patil is a full-stack developer in Mumbai. He builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
 seo:
   title: "Richie Patil – Developer & Creative Solutions Architect"
-  description: "Developer and Creative Solutions Architect based in Mumbai, specialising in Python-based ML, Generative AI, MLOps, and scalable backend architectures."
+  description: "Richie Patil is a full-stack developer in Mumbai. He builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
 
 hero:
   role: "Developer & Creative Solutions Architect"
   location: "Mumbai"
   status: "Available for work"
-  lead: "I build robust software systems and intelligent ML — scalable APIs and data pipelines that turn raw data into decisions."
+  lead: "I build full-stack web apps in React, Node.js and TypeScript, and machine-learning code in Python. Most of my week goes to APIs and data pipelines for SaaS products."
   stack:
     - "Python · TypeScript · Node.js · React"
-    - "AWS · Docker · MongoDB · Git"
+    - "AWS · Docker · PostgreSQL · Git"
 
 intro:
-  lead: "Hey, I’m Richie — a developer and creative solutions architect in Mumbai. I build APIs that feel effortless and models that earn their place in production."
-  body: "Node.js and TypeScript on the backend, Python for machine learning and generative AI, AWS and Azure underneath. Everything from high-volume supply-chain SaaS to enterprise insurance systems."
-  quote: "Start with the why. Then make it fast."
-  beyond: "Beyond the screen: strategy games, running Mumbai’s routes, and home cooking."
-
-stats:
-  - value: 99.7
-    decimals: 1
-    suffix: "%"
-    caption: "Reduction in API response time"
-    accent: true
-  - value: 1
-    suffix: "M+"
-    caption: "Certificate capacity, Sankalp platform"
-  - value: 5
-    caption: "SaaS products built on my APIs"
-  - value: 10
-    suffix: "K+"
-    caption: "Products tracked daily by my data pipeline"
+  lead: "I’m Richie, a full-stack developer in Mumbai. I spend most of my time on the backend, and the rest on getting machine learning to work outside a notebook."
+  body: "Day to day that means React on the front, Node.js and TypeScript services behind it, Python for ML and LLM work, and AWS or Azure underneath. So far that has covered supply-chain SaaS, a fintech app, a CRM and enterprise insurance systems."
+  quote: "I want to know what a system is for before I worry about how fast it is."
+  beyond: "Outside work: strategy games, running around Mumbai, and cooking at home."
 
 work:
-  heading: "Building systems, solving problems."
-  note: "❋ 72Street, TavcoGrowth and Sankalp are live; the rest are private, academic or archived."
-  span: "2022 — 2026"
+  heading: "Things I’ve built since 2022."
+  note: "72Street, TavcoGrowth and Sankalp are live. The rest are client work, coursework or retired."
+  span: "2022 – 2026"
 
 services:
-  heading: "Systems that scale, and models that tell you something."
-  body: "I work where backend engineering meets machine learning. Most projects draw on more than one of these."
+  heading: "Full-stack, with a backend bias. Some machine learning."
+  body: "I build both ends, though the backend is where I spend most of my time. The ML and data work usually comes attached to it: a model needs an API before anyone can use it, and a pipeline needs somewhere to land."
   items:
-    - title: "Backend & APIs"
-      body: "Node.js and TypeScript services built for load. Clean contracts, fast responses, thorough documentation."
+    - title: "Full-stack & APIs"
+      body: "React and TypeScript on the front, Node.js, Express and Sequelize behind it. I’ve built the APIs behind five SaaS products, including a multi-tenant CRM, and once took a 45-second endpoint down to 145 ms."
       image: "/content/projects/sankalp.png"
-    - title: "Machine learning"
-      body: "Predictive models with scikit-learn, Pandas and NumPy, from exploratory analysis to production."
-      image: "/content/projects/sunspots.jpg"
+    - title: "Data pipelines & MLOps"
+      body: "ETL jobs, scrapers and aggregation pipelines feeding Segment, Google Analytics and Power BI, shipped in Docker through CI."
+      image: "/content/projects/scraper.webp"
     - title: "Generative AI & RAG"
-      body: "LLM systems with LangChain and the OpenAI API that answer from your own data."
+      body: "Retrieval over your own documents with LangChain and Llama 3 or GPT, running serverless on AWS Lambda."
       image: "/content/projects/rag.webp"
-    - title: "Data & MLOps"
-      body: "ETL, aggregation pipelines, Docker, CI/CD and serverless on AWS and Azure."
-      image: "/content/projects/Flutter.webp"
+    - title: "Machine learning"
+      body: "Supervised models with scikit-learn and Pandas. My dissertation forecast sunspot activity at about 85% accuracy."
+      image: "/content/projects/sunspots.jpg"
 
 experience:
   note: "Supply-chain SaaS, enterprise insurance, data science."
@@ -62,21 +47,25 @@ experience:
   items:
     - org: "Sunday Tech"
       role: "Backend Developer"
-      when: "Sep 2024 — Present"
-      note: "APIs for 5 SaaS apps. Cut latency 99.7%, from 45s to 145ms. Led a team of 3 across two projects."
+      when: "Sep 2024 – Present"
+      metric: "45 s → 145 ms"
+      note: "APIs for five SaaS apps, mostly supply chain. Found the bottleneck behind a 45-second endpoint and got it to 145 ms. Led a team of three across two projects."
     - org: "Sunday Tech"
       role: "Backend Developer Intern"
-      when: "Jun — Sep 2024"
-      note: "Resolved 20+ production issues, 17% faster. Documented 25+ third-party integrations."
+      when: "Jun – Sep 2024"
+      metric: "17% faster"
+      note: "Worked through 20+ production issues and cut resolution time by 17%. Wrote integration docs for 25+ third-party services."
     - org: "WNS Global Services"
       role: "Intern Trainee (WTS)"
-      when: "Jan — May 2024"
-      note: "Enterprise insurance testing: 1,000+ issues logged, 450+ test scenarios."
+      when: "Jan – May 2024"
+      metric: "1,000+ issues"
+      note: "Tested enterprise insurance and claims apps. Wrote 450+ test scenarios and logged over 1,000 issues."
     - org: "Celebal Technologies"
       role: "Data Science Intern"
-      when: "Aug — Dec 2023"
-      note: "EDA on 500K+ records behind two marketing strategies. ETL on 10GB+ of data."
+      when: "Aug – Dec 2023"
+      metric: "500K records"
+      note: "EDA on 500K+ customer records that fed two marketing strategies, plus ETL on more than 10 GB of raw data."
 
 works:
-  heading: "Building systems, solving problems."
-  body: "Scalable backends and intelligent ML, from concept to deployment, plus a few experiments along the way."
+  heading: "Work, 2022 to now."
+  body: "Full-stack apps, ML and a few side projects. Some are live, some are private client work, and one is a Lord of the Rings parody game."

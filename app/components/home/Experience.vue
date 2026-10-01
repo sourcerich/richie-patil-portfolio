@@ -8,13 +8,13 @@ const focused = ref(-1)
 </script>
 
 <template>
-  <section data-chapter="Chapter IV — Experience">
+  <section data-chapter="Experience">
     <div class="wrap section-pad">
       <div
         data-reveal="0"
         class="head"
       >
-        <span class="eyebrow">Chapter IV — Selected experience</span>
+        <span class="eyebrow">Experience</span>
         <span class="muted note">{{ experience.note }}</span>
       </div>
       <ul
@@ -39,6 +39,10 @@ const focused = ref(-1)
               </span>
               <span class="muted summary">{{ item.note }}</span>
             </span>
+            <span
+              v-if="item.metric"
+              class="display tnum metric"
+            >{{ item.metric }}</span>
           </div>
         </li>
       </ul>
@@ -71,7 +75,7 @@ const focused = ref(-1)
 .list li { border-bottom: 1px solid var(--color-divider); }
 .row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(150px, .45fr);
   gap: 8px 40px;
   align-items: baseline;
   padding: 26px 0;
@@ -96,14 +100,31 @@ const focused = ref(-1)
 .role { font-size: 16px; }
 .when {
   font-size: 13px;
-  color: var(--color-accent-700);
+  color: var(--color-accent-text);
 }
 .summary {
   font-size: 14px;
   line-height: 1.6;
 }
+/* The number that best sums up the role, in context rather than in a stats band. */
+.metric {
+  justify-self: end;
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.1;
+  white-space: nowrap;
+  color: var(--color-accent);
+  font-feature-settings: 'lnum' 1, 'tnum' 1;
+}
 .education {
   margin-top: 28px;
   font-size: 14px;
+}
+
+@media (max-width: 860px) {
+  .row { grid-template-columns: minmax(0, 1fr); }
+  .metric {
+    justify-self: start;
+    font-size: 20px;
+  }
 }
 </style>

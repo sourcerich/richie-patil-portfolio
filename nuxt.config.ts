@@ -25,8 +25,18 @@ export default defineNuxtConfig({
       ],
       // Lets CSS hide not-yet-revealed elements only when JS will reveal
       // them; without JS, the prerendered content simply shows.
+      // Runs before first paint: flags that JS is on, and picks day or night
+      // from the visitor's saved choice, falling back to their OS setting.
       script: [
-        { innerHTML: 'document.documentElement.classList.add(\'js\')' }
+        {
+          innerHTML: [
+            'var d=document.documentElement;d.classList.add(\'js\');',
+            'try{var t=localStorage.getItem(\'theme\')}catch(e){}',
+            'if(t!==\'light\'&&t!==\'dark\')t=matchMedia(\'(prefers-color-scheme: dark)\').matches?\'dark\':\'light\';',
+            'd.dataset.mode=t;',
+            'if(t===\'dark\'){var m=document.querySelector(\'meta[name=theme-color]\');if(m)m.content=\'#1b1a18\'}'
+          ].join('')
+        }
       ],
       noscript: [
         { innerHTML: '<style>.site-intro{display:none}</style>' }
