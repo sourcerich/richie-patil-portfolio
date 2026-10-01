@@ -3,9 +3,9 @@ const route = useRoute()
 const { site } = useAppConfig()
 
 const links = computed(() => [
-  { num: '01.', label: 'Home', to: '/', current: route.path === '/' },
-  { num: '02.', label: 'About', to: '/about', current: route.path === '/about' },
-  { num: '03.', label: 'Works and Collaborations', to: '/works', current: route.path.startsWith('/works') }
+  { label: 'Home', to: '/', current: route.path === '/' },
+  { label: 'About', to: '/about', current: route.path === '/about' },
+  { label: 'Works and Collaborations', to: '/works', current: route.path.startsWith('/works') }
 ])
 
 // Below the desktop breakpoint the nav collapses into a full-screen menu.
@@ -33,34 +33,27 @@ useEventListener('keydown', (e: KeyboardEvent) => {
         aria-label="Home"
         class="brand"
       >
-        <img
-          src="/logo.png"
-          alt="Richie Patil logo"
-          width="40"
-          height="40"
-          class="logo"
-        >
+        <BrandMark class="logo" />
         <span class="brand-text">
-          <span class="edition">{{ site.edition }}</span>
+          <span class="edition">{{ site.city }}</span>
           <span
             id="header-chapter"
             class="chapter"
           >{{ site.name }}</span>
         </span>
       </NuxtLink>
-      <nav class="nav tnum">
+      <nav class="nav">
         <NuxtLink
           v-for="link in links"
           :key="link.to"
           :to="link.to"
           :aria-current="link.current ? 'page' : undefined"
         >
-          <span class="num">{{ link.num }}</span><span>{{ link.label }}</span>
+          {{ link.label }}
         </NuxtLink>
-        <a :href="`mailto:${site.email}`">
-          <span class="num">04.</span><span>Contact</span>
-        </a>
+        <a :href="`mailto:${site.email}`">Contact</a>
       </nav>
+      <SiteThemeToggle />
       <button
         type="button"
         class="menu-toggle"
@@ -83,7 +76,7 @@ useEventListener('keydown', (e: KeyboardEvent) => {
     :class="{ open: menuOpen }"
     :inert="!menuOpen || undefined"
   >
-    <nav class="menu-links tnum">
+    <nav class="menu-links">
       <NuxtLink
         v-for="(link, i) in links"
         :key="link.to"
@@ -91,14 +84,12 @@ useEventListener('keydown', (e: KeyboardEvent) => {
         :aria-current="link.current ? 'page' : undefined"
         :style="{ '--i': i }"
       >
-        <span class="num">{{ link.num }}</span>
         <span class="display">{{ link.label }}</span>
       </NuxtLink>
       <a
         :href="`mailto:${site.email}`"
         :style="{ '--i': links.length }"
       >
-        <span class="num">04.</span>
         <span class="display">Contact</span>
       </a>
     </nav>
@@ -135,8 +126,8 @@ useEventListener('keydown', (e: KeyboardEvent) => {
 }
 .header[data-dark="true"],
 .header[data-menu="true"] {
-  background: color-mix(in oklch, var(--color-neutral-900) 78%, black);
-  color: var(--color-bg);
+  background: color-mix(in oklch, var(--color-ink) 92%, transparent);
+  color: var(--color-on-ink);
   border-color: var(--color-on-ink-divider);
 }
 .header-inner {
@@ -152,17 +143,10 @@ useEventListener('keydown', (e: KeyboardEvent) => {
   min-width: 0;
 }
 .brand:hover { color: inherit; }
+/* Inherits the header's text colour, so it flips with the dark sections. */
 .logo {
-  width: 40px;
-  height: 40px;
+  height: 26px;
   flex: none;
-  mix-blend-mode: multiply;
-  transition: filter .5s;
-}
-.header[data-dark="true"] .logo,
-.header[data-menu="true"] .logo {
-  filter: invert(1);
-  mix-blend-mode: screen;
 }
 .brand-text {
   display: flex;
@@ -192,12 +176,7 @@ useEventListener('keydown', (e: KeyboardEvent) => {
   font-size: 14px;
   white-space: nowrap;
 }
-.nav a {
-  display: flex;
-  gap: 6px;
-}
 .nav a[aria-current="page"] { color: var(--color-accent); }
-.num { color: var(--color-accent); }
 
 /* — mobile menu — */
 .menu-toggle {
@@ -273,10 +252,6 @@ useEventListener('keydown', (e: KeyboardEvent) => {
   transform: none;
   transition-delay: calc(.25s + var(--i) * 70ms);
 }
-.menu-links .num {
-  font-size: 13px;
-  min-width: 26px;
-}
 .menu-links .display {
   font-size: clamp(34px, 9vw, 52px);
   line-height: 1.05;
@@ -304,13 +279,17 @@ useEventListener('keydown', (e: KeyboardEvent) => {
 
 @media (max-width: 959px) {
   .nav { display: none; }
-  .menu-toggle { display: inline-flex; }
+  .menu-toggle {
+    display: inline-flex;
+    margin-left: 4px;
+  }
+  .theme-toggle { margin: 0 0 0 auto; }
 }
 @media (min-width: 960px) {
   .menu { display: none; }
 }
 @media (max-width: 380px) {
   .edition { font-size: 10px; letter-spacing: .1em; }
-  .logo { width: 34px; height: 34px; }
+  .logo { height: 22px; }
 }
 </style>

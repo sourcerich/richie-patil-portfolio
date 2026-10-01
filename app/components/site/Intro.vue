@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
     aria-hidden="true"
   >
     <div class="intro-meta">
-      <span>Folio — Edition</span><span>{{ site.city }}</span>
+      <span>{{ site.name }}</span><span>{{ site.city }}</span>
     </div>
     <div class="intro-years display tnum">
       <div
@@ -55,7 +55,7 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <div class="intro-foot">
-      <span class="tagline">From first commit to production.</span>
+      <span class="tagline">turning concepts into reality</span>
       <div class="bar">
         <div :class="{ full: rolled }" />
       </div>
@@ -81,7 +81,7 @@ onBeforeUnmount(() => {
   font-size: 12px;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-bg) 70%, transparent);
+  color: color-mix(in srgb, var(--color-on-ink) 70%, transparent);
 }
 .intro-years {
   font-size: clamp(96px, 20vw, 300px);
@@ -110,7 +110,7 @@ onBeforeUnmount(() => {
 }
 .bar {
   height: 6px;
-  background: color-mix(in srgb, var(--color-bg) 12%, transparent);
+  background: color-mix(in srgb, var(--color-on-ink) 12%, transparent);
 }
 .bar > div {
   height: 100%;

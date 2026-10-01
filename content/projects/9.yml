@@ -8,6 +8,6 @@ tags: ["Enterprise", "Forms", "Data management", "Workflows"]
 summary: "A land-acquisition and resettlement portal built on extensive form filling, data manipulation and record management."
 problem: "Asset and land surveys for resettlement and rehabilitation produce large, detailed records that pass through several hands before compensation can be approved."
 build: "Separate asset and land survey flows, with online, offline and manual-entry records in one place. Long, structured forms capture each survey, and searchable tables track every record from compensation initiated to approval by the nodal officer."
-outcome: "One portal for the whole survey-to-compensation workflow, in place of scattered spreadsheets and paper."
+outcome: "The whole survey-to-compensation workflow now lives in one portal instead of spreadsheets and paper files."
 metric: "2 surveys"
 metricLabel: "Asset and land, in one portal"

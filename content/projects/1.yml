@@ -7,10 +7,10 @@ image: "/content/projects/sankalp/01.webp"
 imagePortrait: "/content/projects/portrait/sankalp.webp"
 link: "https://thesankalp.org"
 tags: ["React", "TypeScript", "Node.js", "SQL", "DevSecOps"]
-summary: "A high-performance full-stack platform for managing certificates and user data at scale."
+summary: "The platform the Sankalp NGO uses to issue, store and verify certificates for its volunteers and members."
 problem: "The Sankalp Organisation needed one reliable system to issue, store and verify certificates and user records, at a volume manual processes couldn’t keep up with."
-build: "React and TypeScript on the front, Node.js and SQL behind it, on a Linux VPS. Authentication encrypts and decrypts sensitive data end to end, and DevSecOps practice is built into every deploy."
-outcome: "Headroom for over a million certificates, and a live site the team runs every day."
+build: "React and TypeScript on the front, Node.js and SQL behind it, on a Linux VPS. Authentication encrypts and decrypts sensitive data end to end, and security checks run as part of every deploy."
+outcome: "It has room for more than a million certificates, and the Sankalp team uses the live site every day."
 metric: "1M+"
 metricLabel: "Certificate capacity"
 gallery:

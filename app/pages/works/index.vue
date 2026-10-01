@@ -152,7 +152,7 @@ useSeoMeta({
 }
 .num {
   font-size: 13px;
-  color: var(--color-accent-700);
+  color: var(--color-accent-text);
 }
 .name {
   font-size: 32px;

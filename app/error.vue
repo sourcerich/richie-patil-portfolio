@@ -11,7 +11,7 @@ useSeoMeta({ title: props.error.statusCode === 404 ? 'Page not found' : 'Somethi
     <section class="wrap error">
       <span class="eyebrow tnum">{{ error.statusCode }}</span>
       <h1 class="display">
-        {{ error.statusCode === 404 ? 'This page isn’t in the folio.' : 'Something went wrong.' }}
+        {{ error.statusCode === 404 ? 'There’s nothing at this address.' : 'Something went wrong.' }}
       </h1>
       <button
         class="btn btn-primary"

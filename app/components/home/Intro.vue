@@ -7,7 +7,7 @@ defineProps<{ intro: IndexCollectionItem['intro'] }>()
 <template>
   <section
     class="rule-top"
-    data-chapter="Chapter I — Quick intro"
+    data-chapter="About"
   >
     <div class="wrap section-pad grid">
       <div class="text">
@@ -15,7 +15,7 @@ defineProps<{ intro: IndexCollectionItem['intro'] }>()
           data-reveal="0"
           class="eyebrow chapter-rule"
         >
-          <span>Chapter I</span><span class="line" /><span>Quick intro</span>
+          <span>About</span><span class="line" />
         </div>
         <p
           data-reveal="120"
@@ -53,7 +53,7 @@ defineProps<{ intro: IndexCollectionItem['intro'] }>()
           data-reveal="300"
           class="display quote"
         >
-          “{{ intro.quote }}”
+          {{ intro.quote }}
         </blockquote>
         <p
           data-reveal="380"
@@ -115,7 +115,6 @@ defineProps<{ intro: IndexCollectionItem['intro'] }>()
   font-size: clamp(26px, 2.6vw, 36px);
   line-height: 1.2;
   max-width: 24ch;
-  text-indent: -.34em;
 }
 .beyond { font-size: 14px; }
 </style>

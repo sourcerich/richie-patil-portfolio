@@ -2,7 +2,6 @@ export default defineAppConfig({
   site: {
     name: 'Richie Patil',
     url: 'https://richiepatil.com',
-    edition: 'Folio — Edition 2026',
     city: 'Mumbai, India',
     email: 'richiepatilwork@gmail.com',
     socials: [

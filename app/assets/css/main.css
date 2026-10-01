@@ -74,7 +74,11 @@
 
   /* The near-black used by the intro, page wipe and dark chapters. */
   --color-ink: color-mix(in oklch, var(--color-neutral-900) 82%, black);
-  --color-on-ink-divider: color-mix(in srgb, var(--color-bg) 18%, transparent);
+  /* Text on ink bands stays light in both modes, so it can't borrow --color-bg. */
+  --color-on-ink: #f3f2f2;
+  --color-on-ink-divider: color-mix(in srgb, var(--color-on-ink) 18%, transparent);
+  /* Gold used for small text; needs to be darker on cream, lighter at night. */
+  --color-accent-text: var(--color-accent-700);
 
   --font-heading: "Cormorant Garamond", Georgia, serif;
   --font-heading-weight: 600;
@@ -96,6 +100,24 @@
   --section-y: clamp(72px, 10vw, 140px);
   --header-h: 65px;
 }
+
+/* Night: the same paper-and-gold system after dark. Set on <html> by the
+   inline script in nuxt.config (saved choice, else the OS preference) before
+   first paint, and switched by ThemeToggle. */
+html[data-mode="dark"] {
+  color-scheme: dark;
+  --color-bg: #1b1a18;
+  --color-surface: #292724;
+  --color-text: #ebe6de;
+  --color-accent: #c9994f;
+  --color-accent-2: #bf9150;
+  --color-accent-text: var(--color-accent-400);
+  --color-divider: color-mix(in srgb, #ebe6de 14%, transparent);
+  /* Ink bands sit a step darker than the page so they still read as bands. */
+  --color-ink: #0e0d0c;
+  --shadow-md: 0 3px 12px color-mix(in srgb, black 50%, transparent);
+}
+html[data-mode="dark"] .plate { filter: sepia(.22) saturate(.82) contrast(1.05) brightness(.88); }
 
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -148,7 +170,7 @@ summary::-webkit-details-marker { display: none; }
   font-size: 13px;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--color-accent-700);
+  color: var(--color-accent-text);
 }
 .label {
   font-size: 12px;
@@ -184,7 +206,7 @@ html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
 
 .ink-band {
   background: var(--color-ink);
-  color: var(--color-bg);
+  color: var(--color-on-ink);
 }
 
 /* Underline that draws in on hover. */

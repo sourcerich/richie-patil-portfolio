@@ -3,7 +3,7 @@ order: 8
 title: "Amizone App"
 type: "Mobile app"
 year: "2023"
-image: "/content/projects/Flutter.webp"
+image: "/content/projects/amizone.webp"
 tags: ["Flutter", "Dart", "Mobile", "API integration"]
 summary: "A Flutter app recreating Amity’s student portal, built on reverse-engineered APIs."
 problem: "The legacy portal was slow and awkward on phones, and phones are where students actually use it."
