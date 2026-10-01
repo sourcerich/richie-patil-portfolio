@@ -7,10 +7,11 @@ const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
 <template>
   <section
-    class="ink-band"
+    class="ink-band contact"
     data-theme="dark"
     data-chapter="Contact"
   >
+    <MeshFlow />
     <div class="wrap footer">
       <div class="head">
         <span
@@ -69,7 +70,13 @@ const toTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 </template>
 
 <style scoped>
+/* The dot grid fills the band behind the content. */
+.contact {
+  position: relative;
+  overflow: hidden;
+}
 .footer {
+  position: relative;
   padding-block: clamp(56px, 7vw, 96px) 32px;
   display: flex;
   flex-direction: column;

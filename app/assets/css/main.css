@@ -48,8 +48,8 @@
   --color-bg: #f3f2f2;
   --color-surface: #eae9e9;
   --color-text: #201f1d;
-  --color-accent: #b68235;
-  --color-accent-2: #ac803e;
+  --color-accent: #b86a43;
+  --color-accent-2: #ab6644;
   --color-divider: color-mix(in srgb, #201f1d 16%, transparent);
 
   --color-neutral-100: #f8f4f4;
@@ -62,22 +62,23 @@
   --color-neutral-800: #444141;
   --color-neutral-900: #2d2b2b;
 
-  --color-accent-100: #fff3e4;
-  --color-accent-200: #ffe3bf;
-  --color-accent-300: #facb8d;
-  --color-accent-400: #e1ad66;
-  --color-accent-500: #c28d41;
-  --color-accent-600: #a06f24;
-  --color-accent-700: #7d5411;
-  --color-accent-800: #5a3b0a;
-  --color-accent-900: #3a270d;
+  /* Copper: peach at the light end, burnt copper at the dark end. */
+  --color-accent-100: #fff1ea;
+  --color-accent-200: #fddccb;
+  --color-accent-300: #f6bc9f;
+  --color-accent-400: #e69a74;
+  --color-accent-500: #cc7a50;
+  --color-accent-600: #a95d36;
+  --color-accent-700: #864524;
+  --color-accent-800: #5f2f17;
+  --color-accent-900: #3b1d0f;
 
   /* The near-black used by the intro, page wipe and dark chapters. */
   --color-ink: color-mix(in oklch, var(--color-neutral-900) 82%, black);
   /* Text on ink bands stays light in both modes, so it can't borrow --color-bg. */
   --color-on-ink: #f3f2f2;
   --color-on-ink-divider: color-mix(in srgb, var(--color-on-ink) 18%, transparent);
-  /* Gold used for small text; needs to be darker on cream, lighter at night. */
+  /* Copper used for small text; needs to be darker on cream, lighter at night. */
   --color-accent-text: var(--color-accent-700);
 
   --font-heading: "Cormorant Garamond", Georgia, serif;
@@ -101,7 +102,7 @@
   --header-h: 65px;
 }
 
-/* Night: the same paper-and-gold system after dark. Set on <html> by the
+/* Night: the same paper-and-copper system after dark. Set on <html> by the
    inline script in nuxt.config (saved choice, else the OS preference) before
    first paint, and switched by ThemeToggle. */
 html[data-mode="dark"] {
@@ -109,15 +110,15 @@ html[data-mode="dark"] {
   --color-bg: #1b1a18;
   --color-surface: #292724;
   --color-text: #ebe6de;
-  --color-accent: #c9994f;
-  --color-accent-2: #bf9150;
+  --color-accent: #e0946c;
+  --color-accent-2: #d48c66;
   --color-accent-text: var(--color-accent-400);
   --color-divider: color-mix(in srgb, #ebe6de 14%, transparent);
   /* Ink bands sit a step darker than the page so they still read as bands. */
   --color-ink: #0e0d0c;
   --shadow-md: 0 3px 12px color-mix(in srgb, black 50%, transparent);
 }
-html[data-mode="dark"] .plate { filter: sepia(.22) saturate(.82) contrast(1.05) brightness(.88); }
+html[data-mode="dark"] .plate { filter: saturate(1.25) contrast(1.04) brightness(.9); }
 
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -223,7 +224,7 @@ html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
 
 /* — photographic plate — */
 .plate {
-  filter: sepia(.22) saturate(.82) contrast(1.05);
+  filter: saturate(1.25) contrast(1.04);
   border: 6px solid var(--color-surface);
   outline: 1px solid var(--color-divider);
 }

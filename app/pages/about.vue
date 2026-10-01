@@ -27,15 +27,10 @@ useSeoMeta({
       <span>About</span><span class="line" />
     </div>
     <h1 class="display headline">
-      <span
-        v-for="(line, i) in page.headline"
-        :key="line"
-        class="mask-line"
-      ><span
-        :data-reveal="100 + i * 70"
-        data-from="102%"
-        :class="{ accent: i === page.headline.length - 1 }"
-      >{{ line }}</span></span>
+      <FocusReveal
+        :lines="page.headline"
+        accent-last
+      />
     </h1>
 
     <div class="bio">
@@ -168,11 +163,6 @@ useSeoMeta({
   letter-spacing: -.015em;
   max-width: 17ch;
 }
-.headline .mask-line {
-  padding-bottom: .18em;
-  margin-bottom: -.18em;
-}
-.accent { color: var(--color-accent); }
 .bio {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));

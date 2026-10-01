@@ -21,10 +21,10 @@ useSeoMeta({
           data-reveal="100"
           data-from="102%"
         >Works<sup class="tnum">({{ String(projects.length).padStart(2, '0') }})</sup></span></span>
-        <span class="mask-line subtitle"><span
-          data-reveal="220"
-          data-from="102%"
-        >and Collaborations</span></span>
+        <span class="subtitle"><FocusReveal
+          :lines="['and Collaborations']"
+          :delay="900"
+        /></span>
       </h1>
       <div
         v-if="page"
@@ -100,6 +100,8 @@ useSeoMeta({
   letter-spacing: -.02em;
 }
 .subtitle {
+  display: block;
+  margin-top: .12em;
   font-size: .36em;
   line-height: 1.1;
   letter-spacing: -.01em;
