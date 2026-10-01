@@ -47,11 +47,11 @@ useSeoMeta({
     >
       <span>{{ projectNumber(index) }}</span><span>—</span><span>{{ project.type }}</span>
     </div>
-    <h1 class="display title mask-line">
-      <span
-        data-reveal="150"
-        data-from="102%"
-      >{{ project.title }}</span>
+    <h1 class="display title">
+      <FocusReveal
+        :key="project.slug"
+        :lines="[project.title]"
+      />
     </h1>
     <p
       data-reveal="250"
@@ -146,23 +146,11 @@ useSeoMeta({
         data-reveal="0"
         class="eyebrow"
       >In the product</span>
-      <div class="gallery-grid">
-        <figure
-          v-for="(shot, i) in project.gallery"
-          :key="shot.src"
-          :data-reveal="(i % 2) * 120"
-          class="shot"
-        >
-          <div class="plate">
-            <img
-              :src="shot.src"
-              :alt="shot.alt"
-              loading="lazy"
-            >
-          </div>
-          <figcaption>{{ shot.alt }}</figcaption>
-        </figure>
-      </div>
+      <DepthCarousel
+        :key="project.slug"
+        data-reveal="0"
+        :shots="project.gallery"
+      />
     </section>
     <NuxtLink
       v-if="next"
@@ -197,7 +185,7 @@ useSeoMeta({
   font-size: clamp(48px, 8.4vw, 132px);
   line-height: .95;
   letter-spacing: -.02em;
-  padding-bottom: .22em;
+  padding-bottom: .12em;
 }
 .summary {
   margin-top: 32px;
@@ -291,26 +279,6 @@ useSeoMeta({
   flex-direction: column;
   gap: 32px;
 }
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr));
-  gap: 48px 40px;
-}
-.shot {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.shot .plate { overflow: hidden; }
-.shot img {
-  width: 100%;
-  height: auto;
-}
-.shot figcaption {
-  font-size: 13px;
-  line-height: 1.5;
-  color: color-mix(in srgb, var(--color-text) 70%, transparent);
-}
 .next {
   margin-top: clamp(56px, 8vw, 104px);
   display: grid;
@@ -355,7 +323,6 @@ useSeoMeta({
   }
   .section-title { font-size: 26px; }
   .section p { font-size: 16px; }
-  .gallery-grid { gap: 32px; }
   .next {
     gap: 16px;
     padding-top: 36px;

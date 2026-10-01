@@ -149,7 +149,7 @@ const setBlind = (panel: EventTarget | null, open: boolean) => {
   height: 120%;
   object-fit: cover;
   opacity: .38;
-  filter: sepia(.3) saturate(.7);
+  filter: saturate(1.2);
 }
 .panel-body {
   position: relative;

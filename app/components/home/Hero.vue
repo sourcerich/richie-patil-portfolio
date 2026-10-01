@@ -32,10 +32,12 @@ onBeforeUnmount(() => clearInterval(timer))
         class="role"
       >{{ hero.role }}</span>
       <span data-reveal="80">{{ hero.location }} · {{ clock }} IST</span>
-      <span
+      <div
         data-reveal="160"
         class="status"
-      ><span class="dot" />{{ hero.status }}</span>
+      >
+        <HomeStatusPill :status="hero.status" />
+      </div>
     </div>
     <h1 class="display name">
       <span class="mask-line"><span
@@ -103,17 +105,10 @@ onBeforeUnmount(() => clearInterval(timer))
 }
 .role { color: var(--color-accent-text); }
 .status {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   justify-self: end;
-}
-.dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  border: 1px solid var(--color-accent);
-  background: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  /* The pill's padding would push the text off the grid line. */
+  margin-block: -8px;
+  margin-right: -14px;
 }
 .name {
   font-size: clamp(88px, 19vw, 300px);
@@ -187,6 +182,10 @@ onBeforeUnmount(() => clearInterval(timer))
 }
 @media (max-width: 359px) {
   .meta { grid-template-columns: 1fr; }
-  .status { justify-self: start; }
+  .status {
+    justify-self: start;
+    margin-right: 0;
+    margin-left: -14px;
+  }
 }
 </style>
