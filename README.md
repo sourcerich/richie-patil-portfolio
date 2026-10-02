@@ -33,8 +33,9 @@ pnpm build        # static site in dist/
 pnpm preview      # serve dist/
 pnpm check        # astro check (types)
 pnpm lint
+pnpm deploy       # build, then wrangler deploy to Cloudflare
 ```
 
 ## Hosting
 
-The site is hosted on **Cloudflare Pages** via Git integration: every push to `main` builds with `pnpm build` and deploys the `dist/` folder to richiepatil.com. Old `/works` and `/projects` addresses 301 to `/work` through `public/_redirects`.
+Hosted on Cloudflare Workers (free plan) as static assets. Workers Builds is connected to this GitHub repo: every push to `main` runs the build command (`pnpm run generate`, an alias of `astro build`) and then `wrangler deploy`, which uploads `dist/` using `wrangler.jsonc`. Unknown paths get `404.html`. Old `/works` and `/projects` addresses 301 to `/work` through `public/_redirects`.
