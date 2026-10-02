@@ -4,6 +4,7 @@
 // a "Menu" button that opens a full-screen copper sheet.
 import BrandMark from './BrandMark.astro'
 import ThemeToggle from './ThemeToggle.astro'
+import SoundToggle from './SoundToggle.astro'
 import { cleanPath, site } from '../site'
 
 const path = cleanPath(Astro.url.pathname)
@@ -24,7 +25,10 @@ const current = (to: string) => ((to === '/' ? path === '/' : path.startsWith(to
         <a href={link.to} class="line-link" aria-current={current(link.to)}>{link.label}</a>
       ))}
     </nav>
-    <ThemeToggle />
+    <div class="toggles">
+      <SoundToggle />
+      <ThemeToggle />
+    </div>
     <button type="button" class="menu-toggle" aria-controls="menu-sheet" aria-expanded="false">Menu</button>
   </div>
 </header>
@@ -160,7 +164,21 @@ const current = (to: string) => ((to === '/' ? path === '/' : path.startsWith(to
     transform: none;
     transition-delay: calc(.25s + var(--i) * 60ms);
   }
-  .sheet-links .tnum { font-size: 13px; }
+  /* Platform-sign numbers, as on the Start page menu. */
+  .sheet-links .tnum {
+    align-self: center;
+    display: inline-grid;
+    place-items: center;
+    min-width: 30px;
+    height: 21px;
+    padding: 0 5px;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    font-size: 12px;
+    letter-spacing: .04em;
+    line-height: 1;
+    opacity: .75;
+  }
   .sheet-links .display {
     color: inherit;
     font-size: clamp(40px, 11vw, 64px);
@@ -170,12 +188,21 @@ const current = (to: string) => ((to === '/' ? path === '/' : path.startsWith(to
   .header:has(+ .sheet.open) .brand,
   .header:has(+ .sheet.open) .role,
   .header:has(+ .sheet.open) .menu-toggle,
-  .header:has(+ .sheet.open) :global(.theme-toggle) { color: var(--color-on-band); }
+  .header:has(+ .sheet.open) :global(.sound-toggle) { color: var(--color-on-band); }
+  .header:has(+ .sheet.open) :global(.theme-toggle) {
+    --switch-ink: var(--color-on-band);
+    --switch-on: var(--color-band);
+  }
+  .toggles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
   @media (max-width: 900px) {
     .nav { display: none; }
     .menu-toggle { display: inline-flex; align-items: center; }
-    .bar :global(.theme-toggle) { margin-left: auto; }
+    .toggles { margin-left: auto; }
   }
   @media (min-width: 901px) {
     .sheet { display: none; }

@@ -11,7 +11,7 @@ const { contact } = (await getEntry('index', 'index'))!.data
   <PageHead ghost={contact.ghost} lines={[contact.title]} subtitle={contact.subtitle} />
 
   <section class="wrap section contact">
-    <p data-reveal="0" class="body">{contact.body}</p>
+    <p class="body" data-scroll-words>{contact.body}</p>
     <div class="ways">
       <div data-reveal="100">
         <span class="label">Mail</span>
@@ -33,6 +33,10 @@ const { contact } = (await getEntry('index', 'index'))!.data
   </section>
 </Page>
 
+<script>
+  import '../scripts/scroll-words'
+</script>
+
 <style>
   .contact {
     display: grid;
@@ -46,6 +50,7 @@ const { contact } = (await getEntry('index', 'index'))!.data
     letter-spacing: -.02em;
     max-width: 34ch;
   }
+  .body :global(.sw) { transition: opacity .25s linear; }
   .ways {
     display: flex;
     flex-direction: column;

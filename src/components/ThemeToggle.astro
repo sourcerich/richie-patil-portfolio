@@ -1,19 +1,25 @@
 ---
-// Switches the site between day (warm paper) and night (dark brown). The
-// starting mode is set before first paint by the inline script in
-// Base.astro; this saves the visitor's choice so it sticks across visits.
-// Both icons are rendered and CSS shows the right one, so there is no flash.
+// Day/night switch: a pill with both states in it, the sun (day, warm
+// paper) on the left and the monsoon storm cloud (night, kaali-peeli) on
+// the right, with a thumb that slides to the one in use. The starting mode
+// is set before first paint by the inline script in Base.astro and the
+// thumb's position comes from html[data-mode] in CSS, so there is no flash;
+// clicking flips it and saves the choice for the next visit.
 ---
 
-<button type="button" class="theme-toggle" aria-label="Switch to dark mode" aria-pressed="false">
-  <!-- Moon in day mode, sun at night: the icon shows where the switch goes. -->
-  <svg viewBox="0 0 24 24" aria-hidden="true" class="icon moon">
-    <path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
-  </svg>
+<button type="button" class="theme-toggle" role="switch" aria-checked="false" aria-label="Dark mode">
+  <span class="thumb" aria-hidden="true"></span>
   <svg viewBox="0 0 24 24" aria-hidden="true" class="icon sun">
-    <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+    <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
       <circle cx="12" cy="12" r="4.2"></circle>
       <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"></path>
+    </g>
+  </svg>
+  <svg viewBox="0 0 24 24" aria-hidden="true" class="icon cloud">
+    <!-- Shifted so the cloud and bolt together are centred on (12, 12). -->
+    <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" transform="translate(.32 -.36)">
+      <path d="M7.2 16.2H6.5a3.9 3.9 0 0 1-.4-7.8 5.4 5.4 0 0 1 10.4-1.2 4.5 4.5 0 0 1 .9 8.9"></path>
+      <path d="M12.6 12.2l-2.6 4.3h3.2l-2.4 4.5"></path>
     </g>
   </svg>
 </button>
@@ -26,8 +32,7 @@
   const sync = () => {
     const dark = root.dataset.mode === 'dark'
     for (const button of document.querySelectorAll('.theme-toggle')) {
-      button.setAttribute('aria-pressed', String(dark))
-      button.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode')
+      button.setAttribute('aria-checked', String(dark))
     }
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLORS[dark ? 'dark' : 'light'])
   }
@@ -49,30 +54,63 @@
 
 <style>
   .theme-toggle {
+    /* Thumb and active icon colours; the open phone menu overrides them. */
+    --switch-ink: var(--color-accent);
+    --switch-on: var(--color-bg);
+    position: relative;
     flex: none;
-    display: inline-flex;
+    display: inline-grid;
+    /* Two 24px cells at the ends, the same size and spots as the thumb, so
+       each icon sits dead centre in it on either side. */
+    grid-template-columns: 24px 24px;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    margin-right: -8px;
-    padding: 0;
+    width: 64px;
+    height: 32px;
+    padding: 3px;
     background: none;
-    border: 0;
-    border-radius: 50%;
-    color: inherit;
+    border: 1px solid color-mix(in srgb, var(--switch-ink) 45%, transparent);
+    border-radius: 999px;
+    color: var(--switch-ink);
     cursor: pointer;
-    transition: color .3s, background-color .3s;
+    transition: border-color .3s;
   }
-  .theme-toggle:hover {
-    color: var(--color-accent);
-    background: color-mix(in srgb, currentColor 8%, transparent);
+  .theme-toggle:hover { border-color: var(--switch-ink); }
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--switch-ink);
+    outline-offset: 3px;
+  }
+  .thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--switch-ink);
+    transition: transform .35s var(--ease-out), background-color .3s;
   }
   .icon {
-    width: 19px;
-    height: 19px;
+    position: relative;
+    display: block;
+    justify-self: center;
+    width: 15px;
+    height: 15px;
+    transition: color .3s, opacity .3s;
   }
-  .sun { display: none; }
-  :global(html[data-mode="dark"]) .sun { display: block; }
-  :global(html[data-mode="dark"]) .moon { display: none; }
+  /* Day: thumb on the sun. Night: thumb slides right onto the cloud. */
+  .sun { color: var(--switch-on); }
+  .cloud { opacity: .6; }
+  :global(html[data-mode="dark"]) .thumb { transform: translateX(32px); }
+  :global(html[data-mode="dark"]) .sun {
+    color: inherit;
+    opacity: .6;
+  }
+  :global(html[data-mode="dark"]) .cloud {
+    color: var(--switch-on);
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .thumb { transition: none; }
+  }
 </style>
