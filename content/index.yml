@@ -1,71 +1,23 @@
-title: "Richie Patil – Developer & Creative Solutions Architect"
+title: "Richie Patil – Full-stack & ML Developer"
 description: "Richie Patil is a full-stack developer in Mumbai. He builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
 seo:
-  title: "Richie Patil – Developer & Creative Solutions Architect"
+  title: "Richie Patil – Full-stack & ML Developer"
   description: "Richie Patil is a full-stack developer in Mumbai. He builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
 
-hero:
-  role: "Developer & Creative Solutions Architect"
-  location: "Mumbai"
-  status: "Available for work"
-  lead: "I build full-stack web apps in React, Node.js and TypeScript, and machine-learning code in Python. Most of my week goes to APIs and data pipelines for SaaS products."
-  stack:
-    - "Python · TypeScript · Node.js · React"
-    - "AWS · Docker · PostgreSQL · Git"
+# The copper band that scrolls along the top of the first page.
+ticker: "I’m available for full-stack and machine-learning work."
 
-intro:
-  lead: "I’m Richie, a full-stack developer in Mumbai. I spend most of my time on the backend, and the rest on getting machine learning to work outside a notebook."
-  body: "Day to day that means React on the front, Node.js and TypeScript services behind it, Python for ML and LLM work, and AWS or Azure underneath. So far that has covered supply-chain SaaS, a fintech app, a CRM and enterprise insurance systems."
-  quote: "I want to know what a system is for before I worry about how fast it is."
-  beyond: "Outside work: strategy games, running around Mumbai, and cooking at home."
+role: "Full-stack & ML development"
+location: "Based in Mumbai"
+lead: "I build full-stack web apps in React, Node.js and TypeScript, and machine-learning code in Python. Most of my week goes to APIs and data pipelines for SaaS products."
 
-work:
-  heading: "Things I’ve built since 2022."
-  note: "72Street, TavcoGrowth and Sankalp are live. The rest are client work, coursework or retired."
-  span: "2022 – 2026"
+# Bottom-left of the first page.
+now:
+  label: "Now"
+  value: "Backend Developer, Sunday Tech"
 
-services:
-  heading: "Full-stack, with a backend bias. Some machine learning."
-  body: "I build both ends, though the backend is where I spend most of my time. The ML and data work usually comes attached to it: a model needs an API before anyone can use it, and a pipeline needs somewhere to land."
-  items:
-    - title: "Full-stack & APIs"
-      body: "React and TypeScript on the front, Node.js, Express and Sequelize behind it. I’ve built the APIs behind five SaaS products, including a multi-tenant CRM, and once took a 45-second endpoint down to 145 ms."
-      image: "/content/projects/sankalp.png"
-    - title: "Data pipelines & MLOps"
-      body: "ETL jobs, scrapers and aggregation pipelines feeding Segment, Google Analytics and Power BI, shipped in Docker through CI."
-      image: "/content/projects/scraper.webp"
-    - title: "Generative AI & RAG"
-      body: "Retrieval over your own documents with LangChain and Llama 3 or GPT, running serverless on AWS Lambda."
-      image: "/content/projects/rag.webp"
-    - title: "Machine learning"
-      body: "Supervised models with scikit-learn and Pandas. My dissertation forecast sunspot activity at about 85% accuracy."
-      image: "/content/projects/sunspots.jpg"
-
-experience:
-  note: "Supply-chain SaaS, enterprise insurance, data science."
-  education: "Before that: B.Tech in Computer Science (AI & ML), Amity University Mumbai, 2020–2024."
-  items:
-    - org: "Sunday Tech"
-      role: "Backend Developer"
-      when: "Sep 2024 – Present"
-      metric: "45 s → 145 ms"
-      note: "APIs for five SaaS apps, mostly supply chain. Found the bottleneck behind a 45-second endpoint and got it to 145 ms. Led a team of three across two projects."
-    - org: "Sunday Tech"
-      role: "Backend Developer Intern"
-      when: "Jun – Sep 2024"
-      metric: "17% faster"
-      note: "Worked through 20+ production issues and cut resolution time by 17%. Wrote integration docs for 25+ third-party services."
-    - org: "WNS Global Services"
-      role: "Intern Trainee (WTS)"
-      when: "Jan – May 2024"
-      metric: "1,000+ issues"
-      note: "Tested enterprise insurance and claims apps. Wrote 450+ test scenarios and logged over 1,000 issues."
-    - org: "Celebal Technologies"
-      role: "Data Science Intern"
-      when: "Aug – Dec 2023"
-      metric: "500K records"
-      note: "EDA on 500K+ customer records that fed two marketing strategies, plus ETL on more than 10 GB of raw data."
-
-works:
-  heading: "Work, 2022 to now."
-  body: "Full-stack apps, ML and a few side projects. Some are live, some are private client work, and one is a Lord of the Rings parody game."
+contact:
+  ghost: "संपर्क"
+  title: "Contact"
+  subtitle: "Get in touch"
+  body: "Thanks for reading this far. If you’re building something and want another pair of hands on the backend or the machine-learning side, write to me. I’m happy to talk an idea through before there’s a spec."

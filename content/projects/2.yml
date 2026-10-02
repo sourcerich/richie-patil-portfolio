@@ -1,6 +1,7 @@
 slug: "rag"
 order: 5
 title: "RAG Decision Assistant"
+repo: "https://github.com/sourcerich/localLlmRAG"
 type: "AI system"
 year: "2025"
 image: "/content/projects/rag.webp"

@@ -1,270 +1,261 @@
-/* Folio — design tokens and component classes, ported from the Claude Design
-   "Classical" system (Portfolio v2). Retune the look here. */
+/* Richie Patil — design tokens and shared classes.
+   Copper type on warm paper, with a fine grain over everything. All three
+   families are SIL Open Font License, self-hosted from /public/fonts:
+   Kalnia (display), Instrument Sans (text), Eczar (the
+   faded Marathi words behind each page title). */
 
-/* Self-hosted fonts (variable, 400–600), so every page — the error page
-   included — gets them without a request to Google. */
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 400 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url('/fonts/instrument-sans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 400 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url('/fonts/instrument-sans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Kalnia';
+  font-style: normal;
+  font-weight: 200 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url('/fonts/kalnia-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Kalnia';
+  font-style: normal;
+  font-weight: 200 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url('/fonts/kalnia-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Eczar';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/eczar-devanagari.woff2') format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+}
+
+/* Only the {RP} monogram uses this: the mark was drawn in Cormorant. */
 @font-face {
   font-family: 'Cormorant Garamond';
   font-style: normal;
   font-weight: 400 600;
-  font-display: swap;
+  font-display: block;
   src: url('/fonts/cormorant-garamond-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Cormorant Garamond';
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url('/fonts/cormorant-garamond-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url('/fonts/lora-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url('/fonts/lora-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url('/fonts/lora-symbols.woff2') format('woff2');
-  unicode-range: U+2190, U+2192, U+2194-2199, U+2300-243F, U+25A0-27BF, U+2B00-2BFF;
+  unicode-range: U+0050, U+0052, U+007B, U+007D;
 }
 
 :root {
-  --color-bg: #f3f2f2;
-  --color-surface: #eae9e9;
-  --color-text: #201f1d;
-  --color-accent: #b86a43;
-  --color-accent-2: #ab6644;
-  --color-divider: color-mix(in srgb, #201f1d 16%, transparent);
+  color-scheme: light;
+  --color-bg: #f6efe3;
+  /* Body copy: deep copper, 6.2:1 on the paper. */
+  --color-text: #8d4325;
+  /* Display copper: brighter, used at large sizes only (3.7:1). */
+  --color-accent: #c25d33;
+  --color-muted: color-mix(in srgb, var(--color-text) 72%, var(--color-bg));
+  --color-divider: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  /* The faded Marathi words: barely darker than the paper. */
+  --color-ghost: color-mix(in srgb, var(--color-text) 9%, var(--color-bg));
+  /* Solid copper bands (ticker, approach, page wipe) and the text on them. */
+  --color-band: #a8502b;
+  --color-on-band: #f6efe3;
+  /* Dark plate for projects with no image (and the confidential tape). */
+  --color-ink: #2a1d17;
+  --color-on-ink: #f6efe3;
+  --grain-opacity: .16;
+  --grain-blend: multiply;
 
-  --color-neutral-100: #f8f4f4;
-  --color-neutral-200: #eae7e7;
-  --color-neutral-300: #d7d3d3;
-  --color-neutral-400: #bab6b6;
-  --color-neutral-500: #9b9797;
-  --color-neutral-600: #7d7979;
-  --color-neutral-700: #605d5d;
-  --color-neutral-800: #444141;
-  --color-neutral-900: #2d2b2b;
-
-  /* Copper: peach at the light end, burnt copper at the dark end. */
-  --color-accent-100: #fff1ea;
-  --color-accent-200: #fddccb;
-  --color-accent-300: #f6bc9f;
-  --color-accent-400: #e69a74;
-  --color-accent-500: #cc7a50;
-  --color-accent-600: #a95d36;
-  --color-accent-700: #864524;
-  --color-accent-800: #5f2f17;
-  --color-accent-900: #3b1d0f;
-
-  /* The near-black used by the intro, page wipe and dark chapters. */
-  --color-ink: color-mix(in oklch, var(--color-neutral-900) 82%, black);
-  /* Text on ink bands stays light in both modes, so it can't borrow --color-bg. */
-  --color-on-ink: #f3f2f2;
-  --color-on-ink-divider: color-mix(in srgb, var(--color-on-ink) 18%, transparent);
-  /* Copper used for small text; needs to be darker on cream, lighter at night. */
-  --color-accent-text: var(--color-accent-700);
-
-  --font-heading: "Cormorant Garamond", Georgia, serif;
-  --font-heading-weight: 600;
-  --font-body: "Lora", Georgia, serif;
-
-  --space-1: 4.6px;
-  --space-2: 9.2px;
-  --space-3: 13.8px;
-  --space-4: 18.4px;
-
-  --radius-md: 4px;
-
-  --shadow-md: 0 3px 10px color-mix(in srgb, #2d2b2b 16%, transparent);
+  --font-display: 'Kalnia', 'Didot', Georgia, serif;
+  --font-body: 'Instrument Sans', system-ui, sans-serif;
+  /* Eczar joins ख into one letter; Tiro split it so it read as र + व. */
+  --font-deva: 'Eczar', 'Noto Serif Devanagari', serif;
+  --font-mark: 'Cormorant Garamond', Georgia, serif;
 
   --ease-out: cubic-bezier(.215, .61, .355, 1);
   --ease-in-out: cubic-bezier(.77, 0, .175, 1);
 
-  --gutter: clamp(20px, 5vw, 72px);
-  --section-y: clamp(72px, 10vw, 140px);
-  --header-h: 65px;
+  --gutter: clamp(20px, 3.8vw, 56px);
+  --section-y: clamp(80px, 11vw, 160px);
+  --header-h: 84px;
 }
 
-/* Night: the same paper-and-copper system after dark. Set on <html> by the
-   inline script in nuxt.config (saved choice, else the OS preference) before
-   first paint, and switched by ThemeToggle. */
+/* Night: the same copper on a dark, warm brown. Set on <html> before first
+   paint by the inline script in nuxt.config, and switched by ThemeToggle. */
 html[data-mode="dark"] {
   color-scheme: dark;
-  --color-bg: #1b1a18;
-  --color-surface: #292724;
-  --color-text: #ebe6de;
-  --color-accent: #e0946c;
-  --color-accent-2: #d48c66;
-  --color-accent-text: var(--color-accent-400);
-  --color-divider: color-mix(in srgb, #ebe6de 14%, transparent);
-  /* Ink bands sit a step darker than the page so they still read as bands. */
-  --color-ink: #0e0d0c;
-  --shadow-md: 0 3px 12px color-mix(in srgb, black 50%, transparent);
+  --color-bg: #1a1411;
+  --color-text: #ebb393;
+  --color-accent: #f0905f;
+  --color-ghost: color-mix(in srgb, var(--color-text) 8%, var(--color-bg));
+  --color-band: #e08a5c;
+  --color-on-band: #1a1411;
+  --color-ink: #2b2019;
+  --grain-opacity: .22;
+  --grain-blend: soft-light;
 }
-html[data-mode="dark"] .plate { filter: saturate(1.25) contrast(1.04) brightness(.9); }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: auto; }
+html {
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   margin: 0;
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -.01em;
   text-wrap: pretty;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  transition: background-color .5s ease, color .5s ease;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
-  margin: 0;
+/* Paper grain over the whole page. Fixed, so it doesn't swim on scroll. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.6 -.45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-p { margin: 0; }
+h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
 img { display: block; max-width: 100%; }
-figure, blockquote, dl, dd { margin: 0; }
-a { color: inherit; text-decoration: none; text-underline-offset: 3px; }
-a:hover { color: var(--color-accent); }
+a { color: inherit; text-decoration: none; }
 :focus { outline: none; }
-a:focus-visible, button:focus-visible, summary:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
+  outline: 1.5px solid var(--color-accent);
+  outline-offset: 3px;
 }
-::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+::selection {
+  background: var(--color-band);
+  color: var(--color-on-band);
+}
 summary { list-style: none; cursor: pointer; }
 summary::-webkit-details-marker { display: none; }
 
-/* — layout helpers — */
+/* — layout — */
 .wrap {
-  max-width: 1320px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
   padding-inline: var(--gutter);
 }
-.section-pad { padding-block: var(--section-y); }
-.rule-top { border-top: 1px solid var(--color-divider); }
+.section { padding-block: var(--section-y); }
+.dashed {
+  border: 0;
+  border-top: 1px dashed var(--color-divider);
+  margin: 0;
+}
 
-.eyebrow {
-  font-size: 13px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--color-accent-text);
-}
-.label {
-  font-size: 12px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-text) 72%, transparent);
-}
+/* — type — */
 .display {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  line-height: .95;
+  color: var(--color-accent);
 }
-.tnum { font-feature-settings: 'tnum' 1; }
-.muted { color: color-mix(in srgb, var(--color-text) 72%, transparent); }
-.justify { text-align: justify; hyphens: auto; }
-/* Justified text opens wide gaps between words on narrow columns. */
-@media (max-width: 640px) {
-  .justify { text-align: left; hyphens: manual; }
+.deva {
+  font-family: var(--font-deva);
+  font-weight: 400;
+  text-transform: none;
+}
+/* [Label]: square brackets drawn by CSS so the text stays clean for screen
+   readers. */
+.label {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--color-accent);
+}
+.label::before { content: '['; }
+.label::after { content: ']'; }
+.tnum { font-variant-numeric: tabular-nums; }
+.muted { color: var(--color-muted); }
+
+/* A copper link that underlines from the left on hover. */
+.line-link {
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat;
+  transition: background-size .5s var(--ease-out);
+  padding-bottom: 1px;
+}
+.line-link:hover { background-size: 100% 1px; }
+
+/* The round "dot" button used for page and project links. */
+.dot-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  font-size: 16px;
+  color: var(--color-accent);
+}
+.dot-link .ring {
+  position: relative;
+  flex: none;
+  width: 50px;
+  height: 50px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  transition: transform .5s var(--ease-out), background-color .4s ease;
+}
+.dot-link .ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  transition: transform .5s var(--ease-out), background-color .4s ease;
+}
+.dot-link:hover .ring {
+  transform: scale(1.12);
+  background: var(--color-accent);
+}
+.dot-link:hover .ring::after {
+  background: var(--color-bg);
+  transform: scale(1.6);
 }
 
-/* Pages are prerendered with their content visible. When JS is running, keep
-   reveal targets hidden until useFolioMotion has set their starting state, so
-   they don't flash in and then out again on load. */
+/* — reveal: elements hidden until useReveal has set them up (JS only) — */
 html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
-
-/* A line that slides up from behind a mask (pair with data-from). */
 .mask-line {
   display: block;
   overflow: hidden;
-  padding-bottom: .2em;
-  margin-bottom: -.14em;
+  padding-bottom: .08em;
+  margin-bottom: -.08em;
 }
 .mask-line > span { display: block; }
 
-.ink-band {
-  background: var(--color-ink);
-  color: var(--color-on-ink);
-}
-
-/* Underline that draws in on hover. */
-.draw-link {
-  align-self: flex-start;
-  font-size: 15px;
-  padding-bottom: 4px;
-  background:
-    linear-gradient(var(--color-accent), var(--color-accent)) left bottom / 0% 1px no-repeat,
-    linear-gradient(var(--color-divider), var(--color-divider)) left bottom / 100% 1px no-repeat;
-  transition: background-size .6s var(--ease-out);
-}
-.draw-link:hover { background-size: 100% 1px, 100% 1px; }
-
-/* — photographic plate — */
-.plate {
-  filter: saturate(1.25) contrast(1.04);
-  border: 6px solid var(--color-surface);
-  outline: 1px solid var(--color-divider);
-}
-
-/* — buttons — */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  font-family: var(--font-heading);
-  font-weight: var(--font-heading-weight);
-  font-size: 14px;
-  line-height: 1.2;
-  color: var(--color-text);
-  background: transparent;
-  border: 1px solid transparent;
-  padding: var(--space-2) calc(var(--space-3) * 1.2);
-  border-radius: var(--radius-md);
-  transition: background-color .2s;
-}
-.btn-primary { color: var(--color-accent); border-color: var(--color-accent); }
-.btn-primary:hover { color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 12%, transparent); }
-.btn-primary:active { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
-.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
-.btn-ghost:hover { color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
-
-/* — tags — */
-.tag {
-  display: inline-flex;
-  align-items: center;
-  font-size: 11px;
-  letter-spacing: .02em;
-  padding: 3px 10px;
-  border-radius: 3px;
-}
-.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
-
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition-duration: 0s !important; }
+  *, *::before, *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+  }
 }

@@ -13,7 +13,7 @@
   >
     <g
       fill="currentColor"
-      style="font-family: var(--font-heading)"
+      style="font-family: var(--font-mark)"
     >
       <text
         x="80"

@@ -1,51 +1,25 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 
+// One collection per page, plus the projects. Each page's `ghost` is the
+// faded Marathi word drawn behind its title.
+const seo = z.object({ title: z.string(), description: z.string() })
+
 export default defineContentConfig({
   collections: {
     index: defineCollection({
       type: 'page',
       source: 'index.yml',
       schema: z.object({
-        hero: z.object({
-          role: z.string(),
-          location: z.string(),
-          status: z.string(),
-          lead: z.string(),
-          stack: z.array(z.string())
-        }),
-        intro: z.object({
-          lead: z.string(),
-          body: z.string(),
-          quote: z.string(),
-          beyond: z.string()
-        }),
-        work: z.object({
-          heading: z.string(),
-          note: z.string(),
-          span: z.string()
-        }),
-        services: z.object({
-          heading: z.string(),
-          body: z.string(),
-          items: z.array(z.object({
-            title: z.string(),
-            body: z.string(),
-            image: z.string()
-          }))
-        }),
-        experience: z.object({
-          note: z.string(),
-          education: z.string(),
-          items: z.array(z.object({
-            org: z.string(),
-            role: z.string(),
-            when: z.string(),
-            metric: z.string().optional(),
-            note: z.string()
-          }))
-        }),
-        works: z.object({
-          heading: z.string(),
+        seo,
+        ticker: z.string(),
+        role: z.string(),
+        location: z.string(),
+        lead: z.string(),
+        now: z.object({ label: z.string(), value: z.string() }),
+        contact: z.object({
+          ghost: z.string(),
+          title: z.string(),
+          subtitle: z.string(),
           body: z.string()
         })
       })
@@ -54,22 +28,52 @@ export default defineContentConfig({
       type: 'page',
       source: 'about.yml',
       schema: z.object({
+        seo,
+        ghost: z.string(),
         headline: z.array(z.string()),
-        paragraphs: z.array(z.string()),
-        skills: z.array(z.object({
-          label: z.string(),
-          value: z.string()
-        })),
-        achievements: z.array(z.object({
+        subtitle: z.string(),
+        profile: z.string(),
+        stack: z.string(),
+        recognition: z.array(z.string()),
+        outside: z.string(),
+        approach: z.object({
           title: z.string(),
-          detail: z.string(),
-          year: z.string()
-        })),
-        beyond: z.string(),
-        faq: z.array(z.object({
-          question: z.string(),
-          answer: z.string()
+          subtitle: z.string(),
+          items: z.array(z.object({ title: z.string(), body: z.string() }))
+        }),
+        experience: z.object({
+          title: z.string(),
+          items: z.array(z.object({
+            org: z.string(),
+            role: z.string(),
+            when: z.string(),
+            note: z.string()
+          }))
+        })
+      })
+    }),
+    service: defineCollection({
+      type: 'page',
+      source: 'service.yml',
+      schema: z.object({
+        seo,
+        ghost: z.string(),
+        subtitle: z.string(),
+        items: z.array(z.object({
+          title: z.string(),
+          ghost: z.string(),
+          body: z.string(),
+          image: z.string()
         }))
+      })
+    }),
+    work: defineCollection({
+      type: 'page',
+      source: 'work.yml',
+      schema: z.object({
+        seo,
+        ghost: z.string(),
+        subtitle: z.string()
       })
     }),
     projects: defineCollection({
@@ -82,10 +86,11 @@ export default defineContentConfig({
         type: z.string(),
         year: z.string(),
         image: z.string().optional(),
-        // 4:5 crop used where the layout is portrait (the home zoom on phones).
         imagePortrait: z.string().optional(),
         link: z.string().optional(),
         linkLabel: z.string().optional(),
+        // Public source code, shown when there's no live link.
+        repo: z.string().optional(),
         confidential: z.boolean().optional(),
         gallery: z.array(z.object({
           src: z.string(),

@@ -1,6 +1,7 @@
 slug: "jotr"
 order: 9
 title: "Journey of the Ring"
+repo: "https://github.com/sourcerich/Journey-Of-The-Ring-Fellowship"
 type: "Game"
 year: "2022"
 image: "/content/projects/jotr.webp"

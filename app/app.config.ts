@@ -4,6 +4,14 @@ export default defineAppConfig({
     url: 'https://richiepatil.com',
     city: 'Mumbai, India',
     email: 'richiepatilwork@gmail.com',
+    // Order matters: the menu numbers follow it.
+    nav: [
+      { label: 'Start', to: '/' },
+      { label: 'About', to: '/about' },
+      { label: 'Service', to: '/service' },
+      { label: 'Work', to: '/work' },
+      { label: 'Contact', to: '/contact' }
+    ],
     socials: [
       { label: 'LinkedIn', to: 'https://www.linkedin.com/in/richiepatil/' },
       { label: 'GitHub', to: 'https://github.com/sourcerich' },
