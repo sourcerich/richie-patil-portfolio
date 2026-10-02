@@ -1,8 +1,9 @@
 ---
-// The first page: one full screen. Copper ticker across the top, the name
-// huge in display caps, role and a short intro under it, and along the
-// bottom Mumbai time, what I'm doing now, the numbered menu and a "Next
-// page" ring. Socials run vertically down the right edge.
+// The first page: one full screen, read top to bottom: Mumbai time, what
+// I'm doing now, the numbered menu and a "Next page" ring along the top;
+// the name huge in display caps with role and a short intro under it; the
+// copper ticker across the bottom. Socials run vertically down the right
+// edge, and the day/night switch sits in the top-right corner.
 import { getEntry } from 'astro:content'
 import Base from '../layouts/Base.astro'
 import Ticker from '../components/Ticker.astro'
@@ -17,32 +18,17 @@ const menu = site.nav.slice(1)
 <Base ogTitle={page.seo.title} description={page.seo.description}>
   <main id="main">
     <section class="top">
-      <div class="ticker-wrap">
-        <Ticker text={page.ticker} />
-      </div>
-
-      <div class="wrap hero">
-        <h1 class="display name">
-          <span class="mask-line"><span data-reveal="150" data-from="105%"><span class="word">Richie</span> <span class="word">Patil</span></span></span>
-        </h1>
-        <p data-reveal="350" class="role">
-          <span>{page.role}</span>
-          <span>{page.location}</span>
-        </p>
-        <p data-reveal="450" class="lead">{page.lead}</p>
-      </div>
-
       <div class="wrap base">
-        <div data-reveal="550" class="block">
+        <div data-reveal="150" class="block">
           <span class="label">Local time</span>
           <!-- "--:--" in the HTML so it never shows a stale time; the script fills it in. -->
           <p class="tnum">{site.city} <span id="clock">--:--</span></p>
         </div>
-        <div data-reveal="600" class="block">
+        <div data-reveal="200" class="block">
           <span class="label">{page.now.label}</span>
           <p>{page.now.value}</p>
         </div>
-        <nav data-reveal="650" class="block menu" aria-label="Main">
+        <nav data-reveal="250" class="block menu" aria-label="Main">
           <span class="label">Menu</span>
           <ol>
             {menu.map((link, i) => (
@@ -55,12 +41,27 @@ const menu = site.nav.slice(1)
             ))}
           </ol>
         </nav>
-        <div data-reveal="750" class="next">
+        <div data-reveal="300" class="next">
           <a href="/about" class="dot-link">
             <span class="ring" aria-hidden="true"></span>
             Next page
           </a>
         </div>
+      </div>
+
+      <div class="wrap hero">
+        <h1 class="display name">
+          <span class="mask-line"><span data-reveal="400" data-from="105%"><span class="word">Richie</span> <span class="word">Patil</span></span></span>
+        </h1>
+        <p data-reveal="550" class="role">
+          <span>{page.role}</span>
+          <span>{page.location}</span>
+        </p>
+        <p data-reveal="650" class="lead">{page.lead}</p>
+      </div>
+
+      <div class="ticker-wrap">
+        <Ticker text={page.ticker} />
       </div>
 
       <div class="side">
@@ -96,10 +97,13 @@ const menu = site.nav.slice(1)
     color: var(--color-accent);
   }
   .ticker-wrap {
-    padding: 64px var(--gutter) 0;
+    padding: 0 var(--gutter) 64px;
   }
+  /* Pushed down so the name and ticker sit at the bottom of the screen. */
   .hero {
-    padding-top: clamp(64px, 11vh, 120px);
+    margin-top: auto;
+    padding-top: 56px;
+    padding-bottom: clamp(64px, 11vh, 120px);
   }
   .name {
     font-size: clamp(56px, 10.6vw, 168px);
@@ -120,12 +124,11 @@ const menu = site.nav.slice(1)
     line-height: 1.4;
     color: var(--color-text);
   }
-  /* Bottom row: three labelled blocks that share one top line and one
-     rhythm (label, 12px, then 16px text on a 1.5 line), plus the
-     "Next page" ring pinned to the bottom right. */
+  /* Top row: three labelled blocks that share one top line and one rhythm
+     (label, 12px, then 16px text on a 1.5 line), plus the "Next page" ring
+     at the right. Clear of the theme toggle in the corner above it. */
   .base {
-    margin-top: auto;
-    padding-block: 56px 48px;
+    padding-block: 72px 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
     align-items: start;
@@ -142,6 +145,8 @@ const menu = site.nav.slice(1)
   .block p {
     max-width: 24ch;
     color: var(--color-text);
+    /* Line breaks typed in the YAML ("\n") show as line breaks. */
+    white-space: pre-line;
   }
   .menu ol {
     display: flex;
@@ -153,7 +158,7 @@ const menu = site.nav.slice(1)
   }
   .menu-link .tnum { color: var(--color-muted); }
   .next {
-    align-self: end;
+    align-self: start;
     justify-self: end;
   }
   .side {
@@ -176,8 +181,11 @@ const menu = site.nav.slice(1)
     .base { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 640px) {
-    .ticker-wrap { padding-top: 60px; }
-    .hero { padding-top: 56px; }
+    .ticker-wrap { padding-bottom: 40px; }
+    .hero {
+      padding-top: 44px;
+      padding-bottom: 40px;
+    }
     .name {
       white-space: normal;
       font-size: clamp(64px, 21vw, 110px);
@@ -185,7 +193,7 @@ const menu = site.nav.slice(1)
     .name .word { display: block; }
     .lead { margin-top: 32px; }
     .base {
-      padding-block: 48px 36px;
+      padding-block: 56px 0;
       gap: 32px 20px;
     }
     .side { display: none; }

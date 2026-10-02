@@ -42,6 +42,8 @@ const current = (to: string) => ((to === '/' ? path === '/' : path.startsWith(to
 </div>
 
 <script>
+  import { lenis } from '../scripts/smooth-scroll'
+
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle')
   const sheet = document.getElementById('menu-sheet')
 
@@ -52,6 +54,9 @@ const current = (to: string) => ((to === '/' ? path === '/' : path.startsWith(to
       toggle.setAttribute('aria-expanded', String(open))
       toggle.textContent = open ? 'Close' : 'Menu'
       document.documentElement.style.overflow = open ? 'hidden' : ''
+      // The smooth scroll would otherwise keep moving the page behind it.
+      if (open) lenis?.stop()
+      else lenis?.start()
     }
     toggle.addEventListener('click', () => set(!sheet.classList.contains('open')))
     window.addEventListener('keydown', (e) => {

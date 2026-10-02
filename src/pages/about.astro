@@ -49,17 +49,18 @@ const years = Math.max(1, Math.floor((Date.now() - START.getTime()) / (365.25 * 
     </div>
   </section>
 
-  <section class="approach">
-    <div class="wrap section approach-inner">
+  <!-- Painted in with one sweeping stroke as it scrolls in (paint-stroke.ts). -->
+  <section class="approach" data-paint>
+    <div class="wrap section approach-inner" data-paint-text>
       <div class="approach-head">
         <h2 class="display approach-title">
-          <span class="mask-line"><span data-reveal="0" data-from="105%">{page.approach.title}</span></span>
+          {page.approach.title}
         </h2>
-        <p data-reveal="120" class="approach-sub">{page.approach.subtitle}</p>
+        <p class="approach-sub">{page.approach.subtitle}</p>
       </div>
       <ol class="values">
-        {page.approach.items.map((item, i) => (
-          <li data-reveal={i * 100}>
+        {page.approach.items.map(item => (
+          <li>
             <h3>{item.title}</h3>
             <p>{item.body}</p>
           </li>
@@ -82,6 +83,10 @@ const years = Math.max(1, Math.floor((Date.now() - START.getTime()) / (365.25 * 
     </ol>
   </section>
 </Page>
+
+<script>
+  import '../scripts/paint-stroke'
+</script>
 
 <style>
   .info {
@@ -125,11 +130,30 @@ const years = Math.max(1, Math.floor((Date.now() - START.getTime()) / (365.25 * 
     line-height: 1.45;
   }
 
-  /* — approach: a solid copper band — */
+  /* — approach: a copper band, brushed on as it scrolls in — */
   .approach {
-    background: var(--color-band);
+    --paint: var(--color-band);
+    position: relative;
+    isolation: isolate;
+    background: var(--paint);
     color: var(--color-on-band);
     transition: background-color .5s ease, color .5s ease;
+  }
+  /* With JS the stroke paints the copper instead, and paint-stroke.ts
+     fades the text in after the paint is down (copper text on
+     half-painted copper can't be read). */
+  .approach:global(.paintable) { background: none; }
+  /* Each word is its own span so it can blur in on its own. */
+  .approach :global(.paint-word) {
+    display: inline-block;
+    will-change: filter, opacity;
+  }
+  .approach :global(.paint-stroke) {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
   }
   .approach-inner {
     display: grid;

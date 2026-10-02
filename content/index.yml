@@ -7,14 +7,14 @@ seo:
 # The copper band that scrolls along the top of the first page.
 ticker: "I’m available for work internationally."
 
-role: "Full-stack & ML development"
+role: "Crafting web and applications, thoughtfully infused with AI"
 location: "Based in Mumbai"
 lead: "I build full-stack web apps in React, Node.js and TypeScript, and machine-learning code in Python. Most of my week goes to APIs and data pipelines for SaaS products."
 
 # Bottom-left of the first page.
 now:
   label: "Now"
-  value: "Backend Developer, Sunday Tech"
+  value: "Lead Developer\nGenX (SundayTech)"
 
 contact:
   ghost: "संपर्क"

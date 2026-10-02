@@ -18,7 +18,10 @@ const fit = (Math.max(...lines.map(line => line.length)) * 0.7).toFixed(3)
 ---
 
 <section class="wrap head">
-  <span class="ghost deva" lang="mr" aria-hidden="true">{ghost}</span>
+  <!-- No lang="mr": with it, Eczar draws र् before a consonant as a
+       separate half-letter (सर्‍व्हिस) instead of the mark on top. The word
+       is decorative and hidden from screen readers anyway. -->
+  <span class="ghost deva" aria-hidden="true">{ghost}</span>
   <h1 class="display title" style={`--fit: ${fit}`}>
     {lines.map((line, i) => (
       <span class="mask-line"><span data-reveal={80 + i * 90} data-from="105%">{line}</span></span>

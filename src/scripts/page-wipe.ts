@@ -7,6 +7,7 @@
  * panel lifts away through the top. Skipped with reduced motion.
  */
 import { cleanPath, wipeName } from '../site'
+import { lenis } from './smooth-scroll'
 
 const COVER_MS = 720
 const LIFT_DELAY_MS = 180
@@ -45,6 +46,10 @@ document.addEventListener('click', (e) => {
   if (cleanPath(url.pathname) === cleanPath(location.pathname)) return
 
   e.preventDefault()
+  // Freeze the page where it is: a smooth-scroll glide still running under
+  // the rising panel makes it flicker. (Not lenis.stop(): that hides the
+  // scrollbar, which would shift the page sideways mid-wipe.)
+  lenis?.scrollTo(window.scrollY, { immediate: true, force: true })
   const name = wipeName(url.pathname)
   en.textContent = name.en
   mr.textContent = name.mr
