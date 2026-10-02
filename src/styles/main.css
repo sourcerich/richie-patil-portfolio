@@ -78,6 +78,10 @@
   /* Backdrop dots in the About portrait: a warmer, darker cream. */
   --color-dot-grey: #c9c0a8;
   --color-on-ink: #f3ebd6;
+  /* Highlights on that dark plate (number, confidential tape). The light
+     accent is ink black, which would vanish on it, so use paper tones. */
+  --color-plate-accent: #f3ebd6;
+  --color-plate-tape: #c9c0a8;
   --grain-opacity: .1;
   --grain-blend: multiply;
 
@@ -109,6 +113,8 @@ html[data-mode="dark"] {
   --color-band: #f2c21b;
   --color-on-band: #141311;
   --color-ink: #24221d;
+  --color-plate-accent: var(--color-accent);
+  --color-plate-tape: color-mix(in srgb, var(--color-accent) 55%, var(--color-on-ink));
   --color-dot-grey: #3a3730;
   --grain-opacity: .22;
   --grain-blend: soft-light;

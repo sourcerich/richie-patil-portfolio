@@ -2,6 +2,10 @@
 // Every project on one page, the way the reference lists its work: title,
 // what it was, a Year / Stack / Type row and a link, beside a big image.
 // Each project has an anchor (/work#<slug>) so it can be linked directly.
+// On wider screens the list is pinned and scrolling down slides the
+// projects sideways (scripts/horizontal-scroll.ts); once the last one is in
+// view the page carries on down. Phones, reduced motion and no-JS get the
+// plain vertical list.
 import { getCollection, getEntry } from 'astro:content'
 import Page from '../layouts/Page.astro'
 import PageHead from '../components/PageHead.astro'
@@ -20,7 +24,9 @@ const num = (i: number) => String(i + 1).padStart(2, '0')
 <Page title={page.title} ogTitle={page.seo.title} description={page.seo.description}>
   <PageHead ghost={page.ghost} lines={[page.title]} subtitle={page.subtitle} />
 
-  <ol class="wrap section projects">
+  <section class="section reel" data-hscroll aria-label="Projects">
+    <div class="viewport">
+      <ol class="projects" data-hscroll-track>
     {projects.map((project, i) => (
       <li id={project.slug} class="project">
         <div data-reveal="0" class="text">
@@ -76,14 +82,75 @@ const num = (i: number) => String(i + 1).padStart(2, '0')
         </figure>
       </li>
     ))}
-  </ol>
+      </ol>
+      <div class="progress" aria-hidden="true"><span data-hscroll-bar></span></div>
+    </div>
+  </section>
 </Page>
+
+<script>
+  import '../scripts/horizontal-scroll'
+</script>
 
 <style>
   .projects {
     display: flex;
     flex-direction: column;
     gap: clamp(100px, 12vw, 170px);
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+  }
+  .progress { display: none; }
+
+  /* — sideways reel, switched on by horizontal-scroll.ts — */
+  .reel:global(.is-on) {
+    padding-block: 0;
+  }
+  .reel:global(.is-on) .viewport {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    /* clip, not hidden: the browser's own jump to /work#<slug> would
+       otherwise scroll this box sideways as well as moving the track. */
+    overflow: clip;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .reel:global(.is-on) .projects {
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(160px, 15vw, 300px);
+    width: max-content;
+    max-width: none;
+    margin: 0;
+    /* Extra room before the first project and after the last. */
+    padding-inline: calc(var(--gutter) + clamp(40px, 6vw, 120px));
+    will-change: transform;
+  }
+  .reel:global(.is-on) .project {
+    flex: none;
+    width: min(1180px, 80vw);
+    align-items: center;
+  }
+  .reel:global(.is-on) .plate { max-height: 72vh; }
+  .reel:global(.is-on) .progress {
+    display: block;
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: clamp(28px, 5vh, 48px);
+    height: 1px;
+    background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+  }
+  .progress span {
+    display: block;
+    height: 100%;
+    background: var(--color-accent);
+    transform-origin: left;
+    transform: scaleX(0);
   }
   .project {
     display: grid;
