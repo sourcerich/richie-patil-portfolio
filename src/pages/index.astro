@@ -61,7 +61,7 @@ const menu = site.nav.slice(1)
       </div>
 
       <div class="ticker-wrap">
-        <Ticker text={page.ticker} />
+        <Ticker phrases={page.ticker} />
       </div>
 
       <div class="side">
@@ -96,8 +96,9 @@ const menu = site.nav.slice(1)
     flex-direction: column;
     color: var(--color-accent);
   }
+  /* A little further in than the page gutter. */
   .ticker-wrap {
-    padding: 0 var(--gutter) 64px;
+    padding: 0 calc(var(--gutter) + clamp(8px, 1.5vw, 24px)) 64px;
   }
   /* Pushed down so the name and ticker sit at the bottom of the screen. */
   .hero {

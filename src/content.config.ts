@@ -12,7 +12,7 @@ const index = defineCollection({
   loader: glob({ pattern: 'index.yml', base }),
   schema: z.object({
     seo,
-    ticker: z.string(),
+    ticker: z.array(z.object({ lang: z.string(), text: z.string() })).min(1),
     role: z.string(),
     location: z.string(),
     lead: z.string(),

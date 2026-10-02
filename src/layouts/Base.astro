@@ -60,7 +60,7 @@ const wipe = wipeName(path)
         }
         if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         d.dataset.mode = t
-        if (t === 'dark') document.querySelector('meta[name=theme-color]').content = '#1a1411'
+        if (t === 'dark') document.querySelector('meta[name=theme-color]').content = '#141311'
         try {
           if (sessionStorage.getItem('wipe')) {
             sessionStorage.removeItem('wipe')
