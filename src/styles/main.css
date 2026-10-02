@@ -1,6 +1,6 @@
 /* Richie Patil — design tokens and shared classes.
-   Light mode is white and black (grayscale); night is copper on a dark
-   brown. All three families are SIL Open Font License, self-hosted from
+   Light mode is aged newsprint: black ink on warm cream, like an old
+   Marathi newspaper; night is copper on a dark brown. All three families are SIL Open Font License, self-hosted from
    /public/fonts: Kalnia (display), Instrument Sans (text), Eczar (the
    faded Marathi words behind each page title). */
 
@@ -61,24 +61,24 @@
 
 :root {
   color-scheme: light;
-  --color-bg: #ffffff;
-  /* Body copy: near black. */
-  --color-text: #1a1a1a;
-  /* Display and links: black, the grayscale "accent". */
-  --color-accent: #111111;
+  --color-bg: #f3ebd6;
+  /* Body copy: warm ink black. */
+  --color-text: #1b1915;
+  /* Display and links: ink black, a touch deeper than body text. */
+  --color-accent: #14120d;
   --color-muted: color-mix(in srgb, var(--color-text) 72%, var(--color-bg));
   --color-divider: color-mix(in srgb, var(--color-accent) 55%, transparent);
   /* The faded Marathi words: barely darker than the paper. */
   --color-ghost: color-mix(in srgb, var(--color-text) 9%, var(--color-bg));
-  /* Solid black bands (ticker, approach, page wipe) and the text on them. */
-  --color-band: #111111;
-  --color-on-band: #ffffff;
+  /* Solid ink bands (ticker, approach, page wipe) and the text on them. */
+  --color-band: #14120d;
+  --color-on-band: #f3ebd6;
   /* Dark plate for projects with no image (and the confidential tape). */
-  --color-ink: #111111;
-  /* Backdrop dots in the About portrait. */
-  --color-dot-grey: #cfcfcf;
-  --color-on-ink: #ffffff;
-  --grain-opacity: .05;
+  --color-ink: #14120d;
+  /* Backdrop dots in the About portrait: a warmer, darker cream. */
+  --color-dot-grey: #c9c0a8;
+  --color-on-ink: #f3ebd6;
+  --grain-opacity: .1;
   --grain-blend: multiply;
 
   --font-display: 'Kalnia', 'Didot', Georgia, serif;
