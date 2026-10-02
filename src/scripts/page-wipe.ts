@@ -8,6 +8,7 @@
  */
 import { cleanPath, wipeName } from '../site'
 import { lenis } from './smooth-scroll'
+import { playAnnouncement } from './chime'
 
 const COVER_MS = 720
 const LIFT_DELAY_MS = 180
@@ -46,6 +47,9 @@ document.addEventListener('click', (e) => {
   if (cleanPath(url.pathname) === cleanPath(location.pathname)) return
 
   e.preventDefault()
+  // With station sounds on, the chime and "next station" announcement for
+  // the destination play, and the cover holds until they have finished.
+  const wait = Math.max(COVER_MS, playAnnouncement(url.pathname))
   // Freeze the page where it is: a smooth-scroll glide still running under
   // the rising panel makes it flicker. (Not lenis.stop(): that hides the
   // scrollbar, which would shift the page sideways mid-wipe.)
@@ -63,7 +67,7 @@ document.addEventListener('click', (e) => {
   } catch {
     // Storage disabled: the next page just appears without the lift.
   }
-  setTimeout(() => location.assign(url.href), COVER_MS)
+  setTimeout(() => location.assign(url.href), wait)
 })
 
 // Coming back with the Back button restores this page from the cache with

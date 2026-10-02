@@ -1,0 +1,22 @@
+{
+  "/": {
+    "key": "start",
+    "ms": 2901
+  },
+  "/about": {
+    "key": "about",
+    "ms": 2796
+  },
+  "/service": {
+    "key": "service",
+    "ms": 3058
+  },
+  "/work": {
+    "key": "work",
+    "ms": 2748
+  },
+  "/contact": {
+    "key": "contact",
+    "ms": 3120
+  }
+}

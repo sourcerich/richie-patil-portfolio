@@ -30,7 +30,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0')
     {projects.map((project, i) => (
       <li id={project.slug} class="project">
         <div data-reveal="0" class="text">
-          <span class="tnum count">[{num(i)}]</span>
+          <span class="tnum count" aria-label={`Project ${num(i)}`}>{num(i)}</span>
           <h2 class="title">{project.title}</h2>
           <p class="summary">{project.summary}</p>
           <details class="more">
@@ -164,9 +164,26 @@ const num = (i: number) => String(i + 1).padStart(2, '0')
     flex-direction: column;
     align-items: flex-start;
   }
+  /* Project numbers as a BEST bus route plate, drawn quietly: a hairline
+     box with the route number, "Route" in small caps beside it. */
   .count {
-    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: .55em;
+    padding: .32em .6em .28em;
+    border: 1px solid currentColor;
+    border-radius: 3px;
     color: var(--color-accent);
+    font-size: 13px;
+    letter-spacing: .04em;
+    line-height: 1;
+  }
+  .count::before {
+    content: 'Route';
+    font-size: .72em;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
   }
   .title {
     margin-top: 10px;

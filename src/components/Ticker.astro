@@ -1,7 +1,10 @@
 ---
-// A band whose phrases scroll endlessly to the left. The set of phrases is
-// laid out twice and the track moves by exactly half its width, so the loop
-// has no visible seam. Speed stays constant however many phrases there are.
+// The Start page's availability line as a dot-matrix LED board, like the
+// train indicators at Mumbai local stations: a black board, a grid of dim
+// LEDs, and the phrases lighting up as they step left one LED column at a
+// time (scripts/led-board.ts draws it on a canvas, so every script, Hindi
+// and Arabic included, comes out in dots). Without JS, or before the board
+// is ready, the same phrases scroll as plain text.
 interface Props {
   phrases: { lang: string, text: string }[]
 }
@@ -14,7 +17,8 @@ const items = Array.from({ length: copies }, () => phrases).flat()
 const seconds = Math.round(items.length / 2 * 9)
 ---
 
-<div class="ticker" role="marquee" aria-label={label}>
+<div class="ticker" role="marquee" aria-label={label} data-led={JSON.stringify(phrases)}>
+  <canvas class="led" aria-hidden="true"></canvas>
   <div class="track" aria-hidden="true" style={`--duration: ${seconds}s`}>
     {items.map(p => (
       <span class="phrase" lang={langOf(p.lang)} dir="auto">{p.text}</span>
@@ -22,6 +26,10 @@ const seconds = Math.round(items.length / 2 * 9)
     ))}
   </div>
 </div>
+
+<script>
+  import '../scripts/led-board'
+</script>
 
 <style>
   .ticker {
@@ -31,6 +39,23 @@ const seconds = Math.round(items.length / 2 * 9)
     padding-block: 11px;
     transition: background-color .5s ease, color .5s ease;
   }
+  .led { display: none; }
+
+  /* — LED board, once led-board.ts has drawn it — */
+  .ticker:global(.is-led) {
+    display: flex;
+    justify-content: center;
+    padding: 7px 10px;
+    background: var(--color-board);
+  }
+  .ticker:global(.is-led) .track { display: none; }
+  .ticker:global(.is-led) .led {
+    display: block;
+    /* Just a breath of LED bleed. */
+    filter: drop-shadow(0 0 1px color-mix(in srgb, var(--color-led) 55%, transparent));
+  }
+
+  /* — plain text fallback — */
   .track {
     display: flex;
     align-items: center;
