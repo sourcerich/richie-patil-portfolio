@@ -2,6 +2,7 @@
 import { getEntry } from 'astro:content'
 import Page from '../layouts/Page.astro'
 import PageHead from '../components/PageHead.astro'
+import DotPortrait from '../components/DotPortrait.astro'
 
 const page = (await getEntry('about', 'about'))!.data
 
@@ -16,9 +17,9 @@ const years = Math.max(1, Math.floor((Date.now() - START.getTime()) / (365.25 * 
   <PageHead ghost={page.ghost} lines={page.headline} subtitle={page.subtitle} />
 
   <section class="wrap section info">
-    <figure data-reveal="0" class="portrait">
-      <img src="/richie.jpg" alt="Portrait of Richie Patil" width="600" height="750">
-    </figure>
+    <div data-reveal="0" class="portrait">
+      <DotPortrait />
+    </div>
     <div class="info-body">
       <div data-reveal="80" class="years">
         <span class="label">Years shipping</span>
@@ -89,16 +90,7 @@ const years = Math.max(1, Math.floor((Date.now() - START.getTime()) / (365.25 * 
     gap: clamp(32px, 4vw, 64px);
     align-items: start;
   }
-  .portrait {
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-  }
-  .portrait img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: saturate(1.1);
-  }
+  .portrait { width: 100%; }
   .info-body {
     display: flex;
     flex-direction: column;

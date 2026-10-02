@@ -75,6 +75,8 @@
   --color-on-band: #f6efe3;
   /* Dark plate for projects with no image (and the confidential tape). */
   --color-ink: #2a1d17;
+  /* Backdrop dots in the About portrait. */
+  --color-dot-grey: #c9c1b6;
   --color-on-ink: #f6efe3;
   --grain-opacity: .16;
   --grain-blend: multiply;
@@ -104,6 +106,7 @@ html[data-mode="dark"] {
   --color-band: #e08a5c;
   --color-on-band: #1a1411;
   --color-ink: #2b2019;
+  --color-dot-grey: #3d3632;
   --grain-opacity: .22;
   --grain-blend: soft-light;
 }
