@@ -20,13 +20,12 @@ export default defineNuxtConfig({
       htmlAttrs: { lang: 'en' },
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#f3f2f2' },
+        { name: 'theme-color', content: '#f6efe3' },
         { property: 'og:site_name', content: 'Richie Patil' }
       ],
-      // Lets CSS hide not-yet-revealed elements only when JS will reveal
-      // them; without JS, the prerendered content simply shows.
-      // Runs before first paint: flags that JS is on, and picks day or night
-      // from the visitor's saved choice, falling back to their OS setting.
+      // Runs before first paint. Flags that JS is on (so CSS hides
+      // not-yet-revealed elements only when JS will reveal them), and picks
+      // day or night from the saved choice, falling back to the OS setting.
       script: [
         {
           innerHTML: [
@@ -34,18 +33,15 @@ export default defineNuxtConfig({
             'try{var t=localStorage.getItem(\'theme\')}catch(e){}',
             'if(t!==\'light\'&&t!==\'dark\')t=matchMedia(\'(prefers-color-scheme: dark)\').matches?\'dark\':\'light\';',
             'd.dataset.mode=t;',
-            'if(t===\'dark\'){var m=document.querySelector(\'meta[name=theme-color]\');if(m)m.content=\'#1b1a18\'}'
+            'if(t===\'dark\'){var m=document.querySelector(\'meta[name=theme-color]\');if(m)m.content=\'#1a1411\'}'
           ].join('')
         }
-      ],
-      noscript: [
-        { innerHTML: '<style>.site-intro{display:none}</style>' }
       ],
       link: [
         { rel: 'icon', type: 'image/png', href: '/logo.png' },
         { rel: 'apple-touch-icon', href: '/logo.png' },
-        { rel: 'preload', as: 'font', type: 'font/woff2', href: '/fonts/cormorant-garamond-latin.woff2', crossorigin: '' },
-        { rel: 'preload', as: 'font', type: 'font/woff2', href: '/fonts/lora-latin.woff2', crossorigin: '' }
+        { rel: 'preload', as: 'font', type: 'font/woff2', href: '/fonts/kalnia-latin.woff2', crossorigin: '' },
+        { rel: 'preload', as: 'font', type: 'font/woff2', href: '/fonts/instrument-sans-latin.woff2', crossorigin: '' }
       ]
     }
   },
@@ -57,9 +53,13 @@ export default defineNuxtConfig({
     experimental: { sqliteConnector: 'native' }
   },
 
-  // The old projects page moved to /works.
+  // Old addresses: /projects and the /works pages became the single /work
+  // page. Each project still has an anchor on it (/work#<slug>), but a
+  // static redirect can't carry a fragment, so these land on the page top.
   routeRules: {
-    '/projects': { redirect: '/works' }
+    '/projects': { redirect: { to: '/work', statusCode: 301 } },
+    '/works': { redirect: { to: '/work', statusCode: 301 } },
+    '/works/**': { redirect: { to: '/work', statusCode: 301 } }
   },
 
   compatibilityDate: '2024-11-01',
@@ -70,21 +70,7 @@ export default defineNuxtConfig({
     // `wrangler deploy` to a server entry that `generate` never builds.
     preset: 'static',
     prerender: {
-      routes: [
-        '/',
-        '/about',
-        '/works',
-        '/projects',
-        '/works/sankalp',
-        '/works/rag',
-        '/works/sunspots',
-        '/works/scraper',
-        '/works/amizone',
-        '/works/jotr',
-        '/works/72street',
-        '/works/tavcogrowth',
-        '/works/ladm-ncl'
-      ],
+      routes: ['/', '/about', '/service', '/work', '/contact'],
       crawlLinks: true
     }
   },

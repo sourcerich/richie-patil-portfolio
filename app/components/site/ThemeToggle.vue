@@ -1,12 +1,14 @@
 <script setup lang="ts">
-// Switches the site between day (cream) and night. The starting mode is set
-// before first paint by the inline script in nuxt.config.ts; this reads it on
-// mount, and saves the visitor's choice so it sticks across visits.
+// Switches the site between day (warm paper) and night (dark brown). The
+// starting mode is set before first paint by the inline script in
+// nuxt.config.ts; this reads it on mount, and saves the visitor's choice so
+// it sticks across visits.
 type Mode = 'light' | 'dark'
 
 const mode = ref<Mode>()
 
-const THEME_COLORS: Record<Mode, string> = { light: '#f3f2f2', dark: '#1b1a18' }
+// Keep in sync with --color-bg in main.css and the inline script.
+const THEME_COLORS: Record<Mode, string> = { light: '#f6efe3', dark: '#1a1411' }
 
 const apply = (next: Mode) => {
   mode.value = next

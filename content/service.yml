@@ -1,0 +1,28 @@
+title: "Service"
+description: "What Richie Patil builds: full-stack web apps and APIs, data pipelines and MLOps, generative AI and RAG, and machine-learning models."
+seo:
+  title: "Service – Richie Patil"
+  description: "What Richie Patil builds: full-stack web apps and APIs, data pipelines and MLOps, generative AI and RAG, and machine-learning models."
+
+ghost: "सेवा"
+subtitle: "What I can do"
+
+# Ordered by how much of my week each takes. `ghost` is the faded Marathi
+# word behind each one: बांधणी building, प्रवाह flow, शोध search, अंदाज estimate.
+items:
+  - title: "Full-stack & APIs"
+    ghost: "बांधणी"
+    body: "React and TypeScript on the front, Node.js, Express and Sequelize behind it. I’ve built the APIs behind five SaaS products, including a multi-tenant CRM, and once took a 45-second endpoint down to 145 ms."
+    image: "/content/projects/tavco/01.webp"
+  - title: "Data & MLOps"
+    ghost: "प्रवाह"
+    body: "ETL jobs, scrapers and aggregation pipelines feeding Segment, Google Analytics and Power BI, shipped in Docker through CI."
+    image: "/content/projects/scraper.webp"
+  - title: "Generative AI"
+    ghost: "शोध"
+    body: "Retrieval over your own documents with LangChain and Llama 3 or GPT, running serverless on AWS Lambda."
+    image: "/content/projects/rag.webp"
+  - title: "Machine learning"
+    ghost: "अंदाज"
+    body: "Supervised models with scikit-learn and Pandas. My dissertation forecast sunspot activity at about 85% accuracy."
+    image: "/content/projects/sunspots.jpg"

@@ -1,2 +1,5 @@
-/projects /works 301
-/projects/ /works 301
+/projects /work 301
+/projects/ /work 301
+/works /work 301
+/works/ /work 301
+/works/* /work 301

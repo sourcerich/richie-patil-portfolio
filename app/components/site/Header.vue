@@ -1,16 +1,13 @@
 <script setup lang="ts">
+// Header for the inner pages: name and role on the left, the five pages in
+// a row on the right, plus the day/night switch. On phones the row becomes
+// a "Menu" button that opens a full-screen copper sheet.
 const route = useRoute()
 const { site } = useAppConfig()
 
-const links = computed(() => [
-  { label: 'Home', to: '/', current: route.path === '/' },
-  { label: 'About', to: '/about', current: route.path === '/about' },
-  { label: 'Works and Collaborations', to: '/works', current: route.path.startsWith('/works') }
-])
+const isCurrent = (to: string) => (to === '/' ? route.path === '/' : route.path.startsWith(to))
 
-// Below the desktop breakpoint the nav collapses into a full-screen menu.
 const menuOpen = ref(false)
-
 watch(() => route.fullPath, () => (menuOpen.value = false))
 watch(menuOpen, (open) => {
   document.documentElement.style.overflow = open ? 'hidden' : ''
@@ -21,275 +18,188 @@ useEventListener('keydown', (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <header
-    id="site-header"
-    class="header"
-    data-dark="false"
-    :data-menu="menuOpen"
-  >
-    <div class="wrap header-inner">
+  <header class="header">
+    <div class="wrap bar">
       <NuxtLink
         to="/"
-        aria-label="Home"
         class="brand"
+        aria-label="Richie Patil, home"
       >
-        <BrandMark class="logo" />
+        <BrandMark class="mark" />
         <span class="brand-text">
-          <span class="edition">{{ site.city }}</span>
-          <span
-            id="header-chapter"
-            class="chapter"
-          >{{ site.name }}</span>
+          <span class="name">{{ site.name }}</span>
+          <span class="role">Designer / Engineer</span>
         </span>
       </NuxtLink>
-      <nav class="nav">
+      <nav
+        class="nav"
+        aria-label="Main"
+      >
         <NuxtLink
-          v-for="link in links"
+          v-for="link in site.nav"
           :key="link.to"
           :to="link.to"
-          :aria-current="link.current ? 'page' : undefined"
+          class="line-link"
+          :aria-current="isCurrent(link.to) ? 'page' : undefined"
         >
           {{ link.label }}
         </NuxtLink>
-        <a :href="`mailto:${site.email}`">Contact</a>
       </nav>
       <SiteThemeToggle />
       <button
         type="button"
         class="menu-toggle"
-        aria-controls="mobile-menu"
+        aria-controls="menu-sheet"
         :aria-expanded="menuOpen"
         @click="menuOpen = !menuOpen"
       >
-        <span>{{ menuOpen ? 'Close' : 'Menu' }}</span>
-        <span
-          class="menu-icon"
-          aria-hidden="true"
-        ><span /><span /></span>
+        {{ menuOpen ? 'Close' : 'Menu' }}
       </button>
     </div>
   </header>
 
   <div
-    id="mobile-menu"
-    class="menu ink-band"
+    id="menu-sheet"
+    class="sheet"
     :class="{ open: menuOpen }"
     :inert="!menuOpen || undefined"
   >
-    <nav class="menu-links">
+    <nav
+      class="sheet-links"
+      aria-label="Main"
+    >
       <NuxtLink
-        v-for="(link, i) in links"
+        v-for="(link, i) in site.nav"
         :key="link.to"
         :to="link.to"
-        :aria-current="link.current ? 'page' : undefined"
         :style="{ '--i': i }"
+        :aria-current="isCurrent(link.to) ? 'page' : undefined"
       >
+        <span class="tnum">{{ String(i).padStart(2, '0') }}</span>
         <span class="display">{{ link.label }}</span>
       </NuxtLink>
-      <a
-        :href="`mailto:${site.email}`"
-        :style="{ '--i': links.length }"
-      >
-        <span class="display">Contact</span>
-      </a>
     </nav>
-    <div class="menu-foot">
-      <a
-        :href="`mailto:${site.email}`"
-        class="menu-email"
-      >{{ site.email }}</a>
-      <div class="menu-socials">
-        <a
-          v-for="social in site.socials"
-          :key="social.label"
-          :href="social.to"
-          target="_blank"
-          rel="noopener"
-        >{{ social.label }} ↗</a>
-      </div>
-    </div>
+    <a
+      :href="`mailto:${site.email}`"
+      class="sheet-mail"
+    >{{ site.email }}</a>
   </div>
 </template>
 
 <style scoped>
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  background: color-mix(in srgb, var(--color-bg) 88%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--color-divider);
-  transition: background .5s, color .5s, border-color .5s;
+  position: relative;
+  z-index: 60;
 }
-.header[data-dark="true"],
-.header[data-menu="true"] {
-  background: color-mix(in oklch, var(--color-ink) 92%, transparent);
-  color: var(--color-on-ink);
-  border-color: var(--color-on-ink-divider);
-}
-.header-inner {
-  padding-block: 12px;
+.bar {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
+  padding-block: 26px;
 }
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: 0;
+  color: var(--color-accent);
 }
-.brand:hover { color: inherit; }
-/* Inherits the header's text colour, so it flips with the dark sections. */
-.logo {
-  height: 26px;
-  flex: none;
-}
+.mark { height: 30px; }
 .brand-text {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.edition {
-  font-size: 11px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  white-space: nowrap;
-}
-.chapter {
-  font-family: var(--font-heading);
-  font-size: 16px;
   line-height: 1.1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+.name {
+  font-size: 19px;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+}
+.role {
+  font-size: 11.5px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--color-text);
 }
 .nav {
   margin-left: auto;
   display: flex;
-  gap: clamp(14px, 2.4vw, 32px);
-  font-size: 14px;
-  white-space: nowrap;
+  gap: clamp(20px, 3.4vw, 52px);
+  font-size: 16px;
 }
-.nav a[aria-current="page"] { color: var(--color-accent); }
-
-/* — mobile menu — */
+.nav a[aria-current="page"] { background-size: 100% 1px; }
 .menu-toggle {
   display: none;
-  margin-left: auto;
-  flex: none;
-  align-items: center;
-  gap: 10px;
+  margin-left: 4px;
   min-height: 44px;
-  padding: 0 2px 0 12px;
+  padding: 0 4px;
   background: none;
   border: 0;
-  color: inherit;
+  color: var(--color-accent);
   font: inherit;
-  font-size: 12px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+  font-size: 16px;
   cursor: pointer;
 }
-.menu-icon {
-  position: relative;
-  width: 22px;
-  height: 9px;
-}
-.menu-icon span {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: currentColor;
-  transition: transform .4s var(--ease-out), top .4s var(--ease-out);
-}
-.menu-icon span:first-child { top: 0; }
-.menu-icon span:last-child { top: 8px; }
-[aria-expanded="true"] .menu-icon span:first-child { top: 4px; transform: rotate(45deg); }
-[aria-expanded="true"] .menu-icon span:last-child { top: 4px; transform: rotate(-45deg); }
 
-.menu {
+/* — phone menu — */
+.sheet {
   position: fixed;
   inset: 0;
-  z-index: 49;
+  z-index: 55;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 40px;
-  padding: calc(var(--header-h) + 40px) var(--gutter) max(32px, env(safe-area-inset-bottom));
-  overflow-y: auto;
+  padding: 120px var(--gutter) max(32px, env(safe-area-inset-bottom));
+  background: var(--color-band);
+  color: var(--color-on-band);
   clip-path: inset(0 0 100% 0);
   visibility: hidden;
   transition: clip-path .7s var(--ease-in-out), visibility 0s linear .7s;
 }
-.menu.open {
+.sheet.open {
   clip-path: inset(0 0 0 0);
   visibility: visible;
   transition: clip-path .7s var(--ease-in-out), visibility 0s;
 }
-.menu-links {
+.sheet-links {
   display: flex;
   flex-direction: column;
 }
-.menu-links a {
+.sheet-links a {
   display: flex;
   align-items: baseline;
-  gap: 16px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--color-on-ink-divider);
+  gap: 18px;
+  padding: 10px 0;
+  border-bottom: 1px dashed color-mix(in srgb, var(--color-on-band) 45%, transparent);
   opacity: 0;
-  transform: translateY(16px);
+  transform: translateY(14px);
   transition: opacity .5s var(--ease-out), transform .6s var(--ease-out);
 }
-.menu.open .menu-links a {
+.sheet.open .sheet-links a {
   opacity: 1;
   transform: none;
-  transition-delay: calc(.25s + var(--i) * 70ms);
+  transition-delay: calc(.25s + var(--i) * 60ms);
 }
-.menu-links .display {
-  font-size: clamp(34px, 9vw, 52px);
-  line-height: 1.05;
+.sheet-links .tnum { font-size: 13px; }
+.sheet-links .display {
+  color: inherit;
+  font-size: clamp(40px, 11vw, 64px);
 }
-.menu-links a[aria-current="page"] .display { color: var(--color-accent); }
-.menu-foot {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  font-size: 15px;
-}
-.menu-email {
-  font-family: var(--font-heading);
-  font-size: 22px;
-  text-decoration: underline;
-  text-decoration-color: var(--color-accent);
-  text-underline-offset: 6px;
-  overflow-wrap: anywhere;
-}
-.menu-socials {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
+.sheet-mail { font-size: 17px; }
+/* The header sits over the open sheet; recolour it to match. */
+.header:has(+ .sheet.open) .brand,
+.header:has(+ .sheet.open) .role,
+.header:has(+ .sheet.open) .menu-toggle,
+.header:has(+ .sheet.open) :deep(.theme-toggle) { color: var(--color-on-band); }
 
-@media (max-width: 959px) {
+@media (max-width: 900px) {
   .nav { display: none; }
-  .menu-toggle {
-    display: inline-flex;
-    margin-left: 4px;
-  }
-  .theme-toggle { margin: 0 0 0 auto; }
+  .menu-toggle { display: inline-flex; align-items: center; }
+  :deep(.theme-toggle) { margin-left: auto; }
 }
-@media (min-width: 960px) {
-  .menu { display: none; }
+@media (min-width: 901px) {
+  .sheet { display: none; }
 }
-@media (max-width: 380px) {
-  .edition { font-size: 10px; letter-spacing: .1em; }
-  .logo { height: 22px; }
+@media (max-width: 400px) {
+  .role { display: none; }
 }
 </style>

@@ -1,6 +1,7 @@
 slug: "amizone"
 order: 8
 title: "Amizone App"
+repo: "https://github.com/sourcerich/Amizone-App"
 type: "Mobile app"
 year: "2023"
 image: "/content/projects/amizone.webp"

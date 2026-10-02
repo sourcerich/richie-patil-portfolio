@@ -2,40 +2,41 @@
 import type { NuxtError } from '#app'
 
 const props = defineProps<{ error: NuxtError }>()
+const missing = computed(() => props.error.statusCode === 404)
 
-useSeoMeta({ title: props.error.statusCode === 404 ? 'Page not found' : 'Something went wrong' })
+useSeoMeta({ title: missing.value ? 'Page not found' : 'Something went wrong' })
 </script>
 
 <template>
   <NuxtLayout>
-    <section class="wrap error">
-      <span class="eyebrow tnum">{{ error.statusCode }}</span>
-      <h1 class="display">
-        {{ error.statusCode === 404 ? 'There’s nothing at this address.' : 'Something went wrong.' }}
-      </h1>
+    <SitePageHead
+      :ghost="missing ? 'हरवले' : 'चूक'"
+      :lines="[missing ? 'Not found' : 'Error']"
+      :subtitle="missing ? 'There’s nothing at this address.' : 'Something went wrong on this page.'"
+    />
+    <section class="wrap section">
       <button
-        class="btn btn-primary"
+        type="button"
+        class="dot-link back"
         @click="clearError({ redirect: '/' })"
       >
-        Back to the start →
+        <span
+          class="ring"
+          aria-hidden="true"
+        />
+        Back to the start
       </button>
     </section>
   </NuxtLayout>
 </template>
 
 <style scoped>
-.error {
-  min-height: 70vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 24px;
-  padding-block: var(--section-y);
-}
-h1 {
-  font-size: clamp(44px, 7vw, 108px);
-  line-height: .98;
-  max-width: 16ch;
+.back {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
 }
 </style>

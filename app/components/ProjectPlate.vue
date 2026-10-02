@@ -111,7 +111,7 @@ img {
 .tape-b {
   top: 52%;
   transform: rotate(6deg);
-  background: var(--color-accent-300);
+  background: color-mix(in srgb, var(--color-accent) 55%, var(--color-on-ink));
   color: var(--color-ink);
 }
 .tape-track {
