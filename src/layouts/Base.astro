@@ -77,13 +77,15 @@ const wipe = wipeName(path)
     <CursorRing />
     <div id="page-wipe" class="page-wipe" aria-hidden="true">
       <span id="page-wipe-en" class="display">{wipe.en}</span>
-      <span id="page-wipe-mr" class="deva" lang="mr">{wipe.mr}</span>
+      <!-- No lang="mr" (see PageHead.astro): it breaks र् conjuncts in Eczar. -->
+      <span id="page-wipe-mr" class="deva">{wipe.mr}</span>
     </div>
     <slot />
   </body>
 </html>
 
 <script>
+  import '../scripts/smooth-scroll'
   import '../scripts/reveal'
   import '../scripts/page-wipe'
 </script>

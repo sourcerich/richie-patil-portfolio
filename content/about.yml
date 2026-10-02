@@ -38,7 +38,7 @@ experience:
   title: "Experience"
   items:
     - org: "Sunday Tech"
-      role: "Backend Developer"
+      role: "Lead Developer"
       when: "Sep 2024 – Present"
       note: "APIs for five SaaS apps, mostly supply chain. Found the bottleneck behind a 45-second endpoint and got it to 145 ms. Led a team of three across two projects."
     - org: "Sunday Tech"

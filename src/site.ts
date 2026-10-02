@@ -9,7 +9,7 @@ export const site = {
   nav: [
     { label: 'Start', to: '/', mr: 'सुरुवात' },
     { label: 'About', to: '/about', mr: 'ओळख' },
-    { label: 'Service', to: '/service', mr: 'सेवा' },
+    { label: 'Service', to: '/service', mr: 'सर्विस' },
     { label: 'Work', to: '/work', mr: 'काम' },
     { label: 'Contact', to: '/contact', mr: 'संपर्क' }
   ],
