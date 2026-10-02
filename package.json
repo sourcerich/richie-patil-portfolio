@@ -3,31 +3,28 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build",
-    "generate": "nuxt generate",
-    "dev": "nuxt dev",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "nuxt typecheck",
-    "deploy": "nuxt generate && wrangler deploy",
-    "preview:cf": "nuxt generate && wrangler dev"
+    "typecheck": "astro check",
+    "deploy": "astro build && wrangler deploy",
+    "preview:cf": "astro build && wrangler dev"
   },
   "dependencies": {
-    "@nuxt/content": "^3.7.1",
-    "@vueuse/nuxt": "^13.9.0",
-    "nuxt": "^4.1.2"
+    "astro": "^7.3.5"
   },
   "devDependencies": {
-    "@nuxt/eslint": "^1.9.0",
-    "eslint": "^9.37.0",
+    "@astrojs/check": "^0.9.10",
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^10.11.0",
+    "eslint-plugin-astro": "^3.2.1",
     "typescript": "^5.9.3",
-    "vue-tsc": "^3.1.0",
+    "typescript-eslint": "^8.71.0",
     "wrangler": "^4.142.0"
-  },
-  "resolutions": {
-    "unimport": "4.1.1"
   },
   "packageManager": "pnpm@10.18.0"
 }

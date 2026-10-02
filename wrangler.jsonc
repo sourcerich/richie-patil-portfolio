@@ -1,11 +1,11 @@
-// Cloudflare Workers config: serves the static `nuxt generate` output as
+// Cloudflare Workers config: serves the static `astro build` output as
 // Workers static assets. No Worker script is needed.
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "richie-patil-portfolio",
   "compatibility_date": "2026-09-01",
   "assets": {
-    "directory": "./.output/public",
+    "directory": "./dist",
     // Every route is prerendered; anything else gets 404.html (the site's own
     // 404 page) with a real 404 status.
     "not_found_handling": "404-page",
