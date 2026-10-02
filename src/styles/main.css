@@ -1,6 +1,6 @@
 /* Richie Patil — design tokens and shared classes.
    Light mode is aged newsprint: black ink on warm cream, like an old
-   Marathi newspaper; night is copper on a dark brown. All three families are SIL Open Font License, self-hosted from
+   Marathi newspaper; night is kaali-peeli, Mumbai taxi yellow on black. All three families are SIL Open Font License, self-hosted from
    /public/fonts: Kalnia (display), Instrument Sans (text), Eczar (the
    faded Marathi words behind each page title). */
 
@@ -95,18 +95,21 @@
   --header-h: 84px;
 }
 
-/* Night: the same copper on a dark, warm brown. Set on <html> before first
-   paint by the inline script in Base.astro, and switched by ThemeToggle. */
+/* Night: kaali-peeli, the black-and-yellow of a Mumbai Premier Padmini
+   taxi. A sooty off-black body, taxi yellow for display and bands, and a
+   paler sun-faded yellow for body copy, so it reads like old painted metal
+   rather than a warning sign. Set on <html> before first paint by the
+   inline script in Base.astro, and switched by ThemeToggle. */
 html[data-mode="dark"] {
   color-scheme: dark;
-  --color-bg: #1a1411;
-  --color-text: #ebb393;
-  --color-accent: #f0905f;
+  --color-bg: #141311;
+  --color-text: #e6d7a3;
+  --color-accent: #f5c518;
   --color-ghost: color-mix(in srgb, var(--color-text) 8%, var(--color-bg));
-  --color-band: #e08a5c;
-  --color-on-band: #1a1411;
-  --color-ink: #2b2019;
-  --color-dot-grey: #3d3632;
+  --color-band: #f2c21b;
+  --color-on-band: #141311;
+  --color-ink: #24221d;
+  --color-dot-grey: #3a3730;
   --grain-opacity: .22;
   --grain-blend: soft-light;
 }

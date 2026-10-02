@@ -4,8 +4,22 @@ seo:
   title: "Richie Patil – Full-stack & ML Developer"
   description: "Richie Patil is a full-stack developer in Mumbai. He builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
 
-# The copper band that scrolls along the top of the first page.
-ticker: "I’m available for work internationally."
+# The band that scrolls along the bottom of the first page: the same line
+# in the most widely spoken languages, English first (it is also the
+# accessible label). `lang` sets the right font and shaping per phrase.
+ticker:
+  - { lang: en, text: "I’m available for work internationally." }
+  - { lang: zh, text: "我可以承接来自世界各地的工作。" }
+  - { lang: hi, text: "मैं दुनिया भर में काम के लिए उपलब्ध हूँ।" }
+  - { lang: es, text: "Estoy disponible para trabajar a nivel internacional." }
+  - { lang: ar, text: "أنا متاح للعمل على المستوى الدولي." }
+  - { lang: fr, text: "Je suis disponible pour travailler à l’international." }
+  - { lang: bn, text: "আমি আন্তর্জাতিক কাজের জন্য প্রস্তুত।" }
+  - { lang: pt, text: "Estou disponível para trabalhar internacionalmente." }
+  - { lang: ru, text: "Открыт к работе с клиентами по всему миру." }
+  - { lang: ja, text: "海外からのお仕事もお受けしています。" }
+  - { lang: de, text: "Ich bin international für Projekte verfügbar." }
+  - { lang: mr, text: "मी जगभरातील कामासाठी उपलब्ध आहे." }
 
 role: "Crafting web and applications, thoughtfully infused with AI"
 location: "Based in Mumbai"

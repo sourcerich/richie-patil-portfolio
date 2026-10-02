@@ -1,17 +1,25 @@
 ---
-// A copper band whose sentence scrolls endlessly to the left. The text is
-// repeated enough times to overfill the widest screen, and the track moves
-// by exactly half its width, so the loop has no visible seam.
+// A band whose phrases scroll endlessly to the left. The set of phrases is
+// laid out twice and the track moves by exactly half its width, so the loop
+// has no visible seam. Speed stays constant however many phrases there are.
 interface Props {
-  text: string
+  phrases: { lang: string, text: string }[]
 }
-const { text } = Astro.props
-const REPEATS = 12
+const { phrases } = Astro.props
+const label = phrases[0]!.text
+// Marathi is left untagged: Eczar's Marathi forms split र् into a half-र.
+const langOf = (lang: string) => (lang === 'mr' ? undefined : lang)
+const copies = phrases.length < 6 ? 4 : 2
+const items = Array.from({ length: copies }, () => phrases).flat()
+const seconds = Math.round(items.length / 2 * 9)
 ---
 
-<div class="ticker" role="marquee" aria-label={text}>
-  <div class="track" aria-hidden="true">
-    {Array.from({ length: REPEATS }, () => <span>{text}</span>)}
+<div class="ticker" role="marquee" aria-label={label}>
+  <div class="track" aria-hidden="true" style={`--duration: ${seconds}s`}>
+    {items.map(p => (
+      <span class="phrase" lang={langOf(p.lang)} dir="auto">{p.text}</span>
+      <span class="sep">✶</span>
+    ))}
   </div>
 </div>
 
@@ -25,13 +33,21 @@ const REPEATS = 12
   }
   .track {
     display: flex;
+    align-items: center;
     width: max-content;
-    animation: scroll 48s linear infinite;
+    animation: scroll var(--duration, 100s) linear infinite;
   }
-  .track span {
-    padding-right: 1.4em;
+  .phrase {
     font-size: 14px;
+    line-height: 1.4;
     white-space: nowrap;
+    unicode-bidi: isolate;
+  }
+  .phrase:lang(hi), .phrase:not([lang]) { font-family: var(--font-deva); }
+  .sep {
+    padding-inline: 2.4em;
+    font-size: 10px;
+    opacity: .55;
   }
   .ticker:hover .track { animation-play-state: paused; }
   @keyframes scroll {
