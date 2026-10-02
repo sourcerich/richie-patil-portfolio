@@ -1,7 +1,7 @@
 /* Richie Patil — design tokens and shared classes.
-   Copper type on warm paper, with a fine grain over everything. All three
-   families are SIL Open Font License, self-hosted from /public/fonts:
-   Kalnia (display), Instrument Sans (text), Eczar (the
+   Light mode is white and black (grayscale); night is copper on a dark
+   brown. All three families are SIL Open Font License, self-hosted from
+   /public/fonts: Kalnia (display), Instrument Sans (text), Eczar (the
    faded Marathi words behind each page title). */
 
 @font-face {
@@ -61,24 +61,24 @@
 
 :root {
   color-scheme: light;
-  --color-bg: #f6efe3;
-  /* Body copy: deep copper, 6.2:1 on the paper. */
-  --color-text: #8d4325;
-  /* Display copper: brighter, used at large sizes only (3.7:1). */
-  --color-accent: #c25d33;
+  --color-bg: #ffffff;
+  /* Body copy: near black. */
+  --color-text: #1a1a1a;
+  /* Display and links: black, the grayscale "accent". */
+  --color-accent: #111111;
   --color-muted: color-mix(in srgb, var(--color-text) 72%, var(--color-bg));
   --color-divider: color-mix(in srgb, var(--color-accent) 55%, transparent);
   /* The faded Marathi words: barely darker than the paper. */
   --color-ghost: color-mix(in srgb, var(--color-text) 9%, var(--color-bg));
-  /* Solid copper bands (ticker, approach, page wipe) and the text on them. */
-  --color-band: #a8502b;
-  --color-on-band: #f6efe3;
+  /* Solid black bands (ticker, approach, page wipe) and the text on them. */
+  --color-band: #111111;
+  --color-on-band: #ffffff;
   /* Dark plate for projects with no image (and the confidential tape). */
-  --color-ink: #2a1d17;
+  --color-ink: #111111;
   /* Backdrop dots in the About portrait. */
-  --color-dot-grey: #c9c1b6;
-  --color-on-ink: #f6efe3;
-  --grain-opacity: .16;
+  --color-dot-grey: #cfcfcf;
+  --color-on-ink: #ffffff;
+  --grain-opacity: .05;
   --grain-blend: multiply;
 
   --font-display: 'Kalnia', 'Didot', Georgia, serif;

@@ -56,12 +56,12 @@
     const shade = () => {
       const css = getComputedStyle(document.documentElement)
       const dark = document.documentElement.dataset.mode === 'dark'
-      const bg = hex(css.getPropertyValue('--color-bg'), dark ? [26, 20, 17] : [246, 239, 227])
-      const accent = hex(css.getPropertyValue('--color-accent'), dark ? [240, 144, 95] : [194, 93, 51])
-      // Deep copper by day, pale peach by night: the strongest shade.
-      const strong = hex(css.getPropertyValue('--color-text'), dark ? [235, 179, 147] : [141, 67, 37])
+      const bg = hex(css.getPropertyValue('--color-bg'), dark ? [26, 20, 17] : [255, 255, 255])
+      const accent = hex(css.getPropertyValue('--color-accent'), dark ? [240, 144, 95] : [17, 17, 17])
+      // Deep black by day, pale peach by night: the strongest shade.
+      const strong = hex(css.getPropertyValue('--color-text'), dark ? [235, 179, 147] : [26, 26, 26])
       const faint = mix(bg, accent, 0.16)
-      const grey = hex(css.getPropertyValue('--color-dot-grey'), dark ? [86, 80, 74] : [178, 170, 160])
+      const grey = hex(css.getPropertyValue('--color-dot-grey'), dark ? [86, 80, 74] : [207, 207, 207])
       base = []
       for (let i = 0; i < n * n; i++) {
         const light = tone.data[i * 4] / 255
