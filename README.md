@@ -1,98 +1,41 @@
-# Richie Patil - Portfolio
+# Richie Patil – portfolio
 
-A modern, responsive portfolio website showcasing my work as a Developer & Creative Solutions Architect. Built with Nuxt 3, Vue.js, and deployed on GitHub Pages.
+The source for [richiepatil.com](https://richiepatil.com): five static pages built with [Astro](https://astro.build), with almost no client-side JavaScript.
 
-## 🚀 Features
+Copper type on warm paper. The titles are set in Kalnia, body text in Instrument Sans, and the faded Marathi word behind each page title in Eczar. All three are SIL Open Font License, self-hosted from `public/fonts`.
 
-- **Modern Tech Stack**: Built with Nuxt 3, Vue.js, TypeScript, and Tailwind CSS
-- **Responsive Design**: Optimized for all devices and screen sizes
-- **Fast Performance**: Static site generation for optimal loading speeds
-- **SEO Optimized**: Meta tags, structured data, and semantic HTML
-- **Dark/Light Mode**: Toggle between themes
-- **Interactive Components**: Smooth animations and transitions
-- **Contact Integration**: Direct email links and Cal.com scheduling
-
-## 🛠️ Tech Stack
-
-- **Framework**: Nuxt 3
-- **Frontend**: Vue.js 3 with TypeScript
-- **Styling**: Tailwind CSS with Nuxt UI
-- **Content**: Nuxt Content for markdown-based content management
-- **Icons**: Iconify (Lucide & Simple Icons)
-- **Deployment**: GitHub Pages
-- **Package Manager**: pnpm
-
-## 🏗️ Project Structure
+## Layout
 
 ```
-├── app/
-│   ├── components/     # Reusable Vue components
-│   ├── pages/         # Application pages
-│   └── app.config.ts  # App configuration
-├── content/           # Markdown content files
-├── public/            # Static assets
-├── nuxt.config.ts     # Nuxt configuration
-└── package.json       # Dependencies and scripts
+content/              Page copy and projects, as YAML
+  index.yml           Start page and Contact page text
+  about.yml, service.yml, work.yml
+  projects/*.yml      One file per project, sorted by `order`
+src/
+  content.config.ts   Schemas for everything in content/
+  site.ts             Name, email, menu, socials
+  pages/              index, about, service, work, contact, 404
+  layouts/            Base (head, cursor, page wipe) and Page (adds header and footer)
+  components/         Header, Footer, PageHead, Ticker, ThemeToggle, ...
+  scripts/            reveal.ts (scroll reveals), page-wipe.ts (page transition)
+  styles/main.css     Fonts, colour tokens, shared classes
+public/               Fonts, images, _redirects, sitemap.xml
 ```
 
-## 🚦 Getting Started
+To change copy, edit the YAML in `content/`. A project with a live site gets `link`; one with public code gets `repo` ("Available on GitHub"); client work under NDA gets `confidential: true`.
 
-### Prerequisites
+## Commands
 
-- Node.js 18+ 
-- pnpm (recommended)
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/sourcerich/sourcerich.github.io.git
-cd sourcerich.github.io
-```
-
-2. Install dependencies:
 ```bash
 pnpm install
+pnpm dev          # http://localhost:4321
+pnpm build        # static site in dist/
+pnpm preview      # serve dist/
+pnpm check        # astro check (types)
+pnpm lint
+pnpm deploy       # build, then wrangler deploy to Cloudflare
 ```
 
-3. Start the development server:
-```bash
-pnpm dev
-```
+## Hosting
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## 📝 Available Scripts
-
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
-- `pnpm generate` - Generate static site
-- `pnpm preview` - Preview production build
-- `pnpm deploy` - Deploy to GitHub Pages
-- `pnpm lint` - Run ESLint
-- `pnpm typecheck` - Run TypeScript checks
-
-## 🚀 Deployment
-
-This portfolio is automatically deployed to GitHub Pages. To deploy:
-
-```bash
-pnpm deploy
-```
-
-This will generate the static site and push it to the `gh-pages` branch.
-
-## 📧 Contact
-
-- **Email**: [richiepatilwork@gmail.com](mailto:richiepatilwork@gmail.com)
-- **LinkedIn**: [linkedin.com/in/richiepatil](https://www.linkedin.com/in/richiepatil/)
-- **GitHub**: [github.com/sourcerich](https://github.com/sourcerich)
-- **Schedule a Meeting**: [cal.com/richie-patil](https://cal.com/richie-patil)
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-**Live Site**: [sourcerich.github.io](https://sourcerich.github.io)
+`dist/` is served as static assets on Cloudflare Workers (`wrangler.jsonc`), with `404.html` for unknown paths. Old `/works` and `/projects` addresses 301 to `/work` through `public/_redirects`. The GitHub Actions workflow in `.github/workflows/deploy.yml` builds the same output for GitHub Pages.

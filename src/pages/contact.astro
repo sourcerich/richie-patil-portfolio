@@ -1,0 +1,76 @@
+---
+import { getEntry } from 'astro:content'
+import Page from '../layouts/Page.astro'
+import PageHead from '../components/PageHead.astro'
+import { site } from '../site'
+
+const { contact } = (await getEntry('index', 'index'))!.data
+---
+
+<Page title={contact.title} ogTitle={`${contact.title} – ${site.name}`} description={contact.body}>
+  <PageHead ghost={contact.ghost} lines={[contact.title]} subtitle={contact.subtitle} />
+
+  <section class="wrap section contact">
+    <p data-reveal="0" class="body">{contact.body}</p>
+    <div class="ways">
+      <div data-reveal="100">
+        <span class="label">Mail</span>
+        <a href={`mailto:${site.email}`} class="mail line-link">{site.email}</a>
+      </div>
+      <div data-reveal="180">
+        <span class="label">Elsewhere</span>
+        <div class="socials">
+          {site.socials.map(social => (
+            <a href={social.to} target="_blank" rel="noopener" class="line-link">{social.label}</a>
+          ))}
+        </div>
+      </div>
+      <div data-reveal="260">
+        <span class="label">Based in</span>
+        <p>{site.city}, and happy working with teams anywhere.</p>
+      </div>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 56px clamp(48px, 9vw, 160px);
+    align-items: start;
+  }
+  .body {
+    font-size: clamp(20px, 1.9vw, 26px);
+    line-height: 1.35;
+    letter-spacing: -.02em;
+    max-width: 34ch;
+  }
+  .ways {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .ways .label {
+    display: block;
+    margin-bottom: 12px;
+  }
+  .mail {
+    display: inline-block;
+    font-size: clamp(22px, 2.2vw, 30px);
+    letter-spacing: -.03em;
+    color: var(--color-accent);
+    overflow-wrap: anywhere;
+  }
+  .socials {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 17px;
+  }
+
+  @media (max-width: 860px) {
+    .contact { grid-template-columns: 1fr; }
+  }
+</style>

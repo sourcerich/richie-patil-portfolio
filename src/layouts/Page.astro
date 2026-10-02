@@ -1,0 +1,32 @@
+---
+// Inner pages: header, page, footer. The first page (index) uses Base.astro
+// on its own, since it is a single full-screen composition.
+import Base from './Base.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+
+type Props = {
+  title?: string
+  description: string
+  ogTitle?: string
+}
+---
+
+<Base {...Astro.props}>
+  <div class="page">
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </div>
+</Base>
+
+<style>
+  .page {
+    /* Lets the faded Marathi words sit behind the content (z-index: -1)
+       without dropping behind the page background. */
+    position: relative;
+    isolation: isolate;
+  }
+</style>

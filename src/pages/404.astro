@@ -1,0 +1,14 @@
+---
+import Page from '../layouts/Page.astro'
+import PageHead from '../components/PageHead.astro'
+---
+
+<Page title="Page not found" description="There’s nothing at this address.">
+  <PageHead ghost="हरवले" lines={['Not found']} subtitle="There’s nothing at this address." />
+  <section class="wrap section">
+    <a href="/" class="dot-link">
+      <span class="ring" aria-hidden="true"></span>
+      Back to the start
+    </a>
+  </section>
+</Page>
