@@ -146,7 +146,7 @@ const years = Math.max(1, Math.floor((Date.now() - START.getTime()) / (365.25 * 
   /* Each word is its own span so it can blur in on its own. */
   .approach :global(.paint-word) {
     display: inline-block;
-    will-change: filter, opacity;
+    will-change: opacity, transform;
   }
   .approach :global(.paint-stroke) {
     position: absolute;

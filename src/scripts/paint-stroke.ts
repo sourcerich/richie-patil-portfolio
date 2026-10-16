@@ -24,6 +24,15 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { lenis } from './smooth-scroll'
 
 gsap.registerPlugin(ScrollTrigger)
+// The URL bar sliding in and out of a phone's viewport is not a resize worth
+// recalculating every pin for.
+ScrollTrigger.config({ ignoreMobileResize: true })
+// Phones and narrow windows: the approach section is taller than the screen
+// there, so pinning it would hide the lower words until the pin ended, and
+// the SVG turbulence filter is too heavy for mobile Safari and Android to
+// repaint every frame. Compact mode scrolls the section normally, draws a
+// clean stroke without the filter, and fades the words without blur.
+const compact = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches
 // Update scroll-linked animations on the same frame the smooth scroll moves.
 lenis?.on('scroll', ScrollTrigger.update)
 
@@ -70,7 +79,7 @@ const paint = (el: HTMLElement) => {
   const id = `paint-${uid++}`
   const svg = svgEl('svg', { 'class': 'paint-stroke', 'aria-hidden': 'true' })
   const filter = svgEl('filter', { id, filterUnits: 'userSpaceOnUse' })
-  filter.append(
+  if (!compact) filter.append(
     // Stretched along the stroke (low x, high y frequency): streaks, like
     // the dry edge of a loaded brush.
     svgEl('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.004 0.06', numOctaves: 3, seed: 9, result: 'noise' }),
@@ -82,14 +91,17 @@ const paint = (el: HTMLElement) => {
   const frame = svgEl('g', { transform: `rotate(${(ANGLE * 180) / Math.PI})` })
   const path = svgEl('path', {
     'fill': 'none',
-    'stroke': 'var(--paint)',
     'stroke-linecap': 'round',
-    'stroke-linejoin': 'round',
-    'filter': `url(#${id})`
+    'stroke-linejoin': 'round'
   })
+  // Set as styles: var() in a presentation attribute is not reliable in
+  // every mobile browser.
+  path.style.stroke = 'var(--paint)'
+  if (!compact) path.setAttribute('filter', `url(#${id})`)
   frame.append(path)
   // Closes any last specks at the very end.
-  const finish = svgEl('rect', { x: 0, y: 0, width: '100%', height: '100%', fill: 'var(--paint)', opacity: 0 })
+  const finish = svgEl('rect', { x: 0, y: 0, width: '100%', height: '100%', opacity: 0 })
+  finish.style.fill = 'var(--paint)'
   svg.append(defs, frame, finish)
   el.prepend(svg)
   el.classList.add('paintable')
@@ -150,13 +162,14 @@ const paint = (el: HTMLElement) => {
   const FIRST_WORD = 0.3
   const LAST_WORD = 0.7
   const words = [...el.querySelectorAll<HTMLElement>('[data-paint-text]')].flatMap(splitWords)
-  gsap.set(words, { opacity: 0, filter: 'blur(14px)' })
+  gsap.set(words, compact ? { opacity: 0, y: 14 } : { opacity: 0, filter: 'blur(14px)' })
   const timeline = gsap.timeline({
     scrollTrigger: {
       trigger: el,
-      start: () => (el.offsetHeight > window.innerHeight ? 'top top' : 'center center'),
-      end: () => `+=${Math.round(window.innerHeight * (PAINT + HOLD))}`,
-      pin: true,
+      start: () => (compact ? 'top 80%' : el.offsetHeight > window.innerHeight ? 'top top' : 'center center'),
+      end: () => (compact ? 'bottom 75%' : `+=${Math.round(window.innerHeight * (PAINT + HOLD))}`),
+      pin: !compact,
+      anticipatePin: 1,
       invalidateOnRefresh: true,
       // Follows the scroll with a little glide of its own; the smooth
       // scroll already eases the input, so this is lighter than before.
@@ -167,7 +180,7 @@ const paint = (el: HTMLElement) => {
   timeline.to(state, { p: 1, duration: PAINT, ease: 'none', onUpdate: render }, 0)
   words.forEach((word, i) => {
     const at = PAINT * (FIRST_WORD + (LAST_WORD - FIRST_WORD) * (words.length > 1 ? i / (words.length - 1) : 0))
-    timeline.to(word, { opacity: 1, filter: 'blur(0px)', duration: PAINT - at, ease: 'power2.out' }, at)
+    timeline.to(word, compact ? { opacity: 1, y: 0, duration: PAINT - at, ease: 'power2.out' } : { opacity: 1, filter: 'blur(0px)', duration: PAINT - at, ease: 'power2.out' }, at)
   })
   // Nothing moves here: the finished section just stays put.
   timeline.to({}, { duration: HOLD }, PAINT)
