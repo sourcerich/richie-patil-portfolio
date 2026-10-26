@@ -1,237 +1,501 @@
 ---
-// The first page: one full screen, read top to bottom: Mumbai time, what
-// I'm doing now, the numbered menu and a "Next page" ring along the top;
-// the name huge in display caps with role and a short intro under it; the
-// copper ticker across the bottom. Socials run vertically down the right
-// edge, and the day/night switch sits in the top-right corner.
-import { getEntry } from 'astro:content'
+// The first page is now a 3D Mumbai you move through (scripts/world). Five
+// stops, one per page of the site: Start (a kaali-peeli taxi at dusk), About
+// (a local-train platform), Service (a Gateway-style arch hung with lanterns),
+// Work (a curved row of project hoardings) and Contact (the sea promenade).
+//
+// All the copy is real HTML that comes from the same content files as the
+// plain pages, so it indexes, reads aloud and works without WebGL: if the
+// 3D can't start, the panels simply stack as an ordinary page.
+import { getCollection, getEntry } from 'astro:content'
 import Base from '../layouts/Base.astro'
+import BrandMark from '../components/BrandMark.astro'
 import Ticker from '../components/Ticker.astro'
 import ThemeToggle from '../components/ThemeToggle.astro'
 import SoundToggle from '../components/SoundToggle.astro'
 import { site } from '../site'
 
 const page = (await getEntry('index', 'index'))!.data
-// The menu skips "Start": you're already on it.
-const menu = site.nav.slice(1)
+const about = (await getEntry('about', 'about'))!.data
+const service = (await getEntry('service', 'service'))!.data
+const work = (await getEntry('work', 'work'))!.data
+const projects = (await getCollection('projects'))
+  .map(entry => entry.data)
+  .sort((a, b) => a.order - b.order)
+
+const ids = ['start', 'about', 'service', 'work', 'contact']
+const num = (i: number) => String(i + 1).padStart(2, '0')
+const world = {
+  stops: site.nav.map(link => ({ en: link.label, mr: link.mr, to: link.to })),
+  services: service.items.map(item => item.title),
+  projects: projects.map(p => ({ slug: p.slug, title: p.title, image: p.image ?? '' })).filter(p => p.image)
+}
 ---
 
 <Base ogTitle={page.seo.title} description={page.seo.description}>
-  <main id="main">
-    <section class="top">
-      <div class="wrap base">
-        <div data-reveal="150" class="block">
-          <span class="label">Local time</span>
-          <!-- "--:--" in the HTML so it never shows a stale time; the script fills it in. -->
-          <p class="tnum">{site.city} <span id="clock">--:--</span></p>
-        </div>
-        <div data-reveal="200" class="block">
-          <span class="label">{page.now.label}</span>
-          <p>{page.now.value}</p>
-        </div>
-        <nav data-reveal="250" class="block menu" aria-label="Main">
-          <span class="label">Menu</span>
-          <ol>
-            {menu.map((link, i) => (
-              <li>
-                <a href={link.to} class="menu-link">
-                  <span class="tnum">{String(i + 1).padStart(2, '0')}</span>
-                  <span class="line-link">{link.label}</span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-        <div data-reveal="300" class="next">
-          <a href="/about" class="dot-link">
-            <span class="ring" aria-hidden="true"></span>
-            Next page
-          </a>
-        </div>
-      </div>
+  <main id="main" class="world" data-world={JSON.stringify(world)}>
+    <canvas id="world-canvas" class="canvas" aria-hidden="true"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
 
-      <div class="wrap hero">
-        <h1 class="display name">
-          <span class="mask-line"><span data-reveal="400" data-from="105%"><span class="word">Richie</span> <span class="word">Patil</span></span></span>
-        </h1>
-        <p data-reveal="550" class="role">
-          <span>{page.role}</span>
-          <span>{page.location}</span>
-        </p>
-        <p data-reveal="650" class="lead">{page.lead}</p>
+    <header class="hud">
+      <a href="/" class="brand" aria-label="Richie Patil, home">
+        <BrandMark class="mark" />
+        <span class="brand-text">
+          <span class="brand-name">{site.name}</span>
+          <span class="brand-role">Designer / Engineer</span>
+        </span>
+      </a>
+      <div class="board" aria-live="polite">
+        <span class="board-no tnum" id="board-no">01 / 05</span>
+        <span class="board-en" id="board-en">{site.nav[0]!.label}</span>
+        <span class="board-mr deva" id="board-mr" aria-hidden="true">{site.nav[0]!.mr}</span>
+        <span class="board-next" id="board-next">Next station: {site.nav[1]!.label}</span>
       </div>
-
-      <div class="ticker-wrap">
-        <Ticker phrases={page.ticker} />
-      </div>
-
-      <div class="side">
-        {site.socials.map(social => (
-          <a href={social.to} target="_blank" rel="noopener" class="line-link">{social.label}</a>
-        ))}
-      </div>
-      <div class="corner">
+      <div class="toggles">
         <SoundToggle />
         <ThemeToggle />
       </div>
-    </section>
+    </header>
+
+    <div class="panels">
+      <section id="start" class="panel panel-start" data-stop="0" aria-label="Start">
+        <div class="start-top">
+          <p class="meta">
+            <span class="label">Local time</span>
+            <span class="tnum">{site.city} <span id="clock">--:--</span></span>
+          </p>
+          <p class="meta">
+            <span class="label">{page.now.label}</span>
+            <span class="pre">{page.now.value}</span>
+          </p>
+        </div>
+        <h1 class="display name">
+          <span class="word">Richie</span> <span class="word">Patil</span>
+        </h1>
+        <p class="role">
+          <span>{page.role}</span>
+          <span>{page.location}</span>
+        </p>
+        <p class="lead">{page.lead}</p>
+        <div class="actions">
+          <button type="button" class="go" data-next>
+            <span class="ring" aria-hidden="true"></span>
+            Take the local
+          </button>
+          <span class="tip tip-gl">Scroll, swipe or use ← → to travel. Tap the taxi.</span>
+        </div>
+        <div class="ticker-wrap">
+          <Ticker phrases={page.ticker} />
+        </div>
+      </section>
+
+      <section id="about" class="panel panel-card" data-stop="1" aria-label="About">
+        <div class="card" data-lenis-prevent>
+          <p class="label">{about.subtitle}</p>
+          <h2 class="display title">{about.title} <span class="deva mr" aria-hidden="true">{about.ghost}</span></h2>
+          <p class="big">{about.profile}</p>
+          <div class="cols">
+            <div>
+              <h3 class="label">Stack</h3>
+              <p>{about.stack}</p>
+            </div>
+            <div>
+              <h3 class="label">Recognition</h3>
+              <ul>{about.recognition.map(line => <li>{line}</li>)}</ul>
+            </div>
+            <div>
+              <h3 class="label">Outside work</h3>
+              <p>{about.outside}</p>
+            </div>
+          </div>
+          <h3 class="display sub">{about.approach.title}</h3>
+          <ul class="values">
+            {about.approach.items.map(item => (
+              <li><strong>{item.title}.</strong> {item.body}</li>
+            ))}
+          </ul>
+          <h3 class="display sub">{about.experience.title}</h3>
+          <ol class="jobs">
+            {about.experience.items.map(job => (
+              <li>
+                <span class="tnum when">{job.when}</span>
+                <span class="org">{job.org} <span class="muted">· {job.role}</span></span>
+                <span class="note">{job.note}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section id="service" class="panel panel-card" data-stop="2" aria-label="Service">
+        <div class="card" data-lenis-prevent>
+          <p class="label">{service.subtitle}</p>
+          <h2 class="display title">{service.title} <span class="deva mr" aria-hidden="true">{service.ghost}</span></h2>
+          <ol class="services">
+            {service.items.map((item, i) => (
+              <li>
+                <span class="tnum n">{num(i)}</span>
+                <div>
+                  <h3 class="item-title">{item.title} <span class="deva mr" aria-hidden="true">{item.ghost}</span></h3>
+                  <p>{item.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section id="work" class="panel panel-strip" data-stop="3" aria-label="Work">
+        <div class="card strip" data-lenis-prevent>
+          <p class="label">{work.subtitle}</p>
+          <h2 class="display title">{work.title} <span class="deva mr" aria-hidden="true">{work.ghost}</span></h2>
+          <p class="tip tip-gl">Pick a hoarding, or choose one below.</p>
+          <ol class="projects">
+            {projects.map((p, i) => (
+              <li class="project" id={`p-${p.slug}`}>
+                <button type="button" class="pill" data-project={p.slug}>
+                  <span class="tnum n">{num(i)}</span>
+                  <span class="t">{p.title}</span>
+                  <span class="y tnum">{p.year}</span>
+                </button>
+                <div class="project-body">
+                  {p.image && <img src={p.image} alt={p.title} loading="lazy" class="shot">}
+                  <p class="kind label">{p.type}</p>
+                  <p class="summary">{p.summary}</p>
+                  <dl class="story">
+                    <dt>Problem</dt><dd>{p.problem}</dd>
+                    <dt>Build</dt><dd>{p.build}</dd>
+                    <dt>Outcome</dt><dd>{p.outcome}</dd>
+                  </dl>
+                  <p class="tags">{p.tags.slice(0, 5).join(' · ')}</p>
+                  {p.link
+                    ? <a href={p.link} target="_blank" rel="noopener" class="go small"><span class="ring" aria-hidden="true"></span>{(p.linkLabel ?? 'Visit the live site').replace(/\s*↗$/, '')}</a>
+                    : p.repo
+                      ? <a href={p.repo} target="_blank" rel="noopener" class="go small"><span class="ring" aria-hidden="true"></span>Available on GitHub</a>
+                      : <span class="muted">{p.confidential ? 'Client work, under NDA' : 'Not public'}</span>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section id="contact" class="panel panel-card" data-stop="4" aria-label="Contact">
+        <div class="card" data-lenis-prevent>
+          <p class="label">{page.contact.subtitle}</p>
+          <h2 class="display title">{page.contact.title} <span class="deva mr" aria-hidden="true">{page.contact.ghost}</span></h2>
+          <p class="big">{page.contact.body}</p>
+          <div class="cols">
+            <div>
+              <h3 class="label">Mail</h3>
+              <a href={`mailto:${site.email}`} class="line-link" id="mail-link">{site.email}</a>
+            </div>
+            <div>
+              <h3 class="label">Elsewhere</h3>
+              <p class="socials">
+                {site.socials.map(social => (
+                  <a href={social.to} target="_blank" rel="noopener" class="line-link">{social.label}</a>
+                ))}
+              </p>
+            </div>
+            <div>
+              <h3 class="label">Based in</h3>
+              <p>{site.city}, and happy working with teams anywhere.</p>
+            </div>
+          </div>
+          <p class="off">
+            <span class="deva" lang="mr">राम राम भाऊ</span>
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Project" hidden>
+      <div class="modal-card" data-lenis-prevent>
+        <button type="button" class="modal-close" id="modal-close" aria-label="Close project">Close</button>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <nav class="pager" aria-label="Stations">
+      <button type="button" class="arrow" data-prev aria-label="Previous station">‹</button>
+      <ol>
+        {ids.map((_, i) => (
+          <li>
+            <button type="button" class="dot" data-goto={i} aria-label={`${site.nav[i]!.label}, ${site.nav[i]!.mr}`}>
+              <span class="tnum">{num(i)}</span>
+              <span class="dot-label">{site.nav[i]!.label}</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+      <button type="button" class="arrow" data-next aria-label="Next station">›</button>
+    </nav>
+
+    <a href="/about" class="plain label">Plain version</a>
   </main>
 </Base>
 
 <script>
-  // Mumbai local time as HH:MM, ticking once a second.
-  const clock = document.getElementById('clock')
-  const format = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' })
-  const tick = () => {
-    if (clock) clock.textContent = format.format(new Date())
-  }
-  tick()
-  setInterval(tick, 1000)
+  import '../scripts/world/stage'
 </script>
 
 <style>
-  .top {
+  /* ——— flat mode (default): an ordinary stacked page ——— */
+  .world {
     position: relative;
-    min-height: 100vh;
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    color: var(--color-accent);
-  }
-  /* A little further in than the page gutter. */
-  .ticker-wrap {
-    padding: 0 calc(var(--gutter) + clamp(8px, 1.5vw, 24px)) 64px;
-  }
-  /* Pushed down so the name and ticker sit at the bottom of the screen. */
-  /* Set in from the page edge a little more than the top row, so the
-     name block sits slightly to the right. */
-  .hero {
-    margin-top: auto;
-    padding-top: 56px;
-    padding-bottom: clamp(64px, 11vh, 120px);
-    padding-left: calc(var(--gutter) + clamp(8px, 2.4vw, 44px));
-  }
-  .name {
-    font-size: clamp(54px, 9.9vw, 157px);
-    white-space: nowrap;
-    transition: color .9s ease;
-  }
-
-  .role {
-    margin-top: 17px;
-    display: flex;
-    flex-direction: column;
-    font-size: 17px;
-    line-height: 1.25;
-  }
-  .role span:first-child { text-transform: uppercase; }
-  .lead {
-    margin-top: 45px;
-    max-width: 35ch;
-    font-size: 15.5px;
-    line-height: 1.4;
     color: var(--color-text);
   }
-  /* Top row: three labelled blocks that share one top line and one rhythm
-     (label, 12px, then 16px text on a 1.5 line), plus the "Next page" ring
-     at the right. Clear of the theme toggle in the corner above it. */
-  .base {
-    padding-block: 72px 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
-    align-items: start;
-    gap: 40px 48px;
-  }
-  .block {
+  .canvas, .vignette, .pager, .modal, .tip-gl, .board-next { display: none; }
+  .hud {
+    position: sticky;
+    top: 0;
+    z-index: 20;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 16px;
-    line-height: 1.5;
-  }
-  .block p {
-    max-width: 24ch;
-    color: var(--color-text);
-    /* Line breaks typed in the YAML ("\n") show as line breaks. */
-    white-space: pre-line;
-  }
-  .menu ol {
-    display: flex;
-    flex-direction: column;
-  }
-  .menu-link {
-    display: grid;
-    grid-template-columns: 2.9em auto;
     align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px var(--gutter);
+    background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+    backdrop-filter: blur(14px);
   }
-  .menu li + li { margin-top: 4px; }
-  /* Menu numbers as small platform signs: a hairline box with softly
-     rounded corners, in the page's ink. Fills in on hover. */
-  .menu-link .tnum {
-    justify-self: start;
-    display: inline-grid;
-    place-items: center;
-    min-width: 24px;
-    height: 17px;
-    padding: 0 4px;
-    border: 1px solid currentColor;
-    border-radius: 3px;
+  .board { display: none; }
+  .brand { display: flex; align-items: center; gap: 12px; color: var(--color-accent); }
+  .brand :global(.mark) { height: 30px; }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-name { font-size: 18px; text-transform: uppercase; }
+  .brand-role { font-size: 11.5px; text-transform: uppercase; color: var(--color-text); }
+  .toggles { display: flex; align-items: center; gap: 10px; }
+  .panel { padding: clamp(48px, 8vw, 110px) var(--gutter); max-width: 1100px; margin: 0 auto; }
+  .plain { display: none; }
+
+  /* ——— content styles shared by both modes ——— */
+  .label {
+    display: block;
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
     color: var(--color-muted);
-    font-size: 10.5px;
-    letter-spacing: .04em;
-    line-height: 1;
-    transition: background-color .3s, color .3s, border-color .3s;
   }
-  .menu-link:hover .tnum {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    color: var(--color-bg);
+  .display { font-family: var(--font-display); font-weight: 500; letter-spacing: -.02em; line-height: .98; color: var(--color-accent); }
+  .title { font-size: clamp(40px, 5.4vw, 76px); margin: 10px 0 18px; }
+  .sub { font-size: clamp(26px, 2.6vw, 36px); margin: 30px 0 12px; }
+  .mr { font-family: var(--font-deva); font-size: .6em; font-weight: 400; color: var(--color-muted); letter-spacing: 0; margin-left: .3em; }
+  .big { font-size: clamp(16px, 1.45vw, 20px); line-height: 1.5; max-width: 52ch; }
+  .muted { color: var(--color-muted); }
+  .pre { white-space: pre-line; }
+  .tnum { font-variant-numeric: tabular-nums; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 22px 32px; margin-top: 26px; font-size: 15px; line-height: 1.5; }
+  .cols .label { margin-bottom: 8px; }
+  .cols ul { display: flex; flex-direction: column; gap: 5px; }
+  .socials { display: flex; flex-direction: column; gap: 3px; align-items: flex-start; }
+  .values { display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5; }
+  .jobs { display: flex; flex-direction: column; font-size: 15px; line-height: 1.45; }
+  .jobs li { display: grid; gap: 4px; padding: 14px 0; border-top: 1px dashed var(--color-divider); }
+  .jobs .when { font-size: 13px; color: var(--color-accent); }
+  .jobs .org { font-size: 18px; color: var(--color-accent); }
+  .jobs .note { color: var(--color-muted); }
+  .services { display: grid; gap: 22px; }
+  .services li { display: grid; grid-template-columns: 2.4em 1fr; gap: 12px; }
+  .services .n { font-size: 12px; color: var(--color-muted); padding-top: 8px; }
+  .item-title { font-family: var(--font-display); font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; line-height: 1.1; color: var(--color-accent); }
+  .services p { margin-top: 6px; font-size: 15px; line-height: 1.5; max-width: 54ch; }
+  .off { margin-top: 28px; font-size: 26px; }
+
+  /* start */
+  .start-top { display: flex; flex-wrap: wrap; gap: 14px 40px; font-size: 15px; }
+  .meta { display: flex; flex-direction: column; gap: 4px; }
+  .name { font-size: clamp(56px, 11vw, 150px); margin-top: clamp(40px, 8vw, 90px); }
+  .name .word { display: inline-block; }
+  .role { margin-top: 18px; display: flex; flex-direction: column; gap: 2px; font-size: 15px; text-transform: uppercase; letter-spacing: .04em; }
+  .role span:last-child { color: var(--color-muted); }
+  .lead { margin-top: 24px; max-width: 40ch; font-size: 16px; line-height: 1.5; }
+  .actions { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
+  .ticker-wrap { margin-top: 36px; }
+  .go {
+    display: inline-flex; align-items: center; gap: 14px; padding: 12px 20px 12px 14px;
+    border: 1px solid var(--color-accent); border-radius: 999px; background: transparent;
+    color: var(--color-accent); font: inherit; font-size: 15px; cursor: pointer;
+    transition: background-color .3s, color .3s;
   }
-  .next {
-    align-self: start;
-    justify-self: end;
+  .go .ring { width: 8px; height: 8px; border-radius: 50%; background: currentColor; transition: transform .4s var(--ease-out); }
+  .go:hover { background: var(--color-accent); color: var(--color-bg); }
+  .go:hover .ring { transform: scale(1.6); }
+  .go.small { margin-top: 14px; font-size: 14px; padding: 9px 16px 9px 12px; }
+
+  /* work */
+  .projects { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .pill {
+    width: 100%; display: grid; grid-template-columns: 2.2em 1fr auto; gap: 10px; align-items: baseline;
+    padding: 10px 14px; text-align: left; font: inherit; font-size: 15px; color: var(--color-text);
+    background: color-mix(in srgb, var(--color-bg) 60%, transparent); border: 1px solid var(--color-divider);
+    border-radius: 10px; cursor: pointer; transition: background-color .25s, border-color .25s, transform .3s var(--ease-out);
   }
-  .side {
-    position: absolute;
-    right: calc(var(--gutter) * .45);
-    top: 50%;
-    transform: translateY(-50%) rotate(180deg);
-    writing-mode: vertical-rl;
-    display: flex;
-    gap: 18px;
-    font-size: 15px;
+  .pill:hover { background: color-mix(in srgb, var(--color-accent) 16%, var(--color-bg)); transform: translateX(3px); }
+  .pill .n, .pill .y { font-size: 12px; color: var(--color-muted); }
+  .pill .t { color: var(--color-accent); }
+  .project-body { padding: 16px 4px 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.5; }
+  .shot { width: 100%; max-width: 520px; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; }
+  .story { display: grid; grid-template-columns: 78px 1fr; gap: 8px 14px; }
+  .story dt { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-muted); padding-top: 3px; }
+  .story dd { color: var(--color-text); }
+  .tags { color: var(--color-muted); font-size: 13px; }
+
+  /* ——— GL mode: a fixed stage, one panel at a time ——— */
+  :global(html.gl) { overflow: hidden; }
+  :global(html.gl) body { overflow: hidden; }
+  :global(html.gl) .world { position: fixed; inset: 0; overflow: hidden; background: #000; }
+  :global(html.gl) .canvas {
+    display: block; position: absolute; inset: 0; width: 100%; height: 100%;
+    opacity: 0; transition: opacity 1.2s ease; touch-action: none;
   }
-  .corner {
-    position: absolute;
-    top: 12px;
-    right: var(--gutter);
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  :global(html.gl.ready) .canvas { opacity: 1; }
+  :global(html.gl) .vignette {
+    display: block; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 50% 55%, transparent 55%, rgb(0 0 0 / .35) 100%);
+  }
+  :global(html.gl) .tip-gl, :global(html.gl) .board-next, :global(html.gl) .pager, :global(html.gl) .plain { display: block; }
+  :global(html.gl) .hud {
+    position: absolute; left: 0; right: 0; top: 0; z-index: 30; background: none; backdrop-filter: none;
+    padding: 14px var(--gutter); pointer-events: none;
+  }
+  :global(html.gl) .hud > * { pointer-events: auto; }
+  :global(html.gl) .brand { color: #f6ecd0; text-shadow: 0 1px 8px rgb(0 0 0 / .5); }
+  :global(html.gl) .brand-role { color: #f6ecd0; opacity: .8; }
+  :global(html.gl) .board {
+    display: grid; grid-template-columns: auto auto; grid-template-areas: 'no no' 'en mr' 'next next';
+    gap: 0 12px; align-items: baseline; justify-items: center; text-align: center;
+    padding: 8px 18px 7px; border-radius: 10px; color: #14120d; background: #f2c21b;
+    box-shadow: 0 6px 24px rgb(0 0 0 / .35); border: 2px solid #14120d; outline: 2px solid #f2c21b;
+    position: absolute; left: 50%; transform: translateX(-50%); top: 14px;
+  }
+  .board-no { grid-area: no; font-size: 10px; letter-spacing: .18em; opacity: .7; }
+  .board-en { grid-area: en; font-family: 'Yatra One', var(--font-display); font-size: 20px; line-height: 1.1; }
+  .board-mr { grid-area: mr; font-family: var(--font-deva); font-size: 20px; line-height: 1.1; }
+  .board-next { grid-area: next; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; opacity: .75; margin-top: 2px; }
+  .board.flip { animation: flip .5s var(--ease-out); }
+  @keyframes flip { 0% { transform: translateX(-50%) rotateX(-90deg); } 100% { transform: translateX(-50%) rotateX(0); } }
+
+  :global(html.gl) .panels { position: absolute; inset: 0; z-index: 10; pointer-events: none; }
+  :global(html.gl) .panel {
+    position: absolute; inset: 0; max-width: none; margin: 0; padding: 0;
+    display: flex; opacity: 0; visibility: hidden; transition: opacity .5s ease, visibility 0s linear .5s;
+  }
+  :global(html.gl) .panel.active { opacity: 1; visibility: visible; transition: opacity .7s ease .25s, visibility 0s; }
+  :global(html.gl) .panel > * { pointer-events: auto; }
+
+  :global(html.gl) .panel-start {
+    flex-direction: column; justify-content: flex-end; padding: 84px var(--gutter) 96px; pointer-events: none;
+    color: #fff8e4;
+  }
+  :global(html.gl) .panel-start > * { pointer-events: auto; max-width: 560px; }
+  :global(html.gl) .panel-start .start-top { position: absolute; top: 84px; left: var(--gutter); }
+  :global(html.gl) .panel-start .label { color: #f6ecd0; opacity: .75; }
+  :global(html.gl) .panel-start .display { color: #fff8e4; text-shadow: 0 2px 28px rgb(0 0 0 / .45); margin-top: 0; font-size: clamp(50px, 7.6vw, 112px); max-width: none; }
+  :global(html.gl) .panel-start .role span:last-child { color: #f6ecd0; opacity: .8; }
+  :global(html.gl) .panel-start .lead { text-shadow: 0 1px 12px rgb(0 0 0 / .5); }
+  :global(html.gl) .panel-start .go { color: #fff8e4; border-color: #fff8e4; }
+  :global(html.gl) .panel-start .go:hover { background: #fff8e4; color: #14120d; }
+  :global(html.gl) .panel-start .tip { color: #f6ecd0; opacity: .75; font-size: 13px; }
+  :global(html.gl) .panel-start .ticker-wrap { max-width: min(560px, 100%); margin-top: 22px; }
+
+  :global(html.gl) .panel-card { align-items: center; padding: 84px var(--gutter) 96px; justify-content: flex-start; }
+  :global(html.gl) .panel-strip { align-items: flex-end; padding: 84px var(--gutter) 84px; justify-content: flex-start; }
+  :global(html.gl) .card {
+    width: min(560px, 100%); max-height: 100%; overflow-y: auto; overscroll-behavior: contain;
+    padding: clamp(18px, 2.4vw, 32px); border-radius: 18px;
+    background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+    backdrop-filter: blur(16px) saturate(1.3); -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
+    box-shadow: 0 20px 60px rgb(0 0 0 / .28);
+    scrollbar-width: thin;
+  }
+  :global(html.gl) .strip { width: min(520px, 100%); max-height: min(38vh, 360px); }
+  :global(html.gl) .project-body { display: none; }
+
+  :global(html.gl) .pager {
+    position: absolute; z-index: 30; left: 50%; transform: translateX(-50%);
+    bottom: max(18px, env(safe-area-inset-bottom)); display: flex !important; align-items: center; gap: 6px;
+    padding: 6px; border-radius: 999px; background: rgb(18 16 12 / .55); backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .12);
+  }
+  .pager ol { display: flex; gap: 4px; }
+  .arrow {
+    width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: #f6ecd0;
+    font-size: 22px; line-height: 1; cursor: pointer; transition: background-color .2s;
+  }
+  .arrow:hover { background: rgb(255 255 255 / .14); }
+  .dot {
+    display: flex; align-items: center; gap: 0; height: 36px; padding: 0 11px; border: 0; border-radius: 999px;
+    background: transparent; color: #f6ecd0; font: inherit; font-size: 11px; letter-spacing: .08em; cursor: pointer;
+    transition: background-color .25s, color .25s;
+  }
+  .dot-label { display: none; margin-left: 8px; text-transform: uppercase; letter-spacing: .08em; font-size: 11px; }
+  .dot:hover { background: rgb(255 255 255 / .14); }
+  .dot.on { background: #f2c21b; color: #14120d; }
+  .dot.on .dot-label { display: inline; }
+  :global(html.gl) .plain {
+    position: absolute; z-index: 30; right: var(--gutter); bottom: max(24px, env(safe-area-inset-bottom));
+    color: #f6ecd0; opacity: .7; padding: 6px 0;
   }
 
-  @media (max-width: 1080px) {
-    .base { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* project modal */
+  :global(html.gl) .modal {
+    position: absolute; inset: 0; z-index: 40; display: grid; place-items: center; padding: 18px;
+    background: rgb(8 7 5 / .6); backdrop-filter: blur(6px);
   }
-  @media (max-width: 640px) {
-    .ticker-wrap { padding-bottom: 40px; }
-    .hero {
-      padding-top: 44px;
-      /* 32, not 40: the LED board is a few px taller than the old strip,
-         and the page must still fit one phone screen. */
-      padding-bottom: 32px;
-    }
-    .name {
-      white-space: normal;
-      font-size: clamp(60px, 20vw, 105px);
-    }
-    .name .word { display: block; }
-    .lead { margin-top: 32px; }
-    .base {
-      padding-block: 56px 0;
-      gap: 32px 20px;
-    }
-    .side { display: none; }
+  :global(html.gl) .modal[hidden] { display: none; }
+  .modal-card {
+    position: relative; width: min(720px, 100%); max-height: min(86vh, 100%); overflow-y: auto;
+    padding: clamp(18px, 3vw, 34px); border-radius: 18px; background: var(--color-bg); color: var(--color-text);
+    border: 1px solid var(--color-divider); animation: rise .45s var(--ease-out);
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(24px) scale(.98); } to { opacity: 1; transform: none; } }
+  .modal-close {
+    position: sticky; top: 0; float: right; margin: -6px -6px 8px 12px; padding: 8px 14px; border: 1px solid var(--color-divider);
+    border-radius: 999px; background: var(--color-bg); color: var(--color-accent); font: inherit; font-size: 13px; cursor: pointer;
+  }
+  /* The pop-up's body is copied in by script, so Astro's scoped styles don't
+     reach it: restyle its parts here. */
+  .modal-card :global(.project-body) { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 0; font-size: 15px; line-height: 1.5; }
+  .modal-card :global(.shot) { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; }
+  .modal-card :global(.kind) { display: block; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--color-muted); }
+  .modal-card :global(.story) { display: grid; grid-template-columns: 78px 1fr; gap: 8px 14px; margin: 0; }
+  .modal-card :global(.story dt) { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-muted); padding-top: 3px; }
+  .modal-card :global(.story dd) { margin: 0; }
+  .modal-card :global(.tags), .modal-card :global(.muted) { color: var(--color-muted); font-size: 13px; }
+  .modal-card :global(.go) {
+    display: inline-flex; align-items: center; gap: 14px; margin-top: 8px; padding: 9px 16px 9px 12px;
+    border: 1px solid var(--color-accent); border-radius: 999px; color: var(--color-accent); font-size: 14px;
+    transition: background-color .3s, color .3s;
+  }
+  .modal-card :global(.go:hover) { background: var(--color-accent); color: var(--color-bg); }
+  .modal-card :global(.go .ring) { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .modal-card :global(.modal-title) { font-family: var(--font-display); font-size: clamp(30px, 4vw, 48px); line-height: 1; color: var(--color-accent); margin: 0 0 10px; }
+
+  @media (max-width: 760px) {
+    :global(html.gl) .panel-card, :global(html.gl) .panel-strip { align-items: flex-end; padding: 74px 12px 74px; }
+    :global(html.gl) .card { max-height: 54vh; width: 100%; }
+    :global(html.gl) .strip { max-height: 40vh; }
+    :global(html.gl) .panel-start { padding: 74px 18px 84px; }
+    :global(html.gl) .panel-start .start-top { top: 74px; left: 18px; font-size: 13px; }
+    :global(html.gl) .panel-start .name .word { display: block; }
+    :global(html.gl) .panel-start .lead { font-size: 15px; max-width: 34ch; }
+    :global(html.gl) .panel-start .tip { display: none; }
+    :global(html.gl) .plain { display: none; }
+    :global(html.gl) .board { top: 64px; padding: 5px 12px 4px; }
+    :global(html.gl) .board-en, :global(html.gl) .board-mr { font-size: 16px; }
+    :global(html.gl) .board-next { display: none; }
+    :global(html.gl) .brand-role { display: none; }
+    :global(html.gl) .hud { align-items: flex-start; }
+    .dot { padding: 0 8px; }
+    .dot-label { display: none !important; }
+  }
+  @media (max-width: 420px) {
+    .brand-text { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(html.gl) .panel, :global(html.gl) .panel.active { transition-duration: .01s; }
+    .board.flip, .modal-card { animation: none; }
   }
 </style>
