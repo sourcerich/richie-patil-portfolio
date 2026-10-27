@@ -8,6 +8,7 @@ imagePortrait: "/content/projects/portrait/72street.webp"
 link: "https://play.google.com/store/apps/details?id=com.everisseai.app72street"
 linkLabel: "View on Google Play ↗"
 tags: ["Fintech", "Mobile & tablet", "Market data", "Subscriptions", "SEBI-aligned"]
+skills: [web, data]
 summary: "An advisory-only stock app for Indian investors: human-guided recommendations, with the reasoning behind every call."
 problem: "Most investing apps are built for speed and execution. 72 Street wanted the opposite: calm, explainable, advisor-led guidance, with no trading, demat or order execution in the loop."
 build: "A phone and tablet app with OTP login, advisor recommendations that carry an entry range, target, stop-loss and risk-reward ratio, live market data and watchlists, and subscription plans. Consent-first and DPDP-compliant, with no dark patterns."

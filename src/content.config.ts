@@ -2,38 +2,35 @@ import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 
-// The YAML stays in /content at the repo root. One collection per page
-// (each holds a single entry, id = file name) plus the projects. Each page's
-// `ghost` is the faded Marathi word drawn behind its title.
+// The YAML stays in /content at the repo root: the page copy (index.yml),
+// the longer About material (about.yml) and one file per project.
 const seo = z.object({ title: z.string(), description: z.string() })
 const base = './content'
 
 const index = defineCollection({
   loader: glob({ pattern: 'index.yml', base }),
   schema: z.object({
+    title: z.string(),
     seo,
-    ticker: z.array(z.object({ lang: z.string(), text: z.string() })).min(1),
+    name: z.string(),
+    nameMr: z.string(),
     role: z.string(),
-    location: z.string(),
-    lead: z.string(),
-    now: z.object({ label: z.string(), value: z.string() }),
-    contact: z.object({
-      ghost: z.string(),
+    intro: z.string(),
+    available: z.string(),
+    stats: z.array(z.object({ value: z.string(), label: z.string() })),
+    skills: z.array(z.object({
+      key: z.string(),
       title: z.string(),
-      subtitle: z.string(),
+      color: z.string(),
       body: z.string()
-    })
+    })).min(1),
+    contact: z.object({ title: z.string(), body: z.string() })
   })
 })
 
 const about = defineCollection({
   loader: glob({ pattern: 'about.yml', base }),
   schema: z.object({
-    title: z.string(),
-    seo,
-    ghost: z.string(),
-    headline: z.array(z.string()),
-    subtitle: z.string(),
     profile: z.string(),
     stack: z.string(),
     recognition: z.array(z.string()),
@@ -55,32 +52,6 @@ const about = defineCollection({
   })
 })
 
-const service = defineCollection({
-  loader: glob({ pattern: 'service.yml', base }),
-  schema: z.object({
-    title: z.string(),
-    seo,
-    ghost: z.string(),
-    subtitle: z.string(),
-    items: z.array(z.object({
-      title: z.string(),
-      ghost: z.string(),
-      body: z.string(),
-      image: z.string()
-    }))
-  })
-})
-
-const work = defineCollection({
-  loader: glob({ pattern: 'work.yml', base }),
-  schema: z.object({
-    title: z.string(),
-    seo,
-    ghost: z.string(),
-    subtitle: z.string()
-  })
-})
-
 const projects = defineCollection({
   loader: glob({ pattern: 'projects/*.yml', base }),
   schema: z.object({
@@ -98,6 +69,8 @@ const projects = defineCollection({
     confidential: z.boolean().optional(),
     gallery: z.array(z.object({ src: z.string(), alt: z.string() })).optional(),
     tags: z.array(z.string()),
+    // Keys of the skills in index.yml this project used; the first sets its colour.
+    skills: z.array(z.string()).min(1),
     summary: z.string(),
     problem: z.string(),
     build: z.string(),
@@ -107,4 +80,4 @@ const projects = defineCollection({
   })
 })
 
-export const collections = { index, about, service, work, projects }
+export const collections = { index, about, projects }

@@ -6,6 +6,7 @@ year: "2024"
 image: "/content/projects/sunspots.jpg"
 imagePortrait: "/content/projects/portrait/sunspots.webp"
 tags: ["Python", "Machine learning", "Time series", "Research"]
+skills: [ml, data]
 summary: "My final-year dissertation: forecasting sunspot activity and space weather with machine learning."
 problem: "Solar activity disrupts satellites, communications and power grids, and it is notoriously hard to forecast."
 build: "Feature engineering on observatory and satellite records, then time-series and ensemble models compared and tuned against each other."
