@@ -1,24 +1,18 @@
 ---
-// Every page: <head>, the skip link, the cursor ring and the page-wipe
-// panel. The first page uses this directly; inner pages go through Page.astro
-// which adds the header and footer.
+// Every page: <head>, the skip link, the ochre frame (with the email in a
+// notch in its corner) and paper grain over the page, and the scripts every
+// page shares.
 import '../styles/main.css'
-import CursorRing from '../components/CursorRing.astro'
-import { cleanPath, site, wipeName } from '../site'
+import { site } from '../site'
 
 interface Props {
-  // Page name for <title>; omitted on the first page.
-  title?: string
+  title: string
   description: string
-  ogTitle?: string
 }
 
-const { title, description, ogTitle } = Astro.props
-const fullTitle = title ? `${title} – ${site.name}` : `${site.name} – Designer & Engineer`
-const path = cleanPath(Astro.url.pathname)
+const { title, description } = Astro.props
 // Crawlers for link previews need absolute URLs.
-const pageUrl = site.url + path
-const wipe = wipeName(path)
+const pageUrl = site.url + Astro.url.pathname
 ---
 
 <!doctype html>
@@ -26,68 +20,40 @@ const wipe = wipeName(path)
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f3ebd6">
-    <title>{fullTitle}</title>
+    <meta name="theme-color" content="#ebbf63">
+    <title>{title}</title>
     <meta name="description" content={description}>
     <link rel="canonical" href={pageUrl}>
     <meta property="og:site_name" content={site.name}>
     <meta property="og:type" content="website">
     <meta property="og:url" content={pageUrl}>
-    <meta property="og:title" content={ogTitle ?? fullTitle}>
+    <meta property="og:title" content={title}>
     <meta property="og:description" content={description}>
     <meta property="og:image" content={`${site.url}/richie.jpg`}>
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content={`${site.url}/richie.jpg`}>
-    <link rel="icon" type="image/png" href="/logo.png">
-    <link rel="apple-touch-icon" href="/logo.png">
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/kalnia-latin.woff2" crossorigin>
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/instrument-sans-latin.woff2" crossorigin>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/shantell-sans-latin.woff2" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/nunito-latin.woff2" crossorigin>
     <!--
-      Runs before first paint. Flags that JS is on (so CSS hides
-      not-yet-revealed elements only when JS will reveal them), picks day or
-      night from the saved choice (falling back to the OS setting), and starts
-      the page covered when we arrived through the page wipe.
+      Runs before first paint: flags that JS is on, so CSS hides
+      not-yet-revealed elements only when JS will reveal them.
     -->
     <script is:inline>
-      (() => {
-        const d = document.documentElement
-        d.classList.add('js')
-        let t = null
-        try {
-          t = localStorage.getItem('theme')
-        } catch {
-          // Storage disabled: fall back to the OS setting.
-        }
-        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        d.dataset.mode = t
-        if (t === 'dark') document.querySelector('meta[name=theme-color]').content = '#141311'
-        try {
-          if (sessionStorage.getItem('wipe')) {
-            sessionStorage.removeItem('wipe')
-            if (!matchMedia('(prefers-reduced-motion: reduce)').matches) d.dataset.wipe = ''
-          }
-        } catch {
-          // Storage disabled: no cover to lift.
-        }
-      })()
+      document.documentElement.classList.add('js')
     </script>
   </head>
   <body>
     <a href="#main" class="skip">Skip to content</a>
-    <CursorRing />
-    <div id="page-wipe" class="page-wipe" aria-hidden="true">
-      <span id="page-wipe-en" class="display">{wipe.en}</span>
-      <!-- No lang="mr" (see PageHead.astro): it breaks र् conjuncts in Eczar. -->
-      <span id="page-wipe-mr" class="deva">{wipe.mr}</span>
-    </div>
     <slot />
+    <div class="frame" aria-hidden="true"></div>
+    <a href={`mailto:${site.email}`} class="frame-mail">{site.email}</a>
   </body>
 </html>
 
 <script>
   import '../scripts/smooth-scroll'
   import '../scripts/reveal'
-  import '../scripts/page-wipe'
 </script>
 
 <style>
@@ -97,30 +63,9 @@ const wipe = wipeName(path)
     top: 12px;
     z-index: 400;
     padding: 10px 14px;
-    background: var(--color-band);
-    color: var(--color-on-band);
+    background: var(--color-ink);
+    color: var(--color-cream);
     transform: translateY(-200%);
   }
   .skip:focus-visible { transform: none; }
-  .page-wipe {
-    position: fixed;
-    inset: 0;
-    z-index: 150;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: var(--color-band);
-    color: var(--color-on-band);
-    clip-path: inset(100% 0 0 0);
-    pointer-events: none;
-  }
-  /* Arrived through the wipe: start covered, page-wipe.ts lifts it. */
-  :global(html[data-wipe]) .page-wipe { clip-path: inset(0 0 0 0); }
-  .page-wipe .display {
-    color: inherit;
-    font-size: clamp(56px, 10vw, 150px);
-  }
-  .page-wipe .deva { font-size: clamp(22px, 2.6vw, 34px); }
 </style>

@@ -1,37 +1,43 @@
-title: "Richie Patil – Designer & Engineer"
-description: "Richie Patil is a full-stack developer in Mumbai. He builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
+title: "Richie Patil – Full-stack & AI engineer"
 seo:
-  title: "Richie Patil – Designer & Engineer"
-  description: "Richie Patil is a full-stack developer in Mumbai. He builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
+  title: "Richie Patil – Full-stack & AI engineer"
+  description: "Richie Patil builds backends, data pipelines and AI systems: APIs for SaaS products, ETL and MLOps, retrieval-augmented generation and machine-learning models."
 
-# The band that scrolls along the bottom of the first page: the same line
-# in the most widely spoken languages, English first (it is also the
-# accessible label). `lang` sets the right font and shaping per phrase.
-ticker:
-  - { lang: en, text: "I’m available for work internationally." }
-  - { lang: zh, text: "我可以承接来自世界各地的工作。" }
-  - { lang: hi, text: "मैं दुनिया भर में काम के लिए उपलब्ध हूँ।" }
-  - { lang: es, text: "Estoy disponible para trabajar a nivel internacional." }
-  - { lang: ar, text: "أنا متاح للعمل على المستوى الدولي." }
-  - { lang: fr, text: "Je suis disponible pour travailler à l’international." }
-  - { lang: bn, text: "আমি আন্তর্জাতিক কাজের জন্য প্রস্তুত।" }
-  - { lang: pt, text: "Estou disponível para trabalhar internacionalmente." }
-  - { lang: ru, text: "Открыт к работе с клиентами по всему миру." }
-  - { lang: ja, text: "海外からのお仕事もお受けしています。" }
-  - { lang: de, text: "Ich bin international für Projekte verfügbar." }
-  - { lang: mr, text: "मी जगभरातील कामासाठी उपलब्ध आहे." }
+# The hero.
+name: "Richie Patil"
+# The Marathi touch: the name in Devanagari.
+nameMr: "रिची पाटील"
+role: "Full-stack & AI engineer"
+intro: "I build backends, data pipelines and AI systems for SaaS products, mostly the parts that have to keep working when traffic spikes."
+available: "Available for work worldwide"
 
-role: "Crafting web and applications, thoughtfully infused with AI"
-location: "Based in Mumbai"
-lead: "I build full-stack web apps in React, Node.js and TypeScript, and machine-learning code in Python. Most of my week goes to APIs and data pipelines for SaaS products."
+# Numbers along the bottom of the hero.
+stats:
+  - { value: "5", label: "SaaS products with my APIs behind them" }
+  - { value: "45 s → 145 ms", label: "one endpoint, after finding its bottleneck" }
+  - { value: "1M+", label: "certificates the Sankalp platform can hold" }
+  - { value: "~85%", label: "accuracy forecasting sunspot activity" }
 
-# Bottom-left of the first page.
-now:
-  label: "Now"
-  value: "Lead Developer\nGenX (SundayTech)"
+# What I do. `key` is what projects list under `skills`; `color` paints the
+# skill's card and every project that lists it first.
+skills:
+  - key: "web"
+    title: "Full-stack & APIs"
+    color: "#dd5f2e"
+    body: "React and TypeScript on the front, Node.js, Express and Sequelize behind it. I’ve built the APIs behind five SaaS products, including a multi-tenant CRM, and once took a 45-second endpoint down to 145 ms."
+  - key: "data"
+    title: "Data & MLOps"
+    color: "#8e9a3e"
+    body: "ETL jobs, scrapers and aggregation pipelines feeding Segment, Google Analytics and Power BI, shipped in Docker through CI."
+  - key: "ai"
+    title: "Generative AI"
+    color: "#f2a531"
+    body: "Retrieval over your own documents with LangChain and Llama 3 or GPT, running serverless on AWS Lambda."
+  - key: "ml"
+    title: "Machine learning"
+    color: "#d98b76"
+    body: "Supervised models with scikit-learn and Pandas. My dissertation forecast sunspot activity at about 85% accuracy."
 
 contact:
-  ghost: "संपर्क"
-  title: "Contact"
-  subtitle: "Get in touch"
-  body: "Thanks for reading this far. If you’re building something and want another pair of hands on the backend or the machine-learning side, write to me. I’m happy to talk an idea through before there’s a spec."
+  title: "Let’s build something"
+  body: "If you’re building something and want another pair of hands on the backend or the machine-learning side, write to me. I’m happy to talk an idea through before there’s a spec."

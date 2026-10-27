@@ -5,6 +5,7 @@ type: "Data pipeline"
 year: "2024"
 image: "/content/projects/scraper.webp"
 tags: ["Python", "Selenium", "BeautifulSoup", "ETL", "Power BI"]
+skills: [data]
 summary: "A scalable scraper and ETL pipeline feeding an e-commerce analytics dashboard in Power BI."
 problem: "Product and pricing data sat behind dynamic pages that simple scrapers couldn’t read."
 build: "Selenium renders the dynamic pages and BeautifulSoup parses them. Rate limiting keeps it from hammering the sites, incremental updates mean it only fetches what changed, and the cleaned data lands in Power BI."

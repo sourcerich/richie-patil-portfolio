@@ -7,6 +7,7 @@ image: "/content/projects/tavco/01.webp"
 imagePortrait: "/content/projects/portrait/tavco.webp"
 link: "https://tavcogrowth.com/"
 tags: ["Node.js", "TypeScript", "Express", "Sequelize", "Multi-tenant SaaS"]
+skills: [web]
 summary: "GrowthPipe, a lead-management CRM, and the site that feeds it: one partner for the software and the leads."
 problem: "Leads arrived from Meta and Google ads, WhatsApp and landing pages, and callers lost track of who to call back and what had already happened."
 build: "A multi-tenant CRM where a caller’s whole day is one screen: callbacks first, tap to call, log the outcome, move on. Each company’s data is kept separate at the database level, so isolation can’t be switched off by mistake, and every enquiry from the landing pages flows straight in."
