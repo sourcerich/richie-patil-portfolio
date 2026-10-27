@@ -1,14 +1,23 @@
 ---
-import Page from '../layouts/Page.astro'
-import PageHead from '../components/PageHead.astro'
+import Base from '../layouts/Base.astro'
 ---
 
-<Page title="Page not found" description="There’s nothing at this address.">
-  <PageHead ghost="हरवले" lines={['Not found']} subtitle="There’s nothing at this address." />
-  <section class="wrap section">
-    <a href="/" class="dot-link">
-      <span class="ring" aria-hidden="true"></span>
-      Back to the start
-    </a>
-  </section>
-</Page>
+<Base title="Not found – Richie Patil" description="There’s nothing at this address.">
+  <main id="main" class="wrap lost">
+    <p class="mono">404</p>
+    <h1 class="display">Nothing here.</h1>
+    <a href="/" class="pill">Back to the graph</a>
+  </main>
+</Base>
+
+<style>
+  .lost {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 22px;
+  }
+  .lost h1 { font-size: clamp(64px, 12vw, 180px); color: var(--rust); }
+</style>

@@ -1,16 +1,3 @@
-title: "About"
-description: "Richie Patil is a full-stack developer in Mumbai who builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
-seo:
-  title: "About – Richie Patil"
-  description: "Richie Patil is a full-stack developer in Mumbai who builds web apps and APIs in React, Node.js and TypeScript, and machine-learning systems in Python."
-
-ghost: "ओळख"
-headline:
-  - "I’m a"
-  - "designer"
-  - "& developer"
-subtitle: "About me"
-
 profile: "I’m Richie Vidyadhar Patil, a full-stack developer in Mumbai. I studied Computer Science at Amity University Mumbai, specialising in AI and machine learning, with a minor in Business Management. The minor turned out to matter more than I expected, because most of the hard calls in a system are business calls first."
 
 stack: "TypeScript, Python, R · Node.js, Express, React · Pandas, NumPy, scikit-learn, LangChain · AWS (Lambda, EC2, S3), Azure · MySQL, PostgreSQL, Snowflake · Docker, CI/CD, Git"

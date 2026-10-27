@@ -1,501 +1,477 @@
 ---
-// The first page is now a 3D Mumbai you move through (scripts/world). Five
-// stops, one per page of the site: Start (a kaali-peeli taxi at dusk), About
-// (a local-train platform), Service (a Gateway-style arch hung with lanterns),
-// Work (a curved row of project hoardings) and Contact (the sea promenade).
-//
-// All the copy is real HTML that comes from the same content files as the
-// plain pages, so it indexes, reads aloud and works without WebGL: if the
-// 3D can't start, the panels simply stack as an ordinary page.
+// The whole site, on one page: the hero, what I do, the work (each case
+// opens in place), about and contact. All the copy comes from content/.
+// Behind it, a three.js garden (scripts/garden): a flower opening behind
+// the name, and leaves and petals drifting through the page.
 import { getCollection, getEntry } from 'astro:content'
 import Base from '../layouts/Base.astro'
-import BrandMark from '../components/BrandMark.astro'
-import Ticker from '../components/Ticker.astro'
-import ThemeToggle from '../components/ThemeToggle.astro'
-import SoundToggle from '../components/SoundToggle.astro'
 import { site } from '../site'
 
 const page = (await getEntry('index', 'index'))!.data
 const about = (await getEntry('about', 'about'))!.data
-const service = (await getEntry('service', 'service'))!.data
-const work = (await getEntry('work', 'work'))!.data
 const projects = (await getCollection('projects'))
   .map(entry => entry.data)
   .sort((a, b) => a.order - b.order)
 
-const ids = ['start', 'about', 'service', 'work', 'contact']
+const skillByKey = new Map(page.skills.map(s => [s.key, s]))
+const colorOf = (keys: string[]) => skillByKey.get(keys[0]!)?.color ?? '#fff3df'
 const num = (i: number) => String(i + 1).padStart(2, '0')
-const world = {
-  stops: site.nav.map(link => ({ en: link.label, mr: link.mr, to: link.to })),
-  services: service.items.map(item => item.title),
-  projects: projects.map(p => ({ slug: p.slug, title: p.title, image: p.image ?? '' })).filter(p => p.image)
-}
+const year = new Date().getFullYear()
 ---
 
-<Base ogTitle={page.seo.title} description={page.seo.description}>
-  <main id="main" class="world" data-world={JSON.stringify(world)}>
-    <canvas id="world-canvas" class="canvas" aria-hidden="true"></canvas>
-    <div class="vignette" aria-hidden="true"></div>
+<Base title={page.seo.title} description={page.seo.description}>
+  <canvas id="garden" class="garden" aria-hidden="true"></canvas>
+  <!-- three slightly different wobbles; the name cycles through them so its edges boil -->
+  <svg class="defs" aria-hidden="true" focusable="false">
+    {[3, 11, 23].map((seed, i) => (
+      <filter id={`boil-${i}`}>
+        <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed={seed} />
+        <feDisplacementMap in="SourceGraphic" scale="5" />
+      </filter>
+    ))}
+  </svg>
+  <header class="top">
+    <a href="#main" class="brand">{site.name}</a>
+    <nav class="nav" aria-label="Sections">
+      {site.nav.map(link => <a href={link.to} class="line-link">{link.label}</a>)}
+    </nav>
+    <a href={`mailto:${site.email}`} class="pill hire">Hire me</a>
+  </header>
 
-    <header class="hud">
-      <a href="/" class="brand" aria-label="Richie Patil, home">
-        <BrandMark class="mark" />
-        <span class="brand-text">
-          <span class="brand-name">{site.name}</span>
-          <span class="brand-role">Designer / Engineer</span>
-        </span>
-      </a>
-      <div class="board" aria-live="polite">
-        <span class="board-no tnum" id="board-no">01 / 05</span>
-        <span class="board-en" id="board-en">{site.nav[0]!.label}</span>
-        <span class="board-mr deva" id="board-mr" aria-hidden="true">{site.nav[0]!.mr}</span>
-        <span class="board-next" id="board-next">Next station: {site.nav[1]!.label}</span>
+  <main id="main">
+    <section class="hero wrap">
+      <div class="hero-top">
+        <p class="mono kicker">{page.role}</p>
+        <p class="mono available"><span class="pulse" aria-hidden="true"></span>{page.available}</p>
       </div>
-      <div class="toggles">
-        <SoundToggle />
-        <ThemeToggle />
-      </div>
-    </header>
-
-    <div class="panels">
-      <section id="start" class="panel panel-start" data-stop="0" aria-label="Start">
-        <div class="start-top">
-          <p class="meta">
-            <span class="label">Local time</span>
-            <span class="tnum">{site.city} <span id="clock">--:--</span></span>
-          </p>
-          <p class="meta">
-            <span class="label">{page.now.label}</span>
-            <span class="pre">{page.now.value}</span>
-          </p>
-        </div>
+      <!-- the garden draws its flower behind this box; tap it to shake petals loose -->
+      <div class="bloom" data-bloom>
         <h1 class="display name">
-          <span class="word">Richie</span> <span class="word">Patil</span>
+          <span>{page.name.split(' ')[0]}</span>
+          <span>{page.name.split(' ').slice(1).join(' ')}</span>
         </h1>
-        <p class="role">
-          <span>{page.role}</span>
-          <span>{page.location}</span>
-        </p>
-        <p class="lead">{page.lead}</p>
-        <div class="actions">
-          <button type="button" class="go" data-next>
-            <span class="ring" aria-hidden="true"></span>
-            Take the local
-          </button>
-          <span class="tip tip-gl">Scroll, swipe or use ← → to travel. Tap the taxi.</span>
-        </div>
-        <div class="ticker-wrap">
-          <Ticker phrases={page.ticker} />
-        </div>
-      </section>
-
-      <section id="about" class="panel panel-card" data-stop="1" aria-label="About">
-        <div class="card" data-lenis-prevent>
-          <p class="label">{about.subtitle}</p>
-          <h2 class="display title">{about.title} <span class="deva mr" aria-hidden="true">{about.ghost}</span></h2>
-          <p class="big">{about.profile}</p>
-          <div class="cols">
-            <div>
-              <h3 class="label">Stack</h3>
-              <p>{about.stack}</p>
-            </div>
-            <div>
-              <h3 class="label">Recognition</h3>
-              <ul>{about.recognition.map(line => <li>{line}</li>)}</ul>
-            </div>
-            <div>
-              <h3 class="label">Outside work</h3>
-              <p>{about.outside}</p>
-            </div>
-          </div>
-          <h3 class="display sub">{about.approach.title}</h3>
-          <ul class="values">
-            {about.approach.items.map(item => (
-              <li><strong>{item.title}.</strong> {item.body}</li>
-            ))}
-          </ul>
-          <h3 class="display sub">{about.experience.title}</h3>
-          <ol class="jobs">
-            {about.experience.items.map(job => (
-              <li>
-                <span class="tnum when">{job.when}</span>
-                <span class="org">{job.org} <span class="muted">· {job.role}</span></span>
-                <span class="note">{job.note}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section id="service" class="panel panel-card" data-stop="2" aria-label="Service">
-        <div class="card" data-lenis-prevent>
-          <p class="label">{service.subtitle}</p>
-          <h2 class="display title">{service.title} <span class="deva mr" aria-hidden="true">{service.ghost}</span></h2>
-          <ol class="services">
-            {service.items.map((item, i) => (
-              <li>
-                <span class="tnum n">{num(i)}</span>
-                <div>
-                  <h3 class="item-title">{item.title} <span class="deva mr" aria-hidden="true">{item.ghost}</span></h3>
-                  <p>{item.body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section id="work" class="panel panel-strip" data-stop="3" aria-label="Work">
-        <div class="card strip" data-lenis-prevent>
-          <p class="label">{work.subtitle}</p>
-          <h2 class="display title">{work.title} <span class="deva mr" aria-hidden="true">{work.ghost}</span></h2>
-          <p class="tip tip-gl">Pick a hoarding, or choose one below.</p>
-          <ol class="projects">
-            {projects.map((p, i) => (
-              <li class="project" id={`p-${p.slug}`}>
-                <button type="button" class="pill" data-project={p.slug}>
-                  <span class="tnum n">{num(i)}</span>
-                  <span class="t">{p.title}</span>
-                  <span class="y tnum">{p.year}</span>
-                </button>
-                <div class="project-body">
-                  {p.image && <img src={p.image} alt={p.title} loading="lazy" class="shot">}
-                  <p class="kind label">{p.type}</p>
-                  <p class="summary">{p.summary}</p>
-                  <dl class="story">
-                    <dt>Problem</dt><dd>{p.problem}</dd>
-                    <dt>Build</dt><dd>{p.build}</dd>
-                    <dt>Outcome</dt><dd>{p.outcome}</dd>
-                  </dl>
-                  <p class="tags">{p.tags.slice(0, 5).join(' · ')}</p>
-                  {p.link
-                    ? <a href={p.link} target="_blank" rel="noopener" class="go small"><span class="ring" aria-hidden="true"></span>{(p.linkLabel ?? 'Visit the live site').replace(/\s*↗$/, '')}</a>
-                    : p.repo
-                      ? <a href={p.repo} target="_blank" rel="noopener" class="go small"><span class="ring" aria-hidden="true"></span>Available on GitHub</a>
-                      : <span class="muted">{p.confidential ? 'Client work, under NDA' : 'Not public'}</span>}
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section id="contact" class="panel panel-card" data-stop="4" aria-label="Contact">
-        <div class="card" data-lenis-prevent>
-          <p class="label">{page.contact.subtitle}</p>
-          <h2 class="display title">{page.contact.title} <span class="deva mr" aria-hidden="true">{page.contact.ghost}</span></h2>
-          <p class="big">{page.contact.body}</p>
-          <div class="cols">
-            <div>
-              <h3 class="label">Mail</h3>
-              <a href={`mailto:${site.email}`} class="line-link" id="mail-link">{site.email}</a>
-            </div>
-            <div>
-              <h3 class="label">Elsewhere</h3>
-              <p class="socials">
-                {site.socials.map(social => (
-                  <a href={social.to} target="_blank" rel="noopener" class="line-link">{social.label}</a>
-                ))}
-              </p>
-            </div>
-            <div>
-              <h3 class="label">Based in</h3>
-              <p>{site.city}, and happy working with teams anywhere.</p>
-            </div>
-          </div>
-          <p class="off">
-            <span class="deva" lang="mr">राम राम भाऊ</span>
-          </p>
-        </div>
-      </section>
-    </div>
-
-    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Project" hidden>
-      <div class="modal-card" data-lenis-prevent>
-        <button type="button" class="modal-close" id="modal-close" aria-label="Close project">Close</button>
-        <div id="modal-body"></div>
+        <p class="deva mr">{page.nameMr}</p>
       </div>
-    </div>
+      <p class="intro">{page.intro}</p>
+      <div class="actions">
+        <a href="#work" class="pill">See the work</a>
+        <a href={`mailto:${site.email}`} class="pill pill-warm">Write to me</a>
+      </div>
+      <ul class="stickers" aria-label="What I do">
+        {page.skills.map((s, i) => (
+          <li style={`--c: ${s.color}; --r: ${[-6, 4, -3, 7][i % 4]}deg`}>
+            <a href={`#skill-${s.key}`} class="sticker">{s.title}</a>
+          </li>
+        ))}
+      </ul>
+      <ul class="stats">
+        {page.stats.map(s => (
+          <li><strong class="display">{s.value}</strong><span>{s.label}</span></li>
+        ))}
+      </ul>
+    </section>
 
-    <nav class="pager" aria-label="Stations">
-      <button type="button" class="arrow" data-prev aria-label="Previous station">‹</button>
-      <ol>
-        {ids.map((_, i) => (
-          <li>
-            <button type="button" class="dot" data-goto={i} aria-label={`${site.nav[i]!.label}, ${site.nav[i]!.mr}`}>
-              <span class="tnum">{num(i)}</span>
-              <span class="dot-label">{site.nav[i]!.label}</span>
-            </button>
+    <section id="skills" class="section wrap" aria-labelledby="skills-title">
+      <h2 id="skills-title" class="display h2" data-reveal>What I do</h2>
+      <ol class="grid skills">
+        {page.skills.map((s, i) => {
+          const used = projects.filter(p => p.skills.includes(s.key))
+          return (
+            <li id={`skill-${s.key}`} class="card skill" style={`--c: ${s.color}`} data-reveal={i * 80}>
+              <p class="mono n">{num(i)}</p>
+              <h3 class="card-title">{s.title}</h3>
+              <p>{s.body}</p>
+              <p class="mono used-label">Built with it</p>
+              <ul class="chips">
+                {used.map(p => <li><a href={`#p-${p.slug}`} class="chip" data-open>{p.title}</a></li>)}
+              </ul>
+            </li>
+          )
+        })}
+      </ol>
+    </section>
+
+    <section id="work" class="section wrap" aria-labelledby="work-title">
+      <div class="section-head">
+        <h2 id="work-title" class="display h2" data-reveal>Work</h2>
+        <p class="lede" data-reveal>{projects.length} things I’ve built since 2022, from SaaS backends to a sunspot model.</p>
+      </div>
+      <ol class="grid projects">
+        {projects.map((p, i) => (
+          <li class="project-cell">
+            <article id={`p-${p.slug}`} class="card project" style={`--c: ${colorOf(p.skills)}`} data-reveal={(i % 2) * 80}>
+              {p.image && <img class="shot" src={p.image} alt="" loading="lazy" decoding="async" width="1200" height="750">}
+              {!p.image && p.confidential && <div class="shot nda"><span class="mono">Client work · under NDA</span></div>}
+              <div class="project-body">
+                <p class="mono n">{num(i)} · {p.type} · {p.year}</p>
+                <h3 class="card-title">{p.title}</h3>
+                <p class="metric"><strong class="display">{p.metric}</strong> <span class="mono">{p.metricLabel}</span></p>
+                <p class="summary">{p.summary}</p>
+                <ul class="tags">{p.tags.map(t => <li class="mono">{t}</li>)}</ul>
+                <details class="case">
+                  <summary class="pill pill-small"><span class="open-label">Read the case</span><span class="close-label">Close the case</span></summary>
+                  <dl class="story">
+                    <dt class="mono">Problem</dt><dd>{p.problem}</dd>
+                    <dt class="mono">Build</dt><dd>{p.build}</dd>
+                    <dt class="mono">Outcome</dt><dd>{p.outcome}</dd>
+                  </dl>
+                  {p.gallery && (
+                    <div class="gallery">
+                      {p.gallery.map(g => <img src={g.src} alt={g.alt} loading="lazy" decoding="async">)}
+                    </div>
+                  )}
+                  <p class="case-links">
+                    {p.link && <a href={p.link} class="line-link" target="_blank" rel="noopener">{p.linkLabel ?? 'Visit the live site'} ↗</a>}
+                    {!p.link && p.repo && <a href={p.repo} class="line-link" target="_blank" rel="noopener">Available on GitHub ↗</a>}
+                    {p.confidential && <span class="mono">Confidential client work</span>}
+                  </p>
+                </details>
+              </div>
+            </article>
           </li>
         ))}
       </ol>
-      <button type="button" class="arrow" data-next aria-label="Next station">›</button>
-    </nav>
+    </section>
 
-    <a href="/about" class="plain label">Plain version</a>
+    <section id="about" class="section wrap" aria-labelledby="about-title">
+      <h2 id="about-title" class="display h2" data-reveal>About</h2>
+      <div class="about">
+        <div class="about-main">
+          <p class="big" data-reveal>{about.profile}</p>
+          <div class="facts" data-reveal>
+            <div>
+              <h3 class="mono">Stack</h3>
+              <p>{about.stack}</p>
+            </div>
+            <div>
+              <h3 class="mono">Recognition</h3>
+              <ul>{about.recognition.map(r => <li>{r}</li>)}</ul>
+            </div>
+            <div>
+              <h3 class="mono">Outside work</h3>
+              <p>{about.outside}</p>
+            </div>
+          </div>
+        </div>
+        <div class="about-side">
+          <div class="card" style="--c: var(--rust)" data-reveal>
+            <h3 class="card-title">{about.approach.title}</h3>
+            <p class="mono sub">{about.approach.subtitle}</p>
+            <ol class="approach">
+              {about.approach.items.map((a, i) => (
+                <li><span class="mono n">{num(i)}</span><div><h4>{a.title}</h4><p>{a.body}</p></div></li>
+              ))}
+            </ol>
+          </div>
+          <div class="card" style="--c: var(--olive)" data-reveal>
+            <h3 class="card-title">{about.experience.title}</h3>
+            <ol class="jobs">
+              {about.experience.items.map(j => (
+                <li>
+                  <p class="mono when">{j.when}</p>
+                  <p class="org"><strong>{j.org}</strong> · {j.role}</p>
+                  <p class="note">{j.note}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section wrap contact" aria-labelledby="contact-title">
+      <div class="contact-card" data-reveal>
+        <h2 id="contact-title" class="display h2">{page.contact.title}</h2>
+        <p class="big">{page.contact.body}</p>
+        <a href={`mailto:${site.email}`} class="mail display">{site.email}</a>
+        <ul class="socials">
+          {site.socials.map(s => <li><a href={s.to} class="pill" target="_blank" rel="noopener">{s.label} ↗</a></li>)}
+        </ul>
+      </div>
+    </section>
   </main>
+
+  <footer class="foot wrap">
+    <p class="mono">© {year} {site.name} · <span class="deva">{page.nameMr}</span></p>
+    <a href="#main" class="mono line-link">Back to top ↑</a>
+  </footer>
 </Base>
 
 <script>
-  import '../scripts/world/stage'
+  import '../scripts/garden/stage'
+  import '../scripts/open-case'
 </script>
 
 <style>
-  /* ——— flat mode (default): an ordinary stacked page ——— */
-  .world {
-    position: relative;
-    color: var(--color-text);
+  /* ——— the garden, fixed behind the page ——— */
+  .garden {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease;
   }
-  .canvas, .vignette, .pager, .modal, .tip-gl, .board-next { display: none; }
-  .hud {
+  :global(html.garden-ready) .garden { opacity: 1; }
+  .defs { position: absolute; width: 0; height: 0; }
+  main, .foot { position: relative; z-index: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    :global(html.garden-on) .name, :global(html.garden-on) .mr { animation: none; }
+  }
+
+  /* ——— header ——— */
+  .top {
     position: sticky;
-    top: 0;
+    top: var(--frame-w);
     z-index: 20;
     display: flex;
     align-items: center;
+    gap: 28px;
+    padding: 14px var(--gutter);
+    background: var(--color-bg);
+    border-bottom: 2px solid var(--color-line);
+  }
+  .brand { font-weight: 800; font-size: 21px; font-variation-settings: var(--hand-loud); }
+  .nav { display: flex; gap: 22px; margin-left: auto; font-weight: 600; }
+  .hire { padding: 8px 16px; background: var(--marigold); }
+
+  /* ——— hero ——— */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: clamp(22px, 4vh, 44px);
+    padding-bottom: 28px;
+  }
+  .hero-top { align-self: stretch; }
+  .hero-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  .kicker { padding: 4px 10px; border-radius: 6px; background: var(--rust); color: var(--color-cream); }
+  .available { display: inline-flex; align-items: center; gap: 10px; }
+  .pulse {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--olive);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--olive) 70%, transparent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    to { box-shadow: 0 0 0 12px transparent; }
+  }
+  /* the flower is drawn behind this box. The name is plain white type with
+     no outline; it reads as hand-drawn because its edges boil, cycling
+     through three wobble filters a few times a second. */
+  .bloom {
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-block: clamp(20px, 5vh, 50px);
+  }
+  :global(html.garden-on) .bloom { min-height: clamp(440px, 66vh, 720px); cursor: pointer; }
+  .name, .mr { position: relative; z-index: 1; pointer-events: none; }
+  .name {
+    font-family: var(--font-title);
+    font-weight: 900;
+    font-variation-settings: normal;
+    font-size: clamp(54px, 9vw, 160px);
+    line-height: .9;
+    letter-spacing: -.01em;
+    color: var(--color-ink);
+  }
+  .name span { display: inline-block; margin-inline: .1em; }
+  .mr { margin-top: 12px; font-size: clamp(26px, 2.6vw, 38px); color: var(--color-ink); }
+  :global(html.garden-on) .name,
+  :global(html.garden-on) .mr { color: #fbf8f0; animation: boil .36s steps(1) infinite; }
+  @keyframes boil {
+    0% { filter: url(#boil-0); }
+    33% { filter: url(#boil-1); }
+    66% { filter: url(#boil-2); }
+  }
+  .intro { max-width: 50ch; font-size: clamp(17px, 1.5vw, 21px); }
+  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 22px; }
+  .pill-warm { background: var(--marigold); }
+
+  .stickers { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 10px; margin-top: 36px; }
+  .sticker {
+    display: inline-block;
+    padding: 12px 20px 14px;
+    border: 2.5px solid var(--color-ink);
+    border-radius: 16px;
+    background: var(--c);
+    color: var(--color-ink);
+    font-weight: 800;
+    font-size: clamp(18px, 1.7vw, 24px);
+    font-variation-settings: var(--hand-loud);
+    box-shadow: 4px 4px 0 var(--color-ink);
+    transform: rotate(var(--r));
+    transition: transform .4s var(--ease-spring), box-shadow .4s var(--ease-spring);
+  }
+  .sticker:hover { transform: rotate(0) translateY(-6px) scale(1.05); box-shadow: 6px 10px 0 var(--color-ink); }
+
+  .stats {
+    align-self: stretch;
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: clamp(30px, 5vh, 56px);
+    border-top: 2px solid var(--color-line);
+  }
+  .stats li { display: grid; gap: 4px; padding: 18px 18px 0 0; }
+  .stats li + li { padding-left: 18px; border-left: 2px solid var(--color-line); }
+  .stats strong { font-size: clamp(30px, 3.2vw, 48px); color: var(--color-ink); }
+  .stats span { font-size: 14px; color: var(--color-muted); max-width: 24ch; }
+
+  /* ——— sections ——— */
+  .section { padding-top: var(--section-y); scroll-margin-top: 40px; }
+  .h2 { font-size: clamp(56px, 9vw, 130px); color: var(--color-ink); }
+  .section-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 40px; }
+  .lede { max-width: 40ch; font-size: 19px; color: var(--color-muted); padding-bottom: 8px; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-top: 40px; }
+
+  .card {
+    position: relative;
+    padding: clamp(20px, 2.4vw, 32px);
+    border: 2.5px solid var(--color-ink);
+    border-radius: 22px;
+    background: var(--color-cream);
+    color: var(--color-ink);
+    box-shadow: 8px 8px 0 var(--c, var(--color-ink));
+    transition: transform .35s var(--ease-spring), box-shadow .35s var(--ease-spring);
+  }
+  .card:hover { transform: translate(-3px, -3px); box-shadow: 11px 11px 0 var(--c, var(--color-ink)); }
+  .card:target { animation: ping .9s var(--ease-out); }
+  @keyframes ping {
+    30% { transform: scale(1.02); }
+  }
+  .card-title { font-weight: 800; font-size: clamp(26px, 2.6vw, 38px); line-height: 1.05; font-variation-settings: var(--hand-loud); }
+  .card p { line-height: 1.5; }
+  .card .n { color: color-mix(in srgb, var(--color-ink) 60%, transparent); margin-bottom: 8px; }
+
+  .skill { scroll-margin-top: 100px; }
+  .skill .n { display: inline-block; padding: 2px 8px; border-radius: 6px; background: var(--c); color: var(--color-ink); }
+  .skill > p:not(.mono) { margin-top: 12px; }
+  .used-label { margin-top: 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .chip {
+    display: inline-block;
+    padding: 5px 12px;
+    border: 2px solid var(--color-ink);
+    border-radius: 999px;
+    background: var(--color-cream);
+    font-weight: 600;
+    font-size: 14px;
+    transition: background-color .2s, color .2s;
+  }
+  .chip:hover { background: var(--color-ink); color: var(--color-cream); }
+
+  .projects { align-items: start; }
+  /* an open case takes the full row */
+  .project-cell:has(details[open]) { grid-column: 1 / -1; }
+  .project-cell:has(details[open]) .shot { max-height: 440px; }
+  .project { padding: 0; overflow: hidden; scroll-margin-top: 90px; }
+  .shot {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-bottom: 2.5px solid var(--color-ink);
+  }
+  .nda {
+    display: grid;
+    place-items: center;
+    background: repeating-linear-gradient(-45deg, var(--color-ink) 0 14px, color-mix(in srgb, var(--color-ink) 85%, var(--c)) 14px 28px);
+    color: var(--color-cream);
+  }
+  .project-body { padding: 22px clamp(20px, 2.4vw, 30px) 26px; }
+  .metric { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 14px; }
+  .metric strong { font-size: 40px; color: var(--color-ink); background: var(--c); padding: 2px 10px 6px; border-radius: 10px; }
+  .summary { margin-top: 14px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .tags li { padding: 3px 8px; border: 1.5px solid var(--color-ink); border-radius: 6px; font-size: 11px; }
+  .case { margin-top: 18px; }
+  .case summary { list-style: none; cursor: pointer; }
+  .case summary::-webkit-details-marker { display: none; }
+  .pill-small { padding: 7px 14px; font-size: 15px; background: var(--c); }
+  .close-label, .case[open] .open-label { display: none; }
+  .case[open] .close-label { display: inline; }
+  .case[open] summary { background: var(--color-ink); color: var(--color-cream); }
+  .story { display: grid; grid-template-columns: 110px minmax(0, 62ch); gap: 12px 16px; margin-top: 22px; }
+  .story dt { padding-top: 4px; }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 22px; }
+  .gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 2px solid var(--color-ink); border-radius: 10px; }
+  .case-links { margin-top: 18px; font-weight: 700; }
+
+  .about { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; margin-top: 40px; align-items: start; }
+  .about-main { display: grid; gap: 36px; }
+  .about-side { display: grid; gap: 28px; }
+  .big { font-size: clamp(20px, 2vw, 28px); line-height: 1.4; font-weight: 500; }
+  .sub { margin-top: 6px; }
+  .approach { display: grid; gap: 16px; margin-top: 20px; }
+  .approach li { display: grid; grid-template-columns: 2.4em 1fr; gap: 10px; }
+  .approach h4 { font-size: 19px; font-weight: 800; }
+  .approach .n { padding-top: 4px; }
+  .jobs { display: grid; margin-top: 14px; }
+  .jobs li { padding: 14px 0; border-top: 2px dashed color-mix(in srgb, var(--color-ink) 30%, transparent); }
+  .jobs li:first-child { border-top: 0; }
+  .org { font-size: 18px; margin-top: 2px; }
+  .note { margin-top: 4px; color: color-mix(in srgb, var(--color-ink) 75%, transparent); }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 26px; }
+  .facts h3 { color: var(--rust); margin-bottom: 8px; }
+  .facts ul { display: grid; gap: 6px; }
+
+  .contact-card {
+    display: grid;
+    gap: 26px;
+    padding: clamp(28px, 5vw, 70px);
+    border: 2.5px solid var(--color-ink);
+    border-radius: 28px;
+    background: var(--marigold);
+    color: var(--color-ink);
+    box-shadow: 10px 10px 0 var(--color-ink);
+  }
+  .contact .h2 { color: var(--color-ink); }
+  .contact .big { max-width: 46ch; }
+  .mail {
+    justify-self: start;
+    font-size: clamp(30px, 5vw, 76px);
+    text-decoration: underline;
+    text-decoration-thickness: 5px;
+    text-underline-offset: 10px;
+    overflow-wrap: anywhere;
+    transition: color .2s;
+  }
+  .mail:hover { color: var(--rust); }
+  .socials { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .foot {
+    display: flex;
     justify-content: space-between;
     gap: 16px;
-    padding: 14px var(--gutter);
-    background: color-mix(in srgb, var(--color-bg) 82%, transparent);
-    backdrop-filter: blur(14px);
-  }
-  .board { display: none; }
-  .brand { display: flex; align-items: center; gap: 12px; color: var(--color-accent); }
-  .brand :global(.mark) { height: 30px; }
-  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-  .brand-name { font-size: 18px; text-transform: uppercase; }
-  .brand-role { font-size: 11.5px; text-transform: uppercase; color: var(--color-text); }
-  .toggles { display: flex; align-items: center; gap: 10px; }
-  .panel { padding: clamp(48px, 8vw, 110px) var(--gutter); max-width: 1100px; margin: 0 auto; }
-  .plain { display: none; }
-
-  /* ——— content styles shared by both modes ——— */
-  .label {
-    display: block;
-    font-size: 12px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
+    padding-block: 60px 28px;
     color: var(--color-muted);
   }
-  .display { font-family: var(--font-display); font-weight: 500; letter-spacing: -.02em; line-height: .98; color: var(--color-accent); }
-  .title { font-size: clamp(40px, 5.4vw, 76px); margin: 10px 0 18px; }
-  .sub { font-size: clamp(26px, 2.6vw, 36px); margin: 30px 0 12px; }
-  .mr { font-family: var(--font-deva); font-size: .6em; font-weight: 400; color: var(--color-muted); letter-spacing: 0; margin-left: .3em; }
-  .big { font-size: clamp(16px, 1.45vw, 20px); line-height: 1.5; max-width: 52ch; }
-  .muted { color: var(--color-muted); }
-  .pre { white-space: pre-line; }
-  .tnum { font-variant-numeric: tabular-nums; }
-  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 22px 32px; margin-top: 26px; font-size: 15px; line-height: 1.5; }
-  .cols .label { margin-bottom: 8px; }
-  .cols ul { display: flex; flex-direction: column; gap: 5px; }
-  .socials { display: flex; flex-direction: column; gap: 3px; align-items: flex-start; }
-  .values { display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.5; }
-  .jobs { display: flex; flex-direction: column; font-size: 15px; line-height: 1.45; }
-  .jobs li { display: grid; gap: 4px; padding: 14px 0; border-top: 1px dashed var(--color-divider); }
-  .jobs .when { font-size: 13px; color: var(--color-accent); }
-  .jobs .org { font-size: 18px; color: var(--color-accent); }
-  .jobs .note { color: var(--color-muted); }
-  .services { display: grid; gap: 22px; }
-  .services li { display: grid; grid-template-columns: 2.4em 1fr; gap: 12px; }
-  .services .n { font-size: 12px; color: var(--color-muted); padding-top: 8px; }
-  .item-title { font-family: var(--font-display); font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; line-height: 1.1; color: var(--color-accent); }
-  .services p { margin-top: 6px; font-size: 15px; line-height: 1.5; max-width: 54ch; }
-  .off { margin-top: 28px; font-size: 26px; }
 
-  /* start */
-  .start-top { display: flex; flex-wrap: wrap; gap: 14px 40px; font-size: 15px; }
-  .meta { display: flex; flex-direction: column; gap: 4px; }
-  .name { font-size: clamp(56px, 11vw, 150px); margin-top: clamp(40px, 8vw, 90px); }
-  .name .word { display: inline-block; }
-  .role { margin-top: 18px; display: flex; flex-direction: column; gap: 2px; font-size: 15px; text-transform: uppercase; letter-spacing: .04em; }
-  .role span:last-child { color: var(--color-muted); }
-  .lead { margin-top: 24px; max-width: 40ch; font-size: 16px; line-height: 1.5; }
-  .actions { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
-  .ticker-wrap { margin-top: 36px; }
-  .go {
-    display: inline-flex; align-items: center; gap: 14px; padding: 12px 20px 12px 14px;
-    border: 1px solid var(--color-accent); border-radius: 999px; background: transparent;
-    color: var(--color-accent); font: inherit; font-size: 15px; cursor: pointer;
-    transition: background-color .3s, color .3s;
+  @media (max-width: 960px) {
+    .about { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stats li:nth-child(3) { padding-left: 0; border-left: 0; }
+    .grid { grid-template-columns: 1fr; }
   }
-  .go .ring { width: 8px; height: 8px; border-radius: 50%; background: currentColor; transition: transform .4s var(--ease-out); }
-  .go:hover { background: var(--color-accent); color: var(--color-bg); }
-  .go:hover .ring { transform: scale(1.6); }
-  .go.small { margin-top: 14px; font-size: 14px; padding: 9px 16px 9px 12px; }
-
-  /* work */
-  .projects { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-  .pill {
-    width: 100%; display: grid; grid-template-columns: 2.2em 1fr auto; gap: 10px; align-items: baseline;
-    padding: 10px 14px; text-align: left; font: inherit; font-size: 15px; color: var(--color-text);
-    background: color-mix(in srgb, var(--color-bg) 60%, transparent); border: 1px solid var(--color-divider);
-    border-radius: 10px; cursor: pointer; transition: background-color .25s, border-color .25s, transform .3s var(--ease-out);
-  }
-  .pill:hover { background: color-mix(in srgb, var(--color-accent) 16%, var(--color-bg)); transform: translateX(3px); }
-  .pill .n, .pill .y { font-size: 12px; color: var(--color-muted); }
-  .pill .t { color: var(--color-accent); }
-  .project-body { padding: 16px 4px 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.5; }
-  .shot { width: 100%; max-width: 520px; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; }
-  .story { display: grid; grid-template-columns: 78px 1fr; gap: 8px 14px; }
-  .story dt { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-muted); padding-top: 3px; }
-  .story dd { color: var(--color-text); }
-  .tags { color: var(--color-muted); font-size: 13px; }
-
-  /* ——— GL mode: a fixed stage, one panel at a time ——— */
-  :global(html.gl) { overflow: hidden; }
-  :global(html.gl) body { overflow: hidden; }
-  :global(html.gl) .world { position: fixed; inset: 0; overflow: hidden; background: #000; }
-  :global(html.gl) .canvas {
-    display: block; position: absolute; inset: 0; width: 100%; height: 100%;
-    opacity: 0; transition: opacity 1.2s ease; touch-action: none;
-  }
-  :global(html.gl.ready) .canvas { opacity: 1; }
-  :global(html.gl) .vignette {
-    display: block; position: absolute; inset: 0; pointer-events: none;
-    background: radial-gradient(ellipse at 50% 55%, transparent 55%, rgb(0 0 0 / .35) 100%);
-  }
-  :global(html.gl) .tip-gl, :global(html.gl) .board-next, :global(html.gl) .pager, :global(html.gl) .plain { display: block; }
-  :global(html.gl) .hud {
-    position: absolute; left: 0; right: 0; top: 0; z-index: 30; background: none; backdrop-filter: none;
-    padding: 14px var(--gutter); pointer-events: none;
-  }
-  :global(html.gl) .hud > * { pointer-events: auto; }
-  :global(html.gl) .brand { color: #f6ecd0; text-shadow: 0 1px 8px rgb(0 0 0 / .5); }
-  :global(html.gl) .brand-role { color: #f6ecd0; opacity: .8; }
-  :global(html.gl) .board {
-    display: grid; grid-template-columns: auto auto; grid-template-areas: 'no no' 'en mr' 'next next';
-    gap: 0 12px; align-items: baseline; justify-items: center; text-align: center;
-    padding: 8px 18px 7px; border-radius: 10px; color: #14120d; background: #f2c21b;
-    box-shadow: 0 6px 24px rgb(0 0 0 / .35); border: 2px solid #14120d; outline: 2px solid #f2c21b;
-    position: absolute; left: 50%; transform: translateX(-50%); top: 14px;
-  }
-  .board-no { grid-area: no; font-size: 10px; letter-spacing: .18em; opacity: .7; }
-  .board-en { grid-area: en; font-family: 'Yatra One', var(--font-display); font-size: 20px; line-height: 1.1; }
-  .board-mr { grid-area: mr; font-family: var(--font-deva); font-size: 20px; line-height: 1.1; }
-  .board-next { grid-area: next; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; opacity: .75; margin-top: 2px; }
-  .board.flip { animation: flip .5s var(--ease-out); }
-  @keyframes flip { 0% { transform: translateX(-50%) rotateX(-90deg); } 100% { transform: translateX(-50%) rotateX(0); } }
-
-  :global(html.gl) .panels { position: absolute; inset: 0; z-index: 10; pointer-events: none; }
-  :global(html.gl) .panel {
-    position: absolute; inset: 0; max-width: none; margin: 0; padding: 0;
-    display: flex; opacity: 0; visibility: hidden; transition: opacity .5s ease, visibility 0s linear .5s;
-  }
-  :global(html.gl) .panel.active { opacity: 1; visibility: visible; transition: opacity .7s ease .25s, visibility 0s; }
-  :global(html.gl) .panel > * { pointer-events: auto; }
-
-  :global(html.gl) .panel-start {
-    flex-direction: column; justify-content: flex-end; padding: 84px var(--gutter) 96px; pointer-events: none;
-    color: #fff8e4;
-  }
-  :global(html.gl) .panel-start > * { pointer-events: auto; max-width: 560px; }
-  :global(html.gl) .panel-start .start-top { position: absolute; top: 84px; left: var(--gutter); }
-  :global(html.gl) .panel-start .label { color: #f6ecd0; opacity: .75; }
-  :global(html.gl) .panel-start .display { color: #fff8e4; text-shadow: 0 2px 28px rgb(0 0 0 / .45); margin-top: 0; font-size: clamp(50px, 7.6vw, 112px); max-width: none; }
-  :global(html.gl) .panel-start .role span:last-child { color: #f6ecd0; opacity: .8; }
-  :global(html.gl) .panel-start .lead { text-shadow: 0 1px 12px rgb(0 0 0 / .5); }
-  :global(html.gl) .panel-start .go { color: #fff8e4; border-color: #fff8e4; }
-  :global(html.gl) .panel-start .go:hover { background: #fff8e4; color: #14120d; }
-  :global(html.gl) .panel-start .tip { color: #f6ecd0; opacity: .75; font-size: 13px; }
-  :global(html.gl) .panel-start .ticker-wrap { max-width: min(560px, 100%); margin-top: 22px; }
-
-  :global(html.gl) .panel-card { align-items: center; padding: 84px var(--gutter) 96px; justify-content: flex-start; }
-  :global(html.gl) .panel-strip { align-items: flex-end; padding: 84px var(--gutter) 84px; justify-content: flex-start; }
-  :global(html.gl) .card {
-    width: min(560px, 100%); max-height: 100%; overflow-y: auto; overscroll-behavior: contain;
-    padding: clamp(18px, 2.4vw, 32px); border-radius: 18px;
-    background: color-mix(in srgb, var(--color-bg) 80%, transparent);
-    backdrop-filter: blur(16px) saturate(1.3); -webkit-backdrop-filter: blur(16px) saturate(1.3);
-    border: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
-    box-shadow: 0 20px 60px rgb(0 0 0 / .28);
-    scrollbar-width: thin;
-  }
-  :global(html.gl) .strip { width: min(520px, 100%); max-height: min(38vh, 360px); }
-  :global(html.gl) .project-body { display: none; }
-
-  :global(html.gl) .pager {
-    position: absolute; z-index: 30; left: 50%; transform: translateX(-50%);
-    bottom: max(18px, env(safe-area-inset-bottom)); display: flex !important; align-items: center; gap: 6px;
-    padding: 6px; border-radius: 999px; background: rgb(18 16 12 / .55); backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .12);
-  }
-  .pager ol { display: flex; gap: 4px; }
-  .arrow {
-    width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: #f6ecd0;
-    font-size: 22px; line-height: 1; cursor: pointer; transition: background-color .2s;
-  }
-  .arrow:hover { background: rgb(255 255 255 / .14); }
-  .dot {
-    display: flex; align-items: center; gap: 0; height: 36px; padding: 0 11px; border: 0; border-radius: 999px;
-    background: transparent; color: #f6ecd0; font: inherit; font-size: 11px; letter-spacing: .08em; cursor: pointer;
-    transition: background-color .25s, color .25s;
-  }
-  .dot-label { display: none; margin-left: 8px; text-transform: uppercase; letter-spacing: .08em; font-size: 11px; }
-  .dot:hover { background: rgb(255 255 255 / .14); }
-  .dot.on { background: #f2c21b; color: #14120d; }
-  .dot.on .dot-label { display: inline; }
-  :global(html.gl) .plain {
-    position: absolute; z-index: 30; right: var(--gutter); bottom: max(24px, env(safe-area-inset-bottom));
-    color: #f6ecd0; opacity: .7; padding: 6px 0;
-  }
-
-  /* project modal */
-  :global(html.gl) .modal {
-    position: absolute; inset: 0; z-index: 40; display: grid; place-items: center; padding: 18px;
-    background: rgb(8 7 5 / .6); backdrop-filter: blur(6px);
-  }
-  :global(html.gl) .modal[hidden] { display: none; }
-  .modal-card {
-    position: relative; width: min(720px, 100%); max-height: min(86vh, 100%); overflow-y: auto;
-    padding: clamp(18px, 3vw, 34px); border-radius: 18px; background: var(--color-bg); color: var(--color-text);
-    border: 1px solid var(--color-divider); animation: rise .45s var(--ease-out);
-  }
-  @keyframes rise { from { opacity: 0; transform: translateY(24px) scale(.98); } to { opacity: 1; transform: none; } }
-  .modal-close {
-    position: sticky; top: 0; float: right; margin: -6px -6px 8px 12px; padding: 8px 14px; border: 1px solid var(--color-divider);
-    border-radius: 999px; background: var(--color-bg); color: var(--color-accent); font: inherit; font-size: 13px; cursor: pointer;
-  }
-  /* The pop-up's body is copied in by script, so Astro's scoped styles don't
-     reach it: restyle its parts here. */
-  .modal-card :global(.project-body) { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 0; font-size: 15px; line-height: 1.5; }
-  .modal-card :global(.shot) { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; }
-  .modal-card :global(.kind) { display: block; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--color-muted); }
-  .modal-card :global(.story) { display: grid; grid-template-columns: 78px 1fr; gap: 8px 14px; margin: 0; }
-  .modal-card :global(.story dt) { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-muted); padding-top: 3px; }
-  .modal-card :global(.story dd) { margin: 0; }
-  .modal-card :global(.tags), .modal-card :global(.muted) { color: var(--color-muted); font-size: 13px; }
-  .modal-card :global(.go) {
-    display: inline-flex; align-items: center; gap: 14px; margin-top: 8px; padding: 9px 16px 9px 12px;
-    border: 1px solid var(--color-accent); border-radius: 999px; color: var(--color-accent); font-size: 14px;
-    transition: background-color .3s, color .3s;
-  }
-  .modal-card :global(.go:hover) { background: var(--color-accent); color: var(--color-bg); }
-  .modal-card :global(.go .ring) { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
-  .modal-card :global(.modal-title) { font-family: var(--font-display); font-size: clamp(30px, 4vw, 48px); line-height: 1; color: var(--color-accent); margin: 0 0 10px; }
-
-  @media (max-width: 760px) {
-    :global(html.gl) .panel-card, :global(html.gl) .panel-strip { align-items: flex-end; padding: 74px 12px 74px; }
-    :global(html.gl) .card { max-height: 54vh; width: 100%; }
-    :global(html.gl) .strip { max-height: 40vh; }
-    :global(html.gl) .panel-start { padding: 74px 18px 84px; }
-    :global(html.gl) .panel-start .start-top { top: 74px; left: 18px; font-size: 13px; }
-    :global(html.gl) .panel-start .name .word { display: block; }
-    :global(html.gl) .panel-start .lead { font-size: 15px; max-width: 34ch; }
-    :global(html.gl) .panel-start .tip { display: none; }
-    :global(html.gl) .plain { display: none; }
-    :global(html.gl) .board { top: 64px; padding: 5px 12px 4px; }
-    :global(html.gl) .board-en, :global(html.gl) .board-mr { font-size: 16px; }
-    :global(html.gl) .board-next { display: none; }
-    :global(html.gl) .brand-role { display: none; }
-    :global(html.gl) .hud { align-items: flex-start; }
-    .dot { padding: 0 8px; }
-    .dot-label { display: none !important; }
-  }
-  @media (max-width: 420px) {
-    .brand-text { display: none; }
+  @media (max-width: 640px) {
+    .nav { display: none; }
+    .hire { margin-left: auto; }
+    :global(html.garden-on) .bloom { min-height: 380px; }
+    .story { grid-template-columns: 1fr; gap: 4px; }
+    .story dd { margin-bottom: 10px; }
+    .card:hover { transform: none; box-shadow: 8px 8px 0 var(--c, var(--color-ink)); }
   }
   @media (prefers-reduced-motion: reduce) {
-    :global(html.gl) .panel, :global(html.gl) .panel.active { transition-duration: .01s; }
-    .board.flip, .modal-card { animation: none; }
+    .pulse { animation: none; }
   }
 </style>

@@ -6,6 +6,7 @@ type: "Mobile app"
 year: "2023"
 image: "/content/projects/amizone.webp"
 tags: ["Flutter", "Dart", "Mobile", "API integration"]
+skills: [web]
 summary: "A Flutter app recreating Amity’s student portal, built on reverse-engineered APIs."
 problem: "The legacy portal was slow and awkward on phones, and phones are where students actually use it."
 build: "I reverse-engineered the portal’s APIs, then built a cross-platform Flutter client with secure login and offline caching."

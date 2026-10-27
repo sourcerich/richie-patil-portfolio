@@ -7,6 +7,7 @@ year: "2025"
 image: "/content/projects/rag.webp"
 imagePortrait: "/content/projects/portrait/rag.webp"
 tags: ["Python", "LangChain", "AWS Lambda", "RAG", "Llama 3 / GPT"]
+skills: [ai, web]
 summary: "A RAG assistant that answers questions from a pile of risk documents, so decisions don’t wait on someone reading them end to end."
 problem: "Risk decisions depended on dense documents that people had to read and cross-check by hand."
 build: "Documents are embedded for vector search. LangChain orchestrates retrieval and generation with Llama 3 or GPT. It runs on AWS Lambda behind API Gateway, so it scales with traffic, and every request is authenticated."
