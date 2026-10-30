@@ -248,7 +248,7 @@ const year = new Date().getFullYear()
   }
   .hero-top { align-self: stretch; }
   .hero-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
-  .kicker { padding: 4px 10px; border-radius: 6px; background: var(--rust); color: var(--color-cream); }
+  .kicker { padding: 5px 12px; border-radius: 6px; background: var(--rust); color: var(--color-cream); }
   .available { display: inline-flex; align-items: center; gap: 10px; }
   .pulse {
     width: 10px;
@@ -296,6 +296,7 @@ const year = new Date().getFullYear()
   .intro { max-width: 50ch; font-size: clamp(17px, 1.5vw, 21px); }
   .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 22px; }
   .pill-warm { background: var(--marigold); }
+  .sticker, .hire, .kicker { white-space: nowrap; }
 
   .stickers { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 10px; margin-top: 36px; }
   .sticker {
@@ -336,6 +337,7 @@ const year = new Date().getFullYear()
 
   .card {
     position: relative;
+    container-type: inline-size;
     padding: clamp(20px, 2.4vw, 32px);
     border: 2.5px solid var(--color-ink);
     border-radius: 22px;
@@ -354,7 +356,7 @@ const year = new Date().getFullYear()
   .card .n { color: color-mix(in srgb, var(--color-ink) 60%, transparent); margin-bottom: 8px; }
 
   .skill { scroll-margin-top: 100px; }
-  .skill .n { display: inline-block; padding: 2px 8px; border-radius: 6px; background: var(--c); color: var(--color-ink); }
+  .skill .n { display: inline-block; padding: 4px 10px; border-radius: 6px; background: var(--c); color: var(--color-ink); }
   .skill > p:not(.mono) { margin-top: 12px; }
   .used-label { margin-top: 18px; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
@@ -390,10 +392,10 @@ const year = new Date().getFullYear()
   }
   .project-body { padding: 22px clamp(20px, 2.4vw, 30px) 26px; }
   .metric { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 14px; }
-  .metric strong { font-size: 40px; color: var(--color-ink); background: var(--c); padding: 2px 10px 6px; border-radius: 10px; }
+  .metric strong { font-size: min(40px, 9cqw); line-height: 1.2; white-space: nowrap; color: var(--color-ink); background: var(--c); padding: 6px 12px 8px; border-radius: 10px; }
   .summary { margin-top: 14px; }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
-  .tags li { padding: 3px 8px; border: 1.5px solid var(--color-ink); border-radius: 6px; font-size: 11px; }
+  .tags li { padding: 4px 10px; border: 1.5px solid var(--color-ink); border-radius: 6px; font-size: 11px; line-height: 1.3; white-space: nowrap; }
   .case { margin-top: 18px; }
   .case summary { list-style: none; cursor: pointer; }
   .case summary::-webkit-details-marker { display: none; }
@@ -431,6 +433,8 @@ const year = new Date().getFullYear()
 
   .contact-card {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    container-type: inline-size;
     gap: 26px;
     padding: clamp(28px, 5vw, 70px);
     border: 2.5px solid var(--color-ink);
@@ -439,15 +443,16 @@ const year = new Date().getFullYear()
     color: var(--color-ink);
     box-shadow: 10px 10px 0 var(--color-ink);
   }
-  .contact .h2 { color: var(--color-ink); }
+  /* sized to the card, so the longest word always fits and nothing splits */
+  .contact .h2 { color: var(--color-ink); font-size: min(130px, 15cqw); }
   .contact .big { max-width: 46ch; }
   .mail {
     justify-self: start;
-    font-size: clamp(30px, 5vw, 76px);
+    font-size: min(76px, 5.6cqw);
+    white-space: nowrap;
     text-decoration: underline;
-    text-decoration-thickness: 5px;
-    text-underline-offset: 10px;
-    overflow-wrap: anywhere;
+    text-decoration-thickness: max(2px, .07em);
+    text-underline-offset: .14em;
     transition: color .2s;
   }
   .mail:hover { color: var(--rust); }
@@ -465,7 +470,7 @@ const year = new Date().getFullYear()
     .about { grid-template-columns: 1fr; }
     .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .stats li:nth-child(3) { padding-left: 0; border-left: 0; }
-    .grid { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 640px) {
     .nav { display: none; }
