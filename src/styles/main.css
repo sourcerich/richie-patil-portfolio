@@ -104,7 +104,8 @@ body {
   right: 0;
   height: 0.25rem;
   z-index: 62;
-  pointer-events: none;
+  /* hit-testable on purpose: Safari seems to ignore pointer-events: none elements when picking its tint */
+  pointer-events: auto;
   background: var(--color-frame);
 }
 .tint-top { top: 0; }
