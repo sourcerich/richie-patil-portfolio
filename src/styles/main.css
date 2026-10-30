@@ -98,6 +98,20 @@ body {
   background: var(--color-bg);
   background-clip: content-box;
 }
+/* Touch screens: the page scrolls inside this box, not the document. The box ends
+   exactly where the browser's bars begin, so nothing of the page is ever drawn
+   under the status bar or toolbar: there, it is the frame colour (body). */
+@media (hover: none) and (pointer: coarse) {
+  html, body { height: 100%; overflow: hidden; }
+  .scroller {
+    position: fixed;
+    inset: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
+}
 /* Safari 26 tints its status bar and toolbar from a fixed element hugging the
    top (within 4 CSS pixels) or bottom (within 3) edge, at least 80% of the width and
    3 pixels tall. These two thin strips are the frame colour, so both bars take the
@@ -113,20 +127,6 @@ body {
   background: var(--color-frame);
 }
 .tint-top { top: 0; }
-/* In the page's own scrolling layer (a fixed element can be clipped at the screen
-   edge on iOS): sticks to the top and reaches 12.5rem above it, down to the frame's
-   inner edge, taking no room in the layout. */
-.cap {
-  position: sticky;
-  top: -12.5rem;
-  z-index: 19;
-  height: calc(12.5rem + var(--frame-top));
-  /* rests 12.5rem above the page top and takes no room in the flow */
-  margin-top: calc(-1 * (12.5rem + var(--safe-top)));
-  margin-bottom: calc(-1 * var(--frame-w));
-  background: var(--color-frame);
-  pointer-events: none;
-}
 .tint-bottom { bottom: 0; }
 
 /* The ochre frame round the screen, inked on its inside edge, and paper
