@@ -229,9 +229,20 @@ const year = new Date().getFullYear()
     display: flex;
     align-items: center;
     gap: 1.75rem;
-    padding: 0.875rem var(--gutter);
+    padding: 0.875rem var(--gutter) calc(0.875rem + 0.125rem);
+    /* The header's paper is on a pseudo-element, not the header itself: Safari 26
+       tints its status bar from the background of fixed/sticky elements near the
+       top edge (but ignores pseudo-elements), and we want that to be the frame. */
+    background: transparent;
+  }
+  .top::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
     background: var(--color-bg);
     border-bottom: 0.125rem solid var(--color-line);
+    pointer-events: none;
   }
   .brand { font-weight: 800; font-size: 1.3125rem; font-variation-settings: var(--hand-loud); }
   .nav { display: flex; gap: 1.375rem; margin-left: auto; font-weight: 600; }
