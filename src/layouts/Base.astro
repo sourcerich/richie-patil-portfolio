@@ -45,7 +45,7 @@ const pageUrl = site.url + Astro.url.pathname
   <body>
     <a href="#main" class="skip">Skip to content</a>
     <div class="scroller" id="scroller">
-      <slot />
+      <div class="paper"><slot /></div>
     </div>
     <!-- thin frame-coloured strips on the top and bottom screen edges: Safari tints its bars from these -->
     <div class="tint tint-top" aria-hidden="true"></div>
