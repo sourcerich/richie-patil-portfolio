@@ -88,7 +88,26 @@ body {
   text-wrap: pretty;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* The page itself: the frame's padding lives here. */
+.scroller {
   padding: var(--safe-top) var(--frame-w) var(--frame-bottom);
+}
+/* Touch screens: the document doesn't scroll, this box does. It ends exactly
+   where the browser's toolbars begin, so what shows behind them is the html
+   background, the frame's colour, never the page. */
+@media (hover: none) and (pointer: coarse) {
+  html, body { height: 100%; overflow: hidden; }
+  .scroller {
+    position: fixed;
+    inset: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    background: var(--color-bg);
+  }
 }
 
 /* The ochre frame round the screen, inked on its inside edge, and paper
