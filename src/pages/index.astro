@@ -224,7 +224,7 @@ const year = new Date().getFullYear()
   /* ——— header ——— */
   .top {
     position: sticky;
-    top: var(--frame-w);
+    top: var(--frame-top);
     z-index: 20;
     display: flex;
     align-items: center;
@@ -400,7 +400,11 @@ const year = new Date().getFullYear()
   .pill-small { padding: 7px 14px; font-size: 15px; background: var(--c); }
   .close-label, .case[open] .open-label { display: none; }
   .case[open] .close-label { display: inline; }
-  .case[open] summary { background: var(--color-ink); color: var(--color-cream); }
+  /* open: the button inverts. Closed it is the card's colour with an ink edge and
+     shadow; open it is ink with the card's colour as edge and shadow. */
+  .case[open] summary { background: var(--color-ink); color: var(--color-cream); border-color: var(--c); box-shadow: 3px 3px 0 var(--c); }
+  .case[open] summary:hover { box-shadow: 5px 5px 0 var(--c); }
+  .case[open] summary:active { box-shadow: 1px 1px 0 var(--c); }
   .story { display: grid; grid-template-columns: 110px minmax(0, 62ch); gap: 12px 16px; margin-top: 22px; }
   .story dt { padding-top: 4px; }
   .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 22px; }
