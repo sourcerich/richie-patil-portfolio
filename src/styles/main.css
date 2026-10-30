@@ -94,21 +94,21 @@ body {
 .scroller {
   padding: var(--safe-top) var(--frame-w) var(--frame-bottom);
 }
-/* Touch screens: the document doesn't scroll, this box does. It ends exactly
-   where the browser's toolbars begin, so what shows behind them is the html
-   background, the frame's colour, never the page. */
-@media (hover: none) and (pointer: coarse) {
-  html, body { height: 100%; overflow: hidden; }
-  .scroller {
-    position: fixed;
-    inset: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-    overscroll-behavior: none;
-    -webkit-overflow-scrolling: touch;
-    background: var(--color-bg);
-  }
+/* Safari 26 tints its status bar and toolbar from a fixed element hugging the
+   top (within 4px) or bottom (within 3px) edge, at least 80% of the width and 3px
+   tall. These two thin strips are the frame colour, so both bars take the frame's
+   colour and page content no longer shows through them. */
+.tint {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 4px;
+  z-index: 62;
+  pointer-events: none;
+  background: var(--color-frame);
 }
+.tint-top { top: 0; }
+.tint-bottom { bottom: 0; }
 
 /* The ochre frame round the screen, inked on its inside edge, and paper
    grain over everything. Both above the page and never in the way of clicks. */

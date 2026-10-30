@@ -276,10 +276,7 @@ export const createGarden = (opts: GardenOptions) => {
   const hit = new THREE.Vector2()
   let t = 0
   let shedIn = 2.5
-  // the page scrolls inside #scroller on touch screens, in the window elsewhere
-  const scroller = document.getElementById('scroller')
-  const pageScroll = () => (scroller && getComputedStyle(scroller).position === 'fixed' ? scroller.scrollTop : window.scrollY)
-  let lastScroll = pageScroll()
+  let lastScroll = window.scrollY
   let visible = !document.hidden
   let running = false
   let last = performance.now()
@@ -294,9 +291,8 @@ export const createGarden = (opts: GardenOptions) => {
     placeFlower()
 
     // scrolling: the air moves with the page, nearer things further
-    const now0 = pageScroll()
-    const scrolled = now0 - lastScroll
-    lastScroll = now0
+    const scrolled = window.scrollY - lastScroll
+    lastScroll = window.scrollY
     ptr.vx *= Math.exp(-dt * 6)
     ptr.vy *= Math.exp(-dt * 6)
     if (ptr.on) hit.copy(toWorld(ptr.x, ptr.y))
