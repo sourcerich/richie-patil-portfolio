@@ -79,7 +79,9 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-bg);
+  /* the frame colour: Safari 26 reads body's background for its bar tint, and the
+     page's own paper colour sits inside the frame (see .scroller) */
+  background: var(--color-frame);
   color: var(--color-ink);
   font-family: var(--font-body);
   font-variation-settings: var(--hand);
@@ -93,6 +95,8 @@ body {
 /* The page itself: the frame's padding lives here. */
 .scroller {
   padding: var(--safe-top) var(--frame-w) var(--frame-bottom);
+  background: var(--color-bg);
+  background-clip: content-box;
 }
 /* Safari 26 tints its status bar and toolbar from a fixed element hugging the
    top (within 4 CSS pixels) or bottom (within 3) edge, at least 80% of the width and
