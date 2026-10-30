@@ -1,7 +1,6 @@
 ---
-// Every page: <head>, the skip link, the ochre frame (with the email in a
-// notch in its corner) and paper grain over the page, and the scripts every
-// page shares.
+// Every page: <head>, the skip link, the ochre frame and paper grain over the
+// page, and the scripts every page shares.
 import '../styles/main.css'
 import { site } from '../site'
 
@@ -52,7 +51,6 @@ const pageUrl = site.url + Astro.url.pathname
     <div class="tint tint-top" aria-hidden="true"></div>
     <div class="tint tint-bottom" aria-hidden="true"></div>
     <div class="frame" aria-hidden="true"></div>
-    <a href={`mailto:${site.email}`} class="frame-mail">{site.email}</a>
   </body>
 </html>
 
