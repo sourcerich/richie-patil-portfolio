@@ -58,14 +58,14 @@
 
   --ease-out: cubic-bezier(.215, .61, .355, 1);
   --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
-  --gutter: clamp(18px, 3.6vw, 56px);
-  --frame-w: clamp(8px, 1.3vw, 18px);
+  --gutter: clamp(1.125rem, 3.6vw, 3.5rem);
+  --frame-w: clamp(0.5rem, 1.3vw, 1.125rem);
   /* The top edge of the frame also covers the iPhone notch / status bar area. */
-  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-top: env(safe-area-inset-top, 0);
   --frame-top: calc(var(--frame-w) + var(--safe-top));
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --frame-bottom: calc(var(--frame-w) + 26px + var(--safe-bottom));
-  --section-y: clamp(80px, 11vw, 150px);
+  --safe-bottom: env(safe-area-inset-bottom, 0);
+  --frame-bottom: calc(var(--frame-w) + 1.625rem + var(--safe-bottom));
+  --section-y: clamp(5rem, 11vw, 9.375rem);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -83,7 +83,7 @@ body {
   color: var(--color-ink);
   font-family: var(--font-body);
   font-variation-settings: var(--hand);
-  font-size: 17px;
+  font-size: 1.0625rem;
   line-height: 1.5;
   text-wrap: pretty;
   overflow-x: hidden;
@@ -95,19 +95,33 @@ body {
   padding: var(--safe-top) var(--frame-w) var(--frame-bottom);
 }
 /* Safari 26 tints its status bar and toolbar from a fixed element hugging the
-   top (within 4px) or bottom (within 3px) edge, at least 80% of the width and 3px
-   tall. These two thin strips are the frame colour, so both bars take the frame's
-   colour and page content no longer shows through them. */
+   top (within 4 CSS pixels) or bottom (within 3) edge, at least 80% of the width and
+   3 pixels tall. These two thin strips are the frame colour, so both bars take the
+   frame's colour and page content no longer shows through them. */
 .tint {
   position: fixed;
   left: 0;
   right: 0;
-  height: 4px;
+  height: 0.25rem;
   z-index: 62;
   pointer-events: none;
   background: var(--color-frame);
 }
 .tint-top { top: 0; }
+/* In the page's own scrolling layer (a fixed element can be clipped at the screen
+   edge on iOS): sticks to the top and reaches 12.5rem above it, down to the frame's
+   inner edge, taking no room in the layout. */
+.cap {
+  position: sticky;
+  top: -12.5rem;
+  z-index: 19;
+  height: calc(12.5rem + var(--frame-top));
+  /* rests 12.5rem above the page top and takes no room in the flow */
+  margin-top: calc(-1 * (12.5rem + var(--safe-top)));
+  margin-bottom: calc(-1 * var(--frame-w));
+  background: var(--color-frame);
+  pointer-events: none;
+}
 .tint-bottom { bottom: 0; }
 
 /* The ochre frame round the screen, inked on its inside edge, and paper
@@ -117,29 +131,33 @@ body {
   /* The top and bottom borders run on out past the screen edges (through the
      notch, and behind iOS's translucent toolbar), so nothing scrolling behind
      them, or bouncing past them, can show: it is the frame that fills there. */
-  inset: -160px 0 -160px 0;
+  inset: -10rem 0 -10rem 0;
   z-index: 60;
   pointer-events: none;
   border: var(--frame-w) solid var(--color-frame);
-  border-top-width: calc(160px + var(--frame-top));
-  border-bottom-width: calc(160px + var(--frame-bottom));
-  box-shadow: inset 0 0 0 2px var(--color-ink);
+  border-top-width: calc(10rem + var(--frame-top));
+  border-bottom-width: calc(10rem + var(--frame-bottom));
+  box-shadow: inset 0 0 0 0.125rem var(--color-ink);
 }
 /* The email lives in the frame itself: the bottom edge of the frame is a little
-   taller than the other three and carries it, centred, on the frame colour. */
+   taller than the other three and carries it, centred, on the frame colour.
+   It is its own solid band that reaches 10rem below the screen, so while Safari's
+   toolbar slides in and out nothing can show through between it and the frame. */
 .frame-mail {
   position: fixed;
   right: 0;
   left: 0;
-  bottom: var(--safe-bottom);
+  bottom: -10rem;
   z-index: 61;
-  height: calc(var(--frame-w) + 26px);
+  box-sizing: border-box;
+  height: calc(10rem + var(--frame-bottom));
+  padding: 0 var(--frame-w) calc(10rem + var(--safe-bottom));
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 var(--frame-w);
+  background: var(--color-frame);
   color: var(--color-ink);
-  font-size: clamp(12px, 3.6vw, 15px);
+  font-size: clamp(0.75rem, 3.6vw, 0.9375rem);
   font-weight: 600;
   font-variation-settings: var(--hand-loud);
   white-space: nowrap;
@@ -159,7 +177,7 @@ body::after {
      smoothing: rendered "pixelated", Firefox on high-density screens blows
      each speck up into a hard block and the grain turns heavy. */
   background: url('/grain.png') repeat;
-  background-size: 192px 192px;
+  background-size: 12rem 12rem;
   /* the grain jumps about like film, a dozen times a second */
   animation: grain .9s steps(10) infinite;
 }
@@ -185,11 +203,11 @@ img { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; }
 ::selection { background: var(--marigold); color: var(--color-ink); }
-:focus-visible { outline: 3px solid var(--rust); outline-offset: 3px; }
+:focus-visible { outline: 0.1875rem solid var(--rust); outline-offset: 0.1875rem; }
 
 .wrap {
   width: 100%;
-  max-width: 1440px;
+  max-width: 90rem;
   margin: 0 auto;
   padding-inline: var(--gutter);
 }
@@ -203,7 +221,7 @@ button { font: inherit; color: inherit; }
 }
 /* Small labels: hand-printed capitals. */
 .mono {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -213,28 +231,28 @@ button { font: inherit; color: inherit; }
 
 /* A link that underlines from the left on hover. */
 .line-link {
-  background: linear-gradient(currentColor, currentColor) left bottom / 0 2px no-repeat;
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 0.125rem no-repeat;
   transition: background-size .45s var(--ease-out);
-  padding-bottom: 2px;
+  padding-bottom: 0.125rem;
 }
-.line-link:hover { background-size: 100% 2px; }
+.line-link:hover { background-size: 100% 0.125rem; }
 
 /* A chunky pill button. */
 .pill {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 11px 18px;
-  border: 2px solid var(--color-ink);
-  border-radius: 999px;
+  gap: 0.625rem;
+  padding: 0.6875rem 1.125rem;
+  border: 0.125rem solid var(--color-ink);
+  border-radius: 62.4375rem;
   background: var(--color-cream);
   color: var(--color-ink);
   font-weight: 700;
-  box-shadow: 3px 3px 0 var(--color-ink);
+  box-shadow: 0.1875rem 0.1875rem 0 var(--color-ink);
   transition: transform .25s var(--ease-spring), box-shadow .25s var(--ease-spring);
 }
-.pill:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--color-ink); }
-.pill:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--color-ink); }
+.pill:hover { transform: translate(-0.125rem, -0.125rem); box-shadow: 0.3125rem 0.3125rem 0 var(--color-ink); }
+.pill:active { transform: translate(0.125rem, 0.125rem); box-shadow: 0.0625rem 0.0625rem 0 var(--color-ink); }
 
 /* — reveal: elements hidden until reveal.ts has set them up (JS only) — */
 html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
