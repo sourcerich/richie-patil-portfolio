@@ -60,12 +60,20 @@
   --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
   --gutter: clamp(18px, 3.6vw, 56px);
   --frame-w: clamp(8px, 1.3vw, 18px);
+  /* The top edge of the frame also covers the iPhone notch / status bar area. */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --frame-top: calc(var(--frame-w) + var(--safe-top));
   --section-y: clamp(80px, 11vw, 150px);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+/* The frame colour behind everything, so a rubber-band overscroll on iOS shows
+   frame, not the page. */
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--color-frame);
+}
 
 body {
   margin: 0;
@@ -78,17 +86,20 @@ body {
   text-wrap: pretty;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  padding: 0 var(--frame-w) var(--frame-w);
+  padding: var(--safe-top) var(--frame-w) var(--frame-w);
 }
 
 /* The ochre frame round the screen, inked on its inside edge, and paper
    grain over everything. Both above the page and never in the way of clicks. */
 .frame {
   position: fixed;
-  inset: 0;
+  /* The top border runs on up past the screen edge (and through the notch), so
+     nothing scrolling behind it, or bouncing above it, can show over the frame. */
+  inset: -160px 0 0 0;
   z-index: 60;
   pointer-events: none;
   border: var(--frame-w) solid var(--color-frame);
+  border-top-width: calc(160px + var(--frame-top));
   box-shadow: inset 0 0 0 2px var(--color-ink);
 }
 /* The notch: the frame steps in at the bottom-right corner round the email. */
