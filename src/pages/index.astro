@@ -35,7 +35,7 @@ const year = new Date().getFullYear()
     <nav class="nav" aria-label="Sections">
       {site.nav.map(link => <a href={link.to} class="line-link">{link.label}</a>)}
     </nav>
-    <a href={`mailto:${site.email}`} class="pill hire">Hire me</a>
+    <a href="#contact-card" class="pill hire">Hire me</a>
   </header>
 
   <main id="main">
@@ -180,7 +180,7 @@ const year = new Date().getFullYear()
     </section>
 
     <section id="contact" class="section wrap contact" aria-labelledby="contact-title">
-      <div class="contact-card" data-reveal>
+      <div class="contact-card" id="contact-card" data-reveal>
         <h2 id="contact-title" class="display h2">{page.contact.title}</h2>
         <p class="big">{page.contact.body}</p>
         <a href={`mailto:${site.email}`} class="mail display">{site.email}</a>
@@ -443,6 +443,7 @@ const year = new Date().getFullYear()
   .facts ul { display: grid; gap: 0.375rem; }
 
   .contact-card {
+    scroll-margin-top: 6.25rem;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     container-type: inline-size;
