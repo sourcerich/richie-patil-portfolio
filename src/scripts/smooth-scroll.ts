@@ -14,11 +14,7 @@ import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-// On touch screens the page scrolls inside .scroller (see main.css) with the
-// phone's own native scrolling, so there is nothing for Lenis to smooth.
-const touch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-
-export const lenis = reduced || touch
+export const lenis = reduced
   ? null
   : new Lenis({
       autoRaf: true,
