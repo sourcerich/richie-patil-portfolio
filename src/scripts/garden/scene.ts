@@ -278,7 +278,7 @@ export const createGarden = (opts: GardenOptions) => {
   let shedIn = 2.5
   // the page scrolls inside #scroller on touch screens, in the window elsewhere
   const scroller = document.getElementById('scroller')
-  const pageScroll = () => (scroller && getComputedStyle(scroller).position === 'fixed' ? scroller.scrollTop : window.scrollY)
+  const pageScroll = () => (scroller && getComputedStyle(scroller).overflowY === 'auto' ? scroller.scrollTop : window.scrollY)
   let lastScroll = pageScroll()
   let visible = !document.hidden
   let running = false

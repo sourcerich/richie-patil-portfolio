@@ -96,18 +96,18 @@ body {
 .scroller {
   padding: var(--safe-top) var(--frame-w) var(--frame-bottom);
 }
-/* The page's paper colour sits on this inner wrapper, never on .scroller: on touch
-   screens .scroller is fixed against the top edge, and Safari 26 tints its status
-   bar with the background of such an element. Left clear, it takes the frame colour. */
+/* The page's paper colour sits on this inner wrapper, never on .scroller or anything
+   fixed or sticky: Safari 26 tints its status bar with the background of such an
+   element near the top edge. Left clear, it takes the frame colour. */
 .paper { background: var(--color-bg); }
-/* Touch screens: the page scrolls inside this box, not the document. The box ends
+/* Touch screens: the page scrolls inside this box (a plain full-height block, not
+   a fixed one, so Safari doesn't read it for its bar tint), not the document. It ends
    exactly where the browser's bars begin, so nothing of the page is ever drawn
    under the status bar or toolbar: there, it is the frame colour (body). */
 @media (hover: none) and (pointer: coarse) {
   html, body { height: 100%; overflow: hidden; }
   .scroller {
-    position: fixed;
-    inset: 0;
+    height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: none;
