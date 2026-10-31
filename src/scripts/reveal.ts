@@ -1,4 +1,3 @@
-
 const EASE_OUT = 'cubic-bezier(.215,.61,.355,1)'
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -26,7 +25,7 @@ for (const el of document.querySelectorAll<HTMLElement>('[data-reveal]')) {
     el.style.transition = `transform 1.3s ${EASE_OUT} ${delay}ms`
   } else {
     el.style.opacity = '0'
-    el.style.transform = 'translate3d(0,18px,0)'
+    el.style.transform = 'translate3d(0,1.125rem,0)'
     el.style.transition = `opacity 1s ${EASE_OUT} ${delay}ms, transform 1.1s ${EASE_OUT} ${delay}ms`
   }
   const watched = el.dataset.from ? el.closest<HTMLElement>('.mask-line') ?? el : el

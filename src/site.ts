@@ -5,8 +5,7 @@ export const site = {
   nav: [
     { label: 'Skills', to: '#skills' },
     { label: 'Work', to: '#work' },
-    { label: 'About', to: '#about' },
-    { label: 'Contact', to: '#contact' }
+    { label: 'About', to: '#about' }
   ],
   socials: [
     { label: 'LinkedIn', to: 'https://www.linkedin.com/in/richiepatil/' },

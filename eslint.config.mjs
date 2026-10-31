@@ -6,7 +6,7 @@ import astro from 'eslint-plugin-astro'
 import stylistic from '@stylistic/eslint-plugin'
 
 export default defineConfig(
-  { ignores: ['dist/**', '.astro/**', '.wrangler/**', 'node_modules/**'] },
+  { ignores: ['dist/**', '.astro/**', '.wrangler/**', 'public/**', 'node_modules/**'] },
   js.configs.recommended,
   tseslint.configs.recommended,
   astro.configs.recommended,

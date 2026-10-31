@@ -13,43 +13,18 @@ const skillByKey = new Map(page.skills.map(s => [s.key, s]))
 const colorOf = (keys: string[]) => skillByKey.get(keys[0]!)?.color ?? '#fff3df'
 const num = (i: number) => String(i + 1).padStart(2, '0')
 const year = new Date().getFullYear()
+const words = (text: string) => text.split(' ')
 ---
 
 <Base title={page.seo.title} description={page.seo.description}>
-  <canvas id="garden" class="garden" aria-hidden="true"></canvas>
-  <svg class="defs" aria-hidden="true" focusable="false">
-    {[3, 11, 23].map((seed, i) => (
-      <filter id={`boil-${i}`}>
-        <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed={seed} />
-        <feDisplacementMap in="SourceGraphic" scale="5" />
-      </filter>
-    ))}
-  </svg>
-  <header class="top">
-    <a href="#main" class="brand">{site.name}</a>
-    <nav class="nav" aria-label="Sections">
-      {site.nav.map(link => <a href={link.to} class="line-link">{link.label}</a>)}
-    </nav>
-    <a href="#contact-card" class="pill hire">Hire me</a>
-  </header>
-
   <main id="main">
     <section class="hero wrap">
-      <div class="hero-top">
-        <p class="mono kicker">{page.role}</p>
-        <p class="mono available"><span class="pulse" aria-hidden="true"></span>{page.available}</p>
-      </div>
-      <div class="bloom" data-bloom>
-        <h1 class="display name">
-          <span>{page.name.split(' ')[0]}</span>
-          <span>{page.name.split(' ').slice(1).join(' ')}</span>
-        </h1>
-        <p class="deva mr">{page.nameMr}</p>
-      </div>
-      <p class="intro">{page.intro}</p>
-      <div class="actions">
-        <a href="#work" class="pill">See the work</a>
-        <a href={`mailto:${site.email}`} class="pill pill-warm">Write to me</a>
+      <div class="fold">
+        <div class="bloom" data-bloom>
+          <h1 class="deva mr" aria-label={page.name}>
+            {words(page.nameMr).map(word => <span class="ch" data-engine-word data-single aria-hidden="true">{word}</span>)}
+          </h1>
+        </div>
       </div>
       <ul class="stickers" aria-label="What I do">
         {page.skills.map((s, i) => (
@@ -67,18 +42,19 @@ const year = new Date().getFullYear()
 
     <section id="skills" class="section wrap" aria-labelledby="skills-title">
       <h2 id="skills-title" class="display h2" data-reveal>What I do</h2>
-      <ol class="grid skills">
+      <ol class="rows skills">
         {page.skills.map((s, i) => {
           const used = projects.filter(p => p.skills.includes(s.key))
           return (
-            <li id={`skill-${s.key}`} class="card skill" style={`--c: ${s.color}`} data-reveal={i * 80}>
-              <p class="mono n">{num(i)}</p>
-              <h3 class="card-title">{s.title}</h3>
-              <p>{s.body}</p>
-              <p class="mono used-label">Built with it</p>
-              <ul class="chips">
-                {used.map(p => <li><a href={`#p-${p.slug}`} class="chip" data-open>{p.title}</a></li>)}
-              </ul>
+            <li id={`skill-${s.key}`} class="row skill" style={`--c: ${s.color}`} data-reveal={i * 80}>
+              <h3 class="row-title">{s.title}</h3>
+              <div class="row-body">
+                <p class="lead">{s.body}</p>
+                <p class="mono used-label">Proof of work</p>
+                <ul class="chips">
+                  {used.map(p => <li><a href={`#p-${p.slug}`} class="chip" data-open>{p.title}</a></li>)}
+                </ul>
+              </div>
             </li>
           )
         })}
@@ -87,27 +63,29 @@ const year = new Date().getFullYear()
 
     <section id="work" class="section wrap" aria-labelledby="work-title">
       <div class="section-head">
-        <h2 id="work-title" class="display h2" data-reveal>Work</h2>
-        <p class="lede" data-reveal>{projects.length} things I’ve built since 2022, from SaaS backends to a sunspot model.</p>
+        <div>
+              <h2 id="work-title" class="display h2" data-reveal>Work</h2>
+        </div>
+        <p class="lede" data-reveal>Chosen projects</p>
       </div>
-      <ol class="grid projects">
+      <ol class="rows projects">
         {projects.map((p, i) => (
           <li class="project-cell">
-            <article id={`p-${p.slug}`} class="card project" style={`--c: ${colorOf(p.skills)}`} data-reveal={(i % 2) * 80}>
+            <article id={`p-${p.slug}`} class="row project" style={`--c: ${colorOf(p.skills)}`} data-reveal={(i % 2) * 80}>
               {p.image && <img class="shot" src={p.image} alt="" loading="lazy" decoding="async" width="1200" height="750">}
               {!p.image && p.confidential && <div class="shot nda"><span class="mono">Client work · under NDA</span></div>}
               <div class="project-body">
                 <p class="mono n">{num(i)} · {p.type} · {p.year}</p>
-                <h3 class="card-title">{p.title}</h3>
+                <h3 class="row-title">{p.title}</h3>
                 <p class="metric"><strong class="display">{p.metric}</strong> <span class="mono">{p.metricLabel}</span></p>
                 <p class="summary">{p.summary}</p>
                 <ul class="tags">{p.tags.map(t => <li class="mono">{t}</li>)}</ul>
                 <details class="case">
-                  <summary class="pill pill-small"><span class="open-label">Read the case</span><span class="close-label">Close the case</span></summary>
+                  <summary class="pill pill-small"><span class="open-label">See more</span><span class="close-label">See less</span></summary>
                   <dl class="story">
-                    <dt class="mono">Problem</dt><dd>{p.problem}</dd>
-                    <dt class="mono">Build</dt><dd>{p.build}</dd>
-                    <dt class="mono">Outcome</dt><dd>{p.outcome}</dd>
+                    <dt class="mono">The problem</dt><dd>{p.problem}</dd>
+                    <dt class="mono">What I built</dt><dd>{p.build}</dd>
+                    <dt class="mono">The result</dt><dd>{p.outcome}</dd>
                   </dl>
                   {p.gallery && (
                     <div class="gallery">
@@ -115,8 +93,8 @@ const year = new Date().getFullYear()
                     </div>
                   )}
                   <p class="case-links">
-                    {p.link && <a href={p.link} class="line-link" target="_blank" rel="noopener">{p.linkLabel ?? 'Visit the live site'} ↗</a>}
-                    {!p.link && p.repo && <a href={p.repo} class="line-link" target="_blank" rel="noopener">Available on GitHub ↗</a>}
+                    {p.link && <a href={p.link} class="line-link" target="_blank" rel="noopener">{p.linkLabel ?? 'See it live'} ↗</a>}
+                    {!p.link && p.repo && <a href={p.repo} class="line-link" target="_blank" rel="noopener">View the code ↗</a>}
                     {p.confidential && <span class="mono">Confidential client work</span>}
                   </p>
                 </details>
@@ -148,8 +126,8 @@ const year = new Date().getFullYear()
           </div>
         </div>
         <div class="about-side">
-          <div class="card" style="--c: var(--rust)" data-reveal>
-            <h3 class="card-title">{about.approach.title}</h3>
+          <div class="panel" style="--c: var(--rust)" data-reveal>
+            <h3 class="panel-title">{about.approach.title}</h3>
             <p class="mono sub">{about.approach.subtitle}</p>
             <ol class="approach">
               {about.approach.items.map((a, i) => (
@@ -157,8 +135,8 @@ const year = new Date().getFullYear()
               ))}
             </ol>
           </div>
-          <div class="card" style="--c: var(--olive)" data-reveal>
-            <h3 class="card-title">{about.experience.title}</h3>
+          <div class="panel" style="--c: var(--olive)" data-reveal>
+            <h3 class="panel-title">{about.experience.title}</h3>
             <ol class="jobs">
               {about.experience.items.map(j => (
                 <li>
@@ -174,7 +152,7 @@ const year = new Date().getFullYear()
     </section>
 
     <section id="contact" class="section wrap contact" aria-labelledby="contact-title">
-      <div class="contact-card" id="contact-card" data-reveal>
+      <div class="contact-block" id="contact-card" data-reveal>
         <h2 id="contact-title" class="display h2">{page.contact.title}</h2>
         <p class="big">{page.contact.body}</p>
         <a href={`mailto:${site.email}`} class="mail display">{site.email}</a>
@@ -192,73 +170,18 @@ const year = new Date().getFullYear()
 </Base>
 
 <script>
-  import '../scripts/garden/stage'
   import '../scripts/open-case'
 </script>
 
 <style>
-  .garden {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 1.2s ease;
-  }
-  :global(html.garden-ready) .garden { opacity: 1; }
-  .defs { position: absolute; width: 0; height: 0; }
-  main, .foot { position: relative; z-index: 1; }
-  @media (prefers-reduced-motion: reduce) {
-    :global(html.garden-on) .name, :global(html.garden-on) .mr { animation: none; }
-  }
-
-  .top {
-    position: sticky;
-    top: var(--frame-top);
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    gap: 1.75rem;
-    padding: 0.875rem var(--gutter) calc(0.875rem + 0.125rem);
-    background: transparent;
-  }
-  .top::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: var(--color-bg);
-    border-bottom: 0.125rem solid var(--color-line);
-    pointer-events: none;
-  }
-  .brand { font-weight: 800; font-size: 1.3125rem; font-variation-settings: var(--hand-loud); }
-  .nav { display: flex; gap: 1.375rem; margin-left: auto; font-weight: 600; }
-  .hire { padding: 0.5rem 1rem; background: var(--marigold); }
 
   .hero {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding-top: clamp(1.375rem, 4vh, 2.75rem);
+    padding-top: 0;
     padding-bottom: 1.75rem;
-  }
-  .hero-top { align-self: stretch; }
-  .hero-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem; }
-  .kicker { padding: 0.3125rem 0.75rem; border-radius: 0.375rem; background: var(--rust); color: var(--color-cream); }
-  .available { display: inline-flex; align-items: center; gap: 0.625rem; }
-  .pulse {
-    width: 0.625rem;
-    height: 0.625rem;
-    border-radius: 50%;
-    background: var(--olive);
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--olive) 70%, transparent);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    to { box-shadow: 0 0 0 0.75rem transparent; }
   }
   .bloom {
     position: relative;
@@ -269,181 +192,192 @@ const year = new Date().getFullYear()
     justify-content: center;
     padding-block: clamp(1.25rem, 5vh, 3.125rem);
   }
-  :global(html.garden-on) .bloom { min-height: clamp(27.5rem, 66vh, 45rem); cursor: pointer; }
-  .name, .mr { position: relative; z-index: 1; pointer-events: none; }
-  .name {
-    font-family: var(--font-title);
-    font-weight: 900;
-    font-variation-settings: normal;
-    font-size: clamp(3.375rem, 9vw, 10rem);
-    line-height: .9;
-    letter-spacing: -.01em;
-    color: var(--color-ink);
+  .fold {
+    align-self: stretch;
+    min-height: calc(100svh - var(--frame-w) * 2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
-  .name span { display: inline-block; margin-inline: .1em; }
-  .mr { margin-top: 0.75rem; font-size: clamp(1.625rem, 2.6vw, 2.375rem); color: var(--color-ink); }
-  :global(html.garden-on) .name,
-  :global(html.garden-on) .mr { color: #fbf8f0; animation: boil .36s steps(1) infinite; }
-  @keyframes boil {
-    0% { filter: url(#boil-0); }
-    33% { filter: url(#boil-1); }
-    66% { filter: url(#boil-2); }
-  }
-  .intro { max-width: 50ch; font-size: clamp(1.0625rem, 1.5vw, 1.3125rem); }
-  .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.875rem; margin-top: 1.375rem; }
-  .pill-warm { background: var(--marigold); }
-  .sticker, .hire, .kicker { white-space: nowrap; }
+  .mr { position: relative; z-index: 1; pointer-events: none; color: #fff; }
+  .ch { display: inline-block; }
+  .mr .ch { margin-inline: 0.2em; }
+  :global(html.engine-text) .ch { color: transparent; }
+  .mr { font-size: clamp(4.5rem, 15vw, 13rem); line-height: 1.1; }
+  .sticker { white-space: nowrap; }
 
   .stickers { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.875rem 0.625rem; margin-top: 2.25rem; }
   .sticker {
     display: inline-block;
     padding: 0.75rem 1.25rem 0.875rem;
-    border: 0.15625rem solid var(--color-ink);
+    border: 0.15625rem solid var(--color-outline);
     border-radius: 1rem;
     background: var(--c);
-    color: var(--color-ink);
+    color: var(--color-deep);
     font-weight: 800;
     font-size: clamp(1.125rem, 1.7vw, 1.5rem);
     font-variation-settings: var(--hand-loud);
-    box-shadow: 0.25rem 0.25rem 0 var(--color-ink);
+    box-shadow: 0.25rem 0.25rem 0 var(--color-outline);
     transform: rotate(var(--r));
     transition: transform .4s var(--ease-spring), box-shadow .4s var(--ease-spring);
   }
-  .sticker:hover { transform: rotate(0) translateY(-0.375rem) scale(1.05); box-shadow: 0.375rem 0.625rem 0 var(--color-ink); }
+  .sticker:hover { transform: rotate(0) translateY(-0.375rem) scale(1.05); box-shadow: 0.375rem 0.625rem 0 var(--color-outline); }
 
   .stats {
     align-self: stretch;
-    text-align: left;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin-top: clamp(1.875rem, 5vh, 3.5rem);
-    border-top: 0.125rem solid var(--color-line);
+    gap: 2rem;
+    margin-top: clamp(2.25rem, 6vh, 4rem);
+    text-align: left;
   }
-  .stats li { display: grid; gap: 0.25rem; padding: 1.125rem 1.125rem 0 0; }
-  .stats li + li { padding-left: 1.125rem; border-left: 0.125rem solid var(--color-line); }
-  .stats strong { font-size: clamp(1.875rem, 3.2vw, 3rem); color: var(--color-ink); }
-  .stats span { font-size: 0.875rem; color: var(--color-muted); max-width: 24ch; }
+  .stats li { position: relative; display: grid; align-content: start; gap: 0.375rem; padding-top: 1.125rem; }
+  .stats li::before, .row::before, .panel::before, .foot::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    border-top: 0.1875rem solid var(--color-outline);
+    border-radius: 62.4375rem;
+  }
+  .stats strong { font-size: clamp(2.25rem, 4.4vw, 4.5rem); color: var(--rust); line-height: 1; }
+  .stats span { font-size: 1rem; font-weight: 600; color: var(--color-ink); max-width: 24ch; line-height: 1.35; }
 
   .section { padding-top: var(--section-y); scroll-margin-top: 2.5rem; }
-  .h2 { font-size: clamp(3.5rem, 9vw, 8.125rem); color: var(--color-ink); }
-  .section-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.75rem 2.5rem; }
-  .lede { max-width: 40ch; font-size: 1.1875rem; color: var(--color-muted); padding-bottom: 0.5rem; }
-  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem; margin-top: 2.5rem; }
-
-  .card {
+  .h2 {
     position: relative;
-    container-type: inline-size;
-    padding: clamp(1.25rem, 2.4vw, 2rem);
-    border: 0.15625rem solid var(--color-ink);
-    border-radius: 1.375rem;
-    background: var(--color-cream);
+    display: inline-block;
+    font-size: clamp(3rem, 9vw, 8.5rem);
     color: var(--color-ink);
-    box-shadow: 0.5rem 0.5rem 0 var(--c, var(--color-ink));
-    transition: transform .35s var(--ease-spring), box-shadow .35s var(--ease-spring);
   }
-  .card:hover { transform: translate(-0.1875rem, -0.1875rem); box-shadow: 0.6875rem 0.6875rem 0 var(--c, var(--color-ink)); }
-  .card:target { animation: ping .9s var(--ease-out); }
-  @keyframes ping {
-    30% { transform: scale(1.02); }
-  }
-  .card-title { font-weight: 800; font-size: clamp(1.625rem, 2.6vw, 2.375rem); line-height: 1.05; font-variation-settings: var(--hand-loud); }
-  .card p { line-height: 1.5; }
-  .card .n { color: color-mix(in srgb, var(--color-ink) 60%, transparent); margin-bottom: 0.5rem; }
+  .section-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.75rem 2.5rem; }
+  .lede { max-width: 26rem; font-size: 1.1875rem; font-weight: 600; padding-bottom: 0.75rem; }
 
-  .skill { scroll-margin-top: 6.25rem; }
-  .skill .n { display: inline-block; padding: 0.25rem 0.625rem; border-radius: 0.375rem; background: var(--c); color: var(--color-ink); }
-  .skill > p:not(.mono) { margin-top: 0.75rem; }
-  .used-label { margin-top: 1.125rem; }
-  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+  .rows { display: grid; margin-top: 2.5rem; }
+  .row {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 1rem clamp(1.5rem, 5vw, 6rem);
+    align-items: start;
+    padding-block: clamp(1.75rem, 4vw, 3.25rem);
+    scroll-margin-top: 10rem;
+  }
+  .row:target { animation: ping .9s var(--ease-out); }
+  @keyframes ping {
+    30% { transform: translateX(0.5rem); }
+  }
+  .row-title {
+    font-weight: 800;
+    font-size: clamp(2.25rem, 5vw, 4.75rem);
+    line-height: 1;
+    font-variation-settings: var(--hand-loud);
+    text-decoration: underline;
+    text-decoration-color: var(--c, var(--color-outline));
+    text-decoration-thickness: 0.14em;
+    text-underline-offset: 0.12em;
+  }
+  .row p { line-height: 1.55; }
+  .lead { font-size: clamp(1.1875rem, 1.7vw, 1.625rem); font-weight: 600; line-height: 1.45; max-width: 52ch; }
+  .used-label { margin-top: 1.5rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem 0.625rem; margin-top: 0.625rem; }
   .chip {
     display: inline-block;
-    padding: 0.3125rem 0.75rem;
-    border: 0.125rem solid var(--color-ink);
+    padding: 0.3125rem 0.875rem;
+    border: 0.125rem solid var(--color-outline);
     border-radius: 62.4375rem;
-    background: var(--color-cream);
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     transition: background-color .2s, color .2s;
   }
-  .chip:hover { background: var(--color-ink); color: var(--color-cream); }
+  .chip:hover { background: var(--color-outline); color: var(--color-cream); }
 
-  .projects { align-items: start; }
-  .project-cell:has(details[open]) { grid-column: 1 / -1; }
-  .project-cell:has(details[open]) .shot { max-height: 27.5rem; }
-  .project { padding: 0; overflow: hidden; scroll-margin-top: 5.625rem; }
+  .projects { gap: 0; }
+  .project { grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr); align-items: center; container-type: inline-size; }
+  .project-cell:nth-child(even) .project { grid-template-columns: minmax(0, 1fr) minmax(0, 0.6fr); }
+  .project-cell:nth-child(even) .shot { order: 2; }
+  .project-cell:has(details[open]) .project { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: start; }
+  .project-cell:nth-child(even):has(details[open]) .project { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+  .project-cell:has(details[open]) .shot { max-height: none; aspect-ratio: 16 / 10; }
   .shot {
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 10;
+    max-height: 15rem;
     object-fit: cover;
-    border-bottom: 0.15625rem solid var(--color-ink);
+    cursor: zoom-in;
+    border: 0.1875rem solid var(--color-outline);
+    border-radius: 2rem 0.625rem 2.5rem 0.625rem;
+    box-shadow: 0.625rem 0.625rem 0 var(--c);
   }
   .nda {
     display: grid;
     place-items: center;
-    background: repeating-linear-gradient(-45deg, var(--color-ink) 0 0.875rem, color-mix(in srgb, var(--color-ink) 85%, var(--c)) 0.875rem 1.75rem);
+    background: repeating-linear-gradient(-45deg, var(--color-outline) 0 0.875rem, color-mix(in srgb, var(--color-outline) 85%, var(--c)) 0.875rem 1.75rem);
     color: var(--color-cream);
   }
-  .project-body { padding: 1.375rem clamp(1.25rem, 2.4vw, 1.875rem) 1.625rem; }
-  .metric { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem; margin-top: 0.875rem; }
-  .metric strong { font-size: min(2.5rem, 9cqw); line-height: 1.2; white-space: nowrap; color: var(--color-ink); background: var(--c); padding: 0.375rem 0.75rem 0.5rem; border-radius: 0.625rem; }
-  .summary { margin-top: 0.875rem; }
+  .project-body { display: grid; align-content: start; }
+  .project-body .n { color: color-mix(in srgb, var(--color-ink) 70%, transparent); margin-bottom: 0.5rem; }
+  .metric { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.375rem 0.875rem; margin-top: 1rem; }
+  .metric strong { font-size: clamp(2.25rem, 7cqw, 4rem); line-height: 1.05; white-space: nowrap; color: var(--rust); }
+  .summary { margin-top: 0.875rem; font-size: 1.125rem; font-weight: 600; max-width: 52ch; }
   .tags { display: flex; flex-wrap: wrap; gap: 0.375rem; margin-top: 1rem; }
-  .tags li { padding: 0.25rem 0.625rem; border: 0.09375rem solid var(--color-ink); border-radius: 0.375rem; font-size: 0.6875rem; line-height: 1.3; white-space: nowrap; }
-  .case { margin-top: 1.125rem; }
+  .tags li { padding: 0.25rem 0.625rem; border: 0.09375rem solid var(--color-outline); border-radius: 62.4375rem; font-size: 0.75rem; line-height: 1.3; white-space: nowrap; }
+  .case { margin-top: 1.25rem; }
   .case summary { list-style: none; cursor: pointer; }
   .case summary::-webkit-details-marker { display: none; }
-  .pill-small { padding: 0.4375rem 0.875rem; font-size: 0.9375rem; background: var(--c); }
+  .pill-small { padding: 0.4375rem 0.875rem; font-size: 0.9375rem; background: var(--c); color: var(--color-deep); }
   .close-label, .case[open] .open-label { display: none; }
   .case[open] .close-label { display: inline; }
-  .case[open] summary { background: var(--color-ink); color: var(--color-cream); border-color: var(--c); box-shadow: 0.1875rem 0.1875rem 0 var(--c); }
+  .case[open] summary { background: var(--color-outline); color: var(--color-cream); border-color: var(--c); box-shadow: 0.1875rem 0.1875rem 0 var(--c); }
   .case[open] summary:hover { box-shadow: 0.3125rem 0.3125rem 0 var(--c); }
   .case[open] summary:active { box-shadow: 0.0625rem 0.0625rem 0 var(--c); }
-  .story { display: grid; grid-template-columns: 6.875rem minmax(0, 62ch); gap: 0.75rem 1rem; margin-top: 1.375rem; }
+  .story { display: grid; grid-template-columns: 6.875rem minmax(0, 68ch); gap: 0.75rem 1rem; margin-top: 1.375rem; }
   .story dt { padding-top: 0.25rem; }
-  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(13.75rem, 1fr)); gap: 0.75rem; margin-top: 1.375rem; }
-  .gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 0.125rem solid var(--color-ink); border-radius: 0.625rem; }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 0.875rem; margin-top: 1.375rem; }
+  .gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 0.125rem solid var(--color-outline); border-radius: 1rem; }
   .case-links { margin-top: 1.125rem; font-weight: 700; }
 
-  .about { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 2.5rem; margin-top: 2.5rem; align-items: start; }
-  .about-main { display: grid; gap: 2.25rem; }
-  .about-side { display: grid; gap: 1.75rem; }
-  .big { font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1.4; font-weight: 500; }
+  .about { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 7rem); margin-top: 2.5rem; align-items: start; }
+  .about-main { display: grid; gap: 2.5rem; }
+  .about-side { display: grid; gap: 2.5rem; }
+  .big { font-size: clamp(1.25rem, 2.1vw, 2rem); line-height: 1.4; font-weight: 600; }
+  .panel { position: relative; padding-top: 1.5rem; }
+  .panel-title { font-weight: 800; font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.05; font-variation-settings: var(--hand-loud); }
+  .panel p { line-height: 1.5; }
   .sub { margin-top: 0.375rem; }
-  .approach { display: grid; gap: 1rem; margin-top: 1.25rem; }
+  .approach { display: grid; gap: 1.125rem; margin-top: 1.25rem; }
   .approach li { display: grid; grid-template-columns: 2.4em 1fr; gap: 0.625rem; }
-  .approach h4 { font-size: 1.1875rem; font-weight: 800; }
-  .approach .n { padding-top: 0.25rem; }
+  .approach h4 { font-size: 1.25rem; font-weight: 800; }
+  .approach .n { padding-top: 0.25rem; color: var(--rust); }
   .jobs { display: grid; margin-top: 0.875rem; }
-  .jobs li { padding: 0.875rem 0; border-top: 0.125rem dashed color-mix(in srgb, var(--color-ink) 30%, transparent); }
+  .jobs li { padding: 0.875rem 0; border-top: 0.125rem dashed color-mix(in srgb, var(--color-outline) 40%, transparent); }
   .jobs li:first-child { border-top: 0; }
-  .org { font-size: 1.125rem; margin-top: 0.125rem; }
-  .note { margin-top: 0.25rem; color: color-mix(in srgb, var(--color-ink) 75%, transparent); }
-  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(11.875rem, 1fr)); gap: 1.625rem; }
-  .facts h3 { color: var(--rust); margin-bottom: 0.5rem; }
+  .org { font-size: 1.1875rem; margin-top: 0.125rem; }
+  .note { margin-top: 0.25rem; color: color-mix(in srgb, var(--color-ink) 80%, transparent); }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1.75rem; }
+  .facts h3 { display: inline-block; margin-bottom: 0.625rem; padding-bottom: 0.25rem; border-bottom: 0.1875rem solid var(--rust); }
   .facts ul { display: grid; gap: 0.375rem; }
 
-  .contact-card {
+  .contact-block {
     scroll-margin-top: 6.25rem;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     container-type: inline-size;
     gap: 1.625rem;
-    padding: clamp(1.75rem, 5vw, 4.375rem);
-    border: 0.15625rem solid var(--color-ink);
-    border-radius: 1.75rem;
-    background: var(--marigold);
-    color: var(--color-ink);
-    box-shadow: 0.625rem 0.625rem 0 var(--color-ink);
   }
-  .contact .h2 { color: var(--color-ink); font-size: min(8.125rem, 15cqw); }
+  .contact .h2 { font-size: min(11rem, 17cqw); }
   .contact .big { max-width: 46ch; }
   .mail {
     justify-self: start;
-    font-size: min(4.75rem, 5.6cqw);
-    white-space: nowrap;
+    max-width: 100%;
+    font-size: min(5.5rem, 7.2cqw);
+    overflow-wrap: anywhere;
     text-decoration: underline;
-    text-decoration-thickness: max(0.125rem, .07em);
+    text-decoration-color: var(--marigold);
+    text-decoration-thickness: max(0.25rem, .1em);
     text-underline-offset: .14em;
     transition: color .2s;
   }
@@ -451,28 +385,27 @@ const year = new Date().getFullYear()
   .socials { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
   .foot {
+    position: relative;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: 1rem;
-    padding-block: 3.75rem 1.75rem;
-    color: var(--color-muted);
+    gap: 0.75rem 1rem;
+    margin-top: 4.5rem;
+    padding-block: 1.5rem 1rem;
   }
 
   @media (max-width: 60rem) {
-    .about { grid-template-columns: 1fr; }
+    .about, .row, .project, .project-cell:nth-child(even) .project { grid-template-columns: minmax(0, 1fr); }
+    .project-cell:nth-child(even) .shot { order: 0; }
+    .shot { aspect-ratio: 16 / 9; max-height: 12rem; }
+    .project-cell:has(details[open]) .shot { max-height: none; aspect-ratio: 16 / 10; }
     .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .stats li:nth-child(3) { padding-left: 0; border-left: 0; }
-    .grid { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 40rem) {
-    .nav { display: none; }
-    .hire { margin-left: auto; }
-    :global(html.garden-on) .bloom { min-height: 23.75rem; }
+    .mr { font-size: 6.5rem; }
+    .mail { font-size: 1.1875rem; }
+    .stats { gap: 1.25rem; }
     .story { grid-template-columns: 1fr; gap: 0.25rem; }
     .story dd { margin-bottom: 0.625rem; }
-    .card:hover { transform: none; box-shadow: 0.5rem 0.5rem 0 var(--c, var(--color-ink)); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .pulse { animation: none; }
   }
 </style>

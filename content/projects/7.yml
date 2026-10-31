@@ -1,7 +1,7 @@
 slug: "72street"
 order: 1
 title: "72Street.ai"
-type: "Fintech platform"
+type: "Investing app"
 year: "2026"
 image: "/content/projects/72street/cover.webp"
 imagePortrait: "/content/projects/portrait/72street.webp"
@@ -9,10 +9,10 @@ link: "https://play.google.com/store/apps/details?id=com.everisseai.app72street"
 linkLabel: "View on Google Play ↗"
 tags: ["Fintech", "Mobile & tablet", "Market data", "Subscriptions", "SEBI-aligned"]
 skills: [web, data]
-summary: "An advisory-only stock app for Indian investors: human-guided recommendations, with the reasoning behind every call."
-problem: "Most investing apps are built for speed and execution. 72 Street wanted the opposite: calm, explainable, advisor-led guidance, with no trading, demat or order execution in the loop."
-build: "A phone and tablet app with OTP login, advisor recommendations that carry an entry range, target, stop-loss and risk-reward ratio, live market data and watchlists, and subscription plans. Consent-first and DPDP-compliant, with no dark patterns."
-outcome: "Live on Google Play, rated 4.9 by its early users, with 500+ downloads."
+summary: "A stock app for Indian investors that gives calm advice and shows the reasoning behind every call. No trading, just guidance."
+problem: "Most investing apps push you to trade fast. 72 Street wanted the opposite: calm, clear advice from real advisors, with no trading or order placing in the app."
+build: "A phone and tablet app with one-time-password login. Each advisor recommendation shows an entry range, a target, a stop-loss and the risk against the reward. It also has live market data, watchlists and subscription plans, and it asks for consent first, follows India’s data-protection law and avoids tricks that push you to buy."
+outcome: "Live on Google Play with a 4.9 rating from early users and 500+ downloads."
 metric: "4.9★"
 metricLabel: "Google Play rating"
 gallery:

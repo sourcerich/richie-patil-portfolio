@@ -6,6 +6,8 @@ const touch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
 export const lenis = reduced || touch
   ? null
   : new Lenis({
+      wrapper: document.getElementById('scroller')!,
+      content: document.querySelector<HTMLElement>('#scroller > .paper')!,
       autoRaf: true,
       lerp: 0.085,
       wheelMultiplier: 1,

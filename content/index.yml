@@ -1,43 +1,43 @@
 title: "Richie Patil"
 seo:
   title: "Richie Patil"
-  description: "Richie Patil builds backends, data pipelines and AI systems: APIs for SaaS products, ETL and MLOps, retrieval-augmented generation and machine-learning models."
+  description: "Richie Patil is a full-stack and AI engineer. He builds APIs for SaaS products, data pipelines, and machine-learning and generative-AI systems that hold up under real traffic."
 
 # The hero.
 name: "Richie Patil"
 # The Marathi touch: the name in Devanagari.
 nameMr: "रिची पाटील"
 role: "Full-stack & AI engineer"
-intro: "I build backends, data pipelines and AI systems for SaaS products, mostly the parts that have to keep working when traffic spikes."
-available: "Available for work worldwide"
+intro: "You get backends, data pipelines and AI that stay fast when traffic spikes."
+available: "Taking on new projects"
 
 # Numbers along the bottom of the hero.
 stats:
-  - { value: "5", label: "SaaS products with my APIs behind them" }
-  - { value: "45 s → 145 ms", label: "one endpoint, after finding its bottleneck" }
+  - { value: "5", label: "SaaS products run on my APIs" }
+  - { value: "45 s → 145 ms", label: "one slow request, fixed at the source" }
   - { value: "1M+", label: "certificates the Sankalp platform can hold" }
-  - { value: "~85%", label: "accuracy forecasting sunspot activity" }
+  - { value: "~85%", label: "accuracy predicting sunspot activity" }
 
 # What I do. `key` is what projects list under `skills`; `color` paints the
 # skill's card and every project that lists it first.
 skills:
   - key: "web"
-    title: "Full-stack & APIs"
-    color: "#dd5f2e"
-    body: "React and TypeScript on the front, Node.js, Express and Sequelize behind it. I’ve built the APIs behind five SaaS products, including a multi-tenant CRM, and once took a 45-second endpoint down to 145 ms."
+    title: "Web apps & backends"
+    color: "#b84a08"
+    body: "Your product needs a backend that stays fast. I build it with React and TypeScript on the front and Node.js behind. Five SaaS products run on my APIs, including a CRM that serves many companies at once, and I cut one 45-second request to 145 ms because I found what was really slowing it down."
   - key: "data"
-    title: "Data & MLOps"
-    color: "#8e9a3e"
-    body: "ETL jobs, scrapers and aggregation pipelines feeding Segment, Google Analytics and Power BI, shipped in Docker through CI."
+    title: "Data pipelines"
+    color: "#886a3d"
+    body: "Stop moving data by hand. I build the jobs that collect, clean and send your data to tools like Segment, Google Analytics and Power BI. They run on their own and ship through automated checks, so they keep working."
   - key: "ai"
-    title: "Generative AI"
-    color: "#f2a531"
-    body: "Retrieval over your own documents with LangChain and Llama 3 or GPT, running serverless on AWS Lambda."
+    title: "AI assistants"
+    color: "#d88b3e"
+    body: "Imagine asking questions about your own documents and getting answers with the source attached. I build that with LangChain and Llama 3 or GPT, running on AWS Lambda, so you only pay when it’s used."
   - key: "ml"
     title: "Machine learning"
-    color: "#d98b76"
-    body: "Supervised models with scikit-learn and Pandas. My dissertation forecast sunspot activity at about 85% accuracy."
+    color: "#cda05e"
+    body: "Predictions you can check. I train models with scikit-learn and Pandas and test them on real data. My dissertation predicted sunspot activity with about 85% accuracy."
 
 contact:
-  title: "Let’s build something"
-  body: "If you’re building something and want another pair of hands on the backend or the machine-learning side, write to me. I’m happy to talk an idea through before there’s a spec."
+  title: "What should we make?"
+  body: "Tell me what it has to do and by when. Based on what you share, you’ll get a clear plan, honest trade-offs and a first step."

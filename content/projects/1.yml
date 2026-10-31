@@ -1,17 +1,17 @@
 slug: "sankalp"
 order: 4
 title: "Sankalp NGO Platform"
-type: "Full-stack platform"
+type: "Web platform"
 year: "2025"
 image: "/content/projects/sankalp/01.webp"
 imagePortrait: "/content/projects/portrait/sankalp.webp"
 link: "https://thesankalp.org"
 tags: ["React", "TypeScript", "Node.js", "SQL", "DevSecOps"]
 skills: [web]
-summary: "The platform the Sankalp NGO uses to issue, store and verify certificates for its volunteers and members."
-problem: "The Sankalp Organisation needed one reliable system to issue, store and verify certificates and user records, at a volume manual processes couldn’t keep up with."
-build: "React and TypeScript on the front, Node.js and SQL behind it, on a Linux VPS. Authentication encrypts and decrypts sensitive data end to end, and security checks run as part of every deploy."
-outcome: "It has room for more than a million certificates, and the Sankalp team uses the live site every day."
+summary: "A certificate system for a whole NGO: issue, store and check certificates, with room for over a million."
+problem: "The Sankalp Organisation needed one dependable place to issue, store and check certificates and member records, because doing it by hand couldn’t keep up."
+build: "I built the site with React and TypeScript, with Node.js and a SQL database behind it, on a Linux server. Private data is encrypted from login to storage, and security checks run every time we publish an update."
+outcome: "It has room for more than a million certificates, and the Sankalp team uses it every day."
 metric: "1M+"
 metricLabel: "Certificate capacity"
 gallery:

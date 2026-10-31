@@ -7,7 +7,7 @@ const openCase = (hash: string, scroll: boolean) => {
   const details = card.querySelector('details')
   if (details) details.open = true
   if (scroll) {
-    if (lenis) lenis.scrollTo(card, { offset: -90 })
+    if (lenis) lenis.scrollTo(card, { offset: -160 })
     else card.scrollIntoView({ block: 'start' })
   }
   return true
@@ -24,3 +24,10 @@ document.querySelectorAll<HTMLAnchorElement>('[data-open]').forEach((a) => {
 
 openCase(location.hash, false)
 window.addEventListener('hashchange', () => openCase(location.hash, false))
+
+document.querySelectorAll<HTMLImageElement>('.project .shot').forEach((shot) => {
+  shot.addEventListener('click', () => {
+    const details = shot.closest('.project')?.querySelector('details')
+    if (details) details.open = !details.open
+  })
+})
