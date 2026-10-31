@@ -1,29 +1,19 @@
-# Astro build output and generated types
 dist
 .astro
 
-# Node dependencies
 node_modules
 
-# Logs
 logs
-*.log
 
-# Misc
 .DS_Store
 .fleet
 .idea
 
-# Local env files
 .env
 .env.*
 !.env.example
 
-# VSC
 .history
 
-# Cloudflare Wrangler local state
 .wrangler
 .dev.vars*
-
-# Local AI-assistant config and working notes

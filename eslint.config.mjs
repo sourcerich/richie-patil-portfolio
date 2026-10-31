@@ -10,8 +10,6 @@ export default defineConfig(
   js.configs.recommended,
   tseslint.configs.recommended,
   astro.configs.recommended,
-  // Same house style as before: no semicolons, single quotes, 2 spaces, no
-  // trailing commas.
   stylistic.configs.customize({ commaDangle: 'never', braceStyle: '1tbs' }),
   {
     rules: {
@@ -19,9 +17,6 @@ export default defineConfig(
     }
   },
   {
-    // The JSX layout rules read <style> and <script> bodies in .astro files
-    // as JSX text and would split inline text runs; markup layout is left to
-    // the template.
     files: ['**/*.astro'],
     rules: {
       '@stylistic/jsx-one-expression-per-line': 'off',
@@ -34,8 +29,6 @@ export default defineConfig(
       '@stylistic/jsx-wrap-multilines': 'off',
       '@stylistic/jsx-curly-newline': 'off',
       '@stylistic/indent': 'off',
-      // Void tags are written HTML-style (<meta …>, <img …>), which this
-      // rule reads as a JSX tag missing its space before "/>".
       '@stylistic/jsx-tag-spacing': 'off'
     }
   }
