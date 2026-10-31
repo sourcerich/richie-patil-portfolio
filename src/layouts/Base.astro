@@ -79,6 +79,7 @@ const pageUrl = site.url + Astro.url.pathname
 </html>
 
 <script>
+  import '../scripts/safari-filters'
   import '../scripts/reset-scroll'
   import '../scripts/anchors'
   import '../scripts/smooth-scroll'
@@ -122,10 +123,10 @@ const pageUrl = site.url + Astro.url.pathname
   }
   .nav-link :global(.nav-paint) {
     position: absolute;
-    left: 0.125rem;
-    top: 0.1875rem;
-    width: calc(100% - 0.25rem);
-    height: calc(100% - 0.375rem);
+    left: 0.25rem;
+    top: 0.3125rem;
+    width: calc(100% - 0.5rem);
+    height: calc(100% - 0.625rem);
     overflow: visible;
     pointer-events: none;
     transition: opacity .25s;

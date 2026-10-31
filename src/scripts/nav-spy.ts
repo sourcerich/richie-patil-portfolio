@@ -1,3 +1,5 @@
+import { filterRatio } from './safari-filters'
+
 const SVG = 'http://www.w3.org/2000/svg'
 const ANGLE = -0.42
 const PASSES = 3
@@ -79,7 +81,7 @@ const build = (link: HTMLAnchorElement): Brush => {
     wiggle.setAttribute('y', String(-h))
     wiggle.setAttribute('width', String(w * 3))
     wiggle.setAttribute('height', String(h * 3))
-    wiggleShift.setAttribute('scale', String(Math.max(2, h * 0.09)))
+    wiggleShift.setAttribute('scale', String(Math.max(2, h * 0.09) * filterRatio))
     text.setAttribute('x', String(w / 2))
     text.setAttribute('y', String(h / 2))
     const rotation = `rotate(${(ANGLE * 180) / Math.PI})`
@@ -93,7 +95,7 @@ const build = (link: HTMLAnchorElement): Brush => {
     const vMin = Math.min(...corners.map(c => c.v))
     const vMax = Math.max(...corners.map(c => c.v))
     const spacing = (vMax - vMin) / PASSES
-    const width = spacing * 1.35
+    const width = spacing * 1.15
     const inset = width * 0.15
     const left = uMin + inset
     const right = uMax - inset
@@ -113,7 +115,7 @@ const build = (link: HTMLAnchorElement): Brush => {
     filter.setAttribute('y', String(vMin - width * 1.5))
     filter.setAttribute('width', String(right - left + width * 2))
     filter.setAttribute('height', String(vMax - vMin + width * 3))
-    displace.setAttribute('scale', String(h * 0.14))
+    displace.setAttribute('scale', String(h * 0.1 * filterRatio))
     length = paint.getTotalLength()
     for (const path of paths) path.style.strokeDasharray = String(length)
   }
