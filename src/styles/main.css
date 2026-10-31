@@ -92,7 +92,7 @@ body {
 body::after {
   content: '';
   position: fixed;
-  inset: -50%;
+  inset: 0;
   z-index: 59;
   pointer-events: none;
   opacity: .34;
@@ -101,16 +101,16 @@ body::after {
   animation: grain .9s steps(10) infinite;
 }
 @keyframes grain {
-  0%, 100% { transform: translate(0, 0); }
-  10% { transform: translate(-5%, -10%); }
-  20% { transform: translate(-15%, 5%); }
-  30% { transform: translate(7%, -25%); }
-  40% { transform: translate(-5%, 25%); }
-  50% { transform: translate(-15%, 10%); }
-  60% { transform: translate(15%, 0); }
-  70% { transform: translate(0, 15%); }
-  80% { transform: translate(3%, 35%); }
-  90% { transform: translate(-10%, 10%); }
+  0%, 100% { background-position: 0 0; }
+  10% { background-position: -2rem -4rem; }
+  20% { background-position: -6rem 2rem; }
+  30% { background-position: 3rem -9rem; }
+  40% { background-position: -2rem 9rem; }
+  50% { background-position: -6rem 4rem; }
+  60% { background-position: 6rem 0; }
+  70% { background-position: 0 6rem; }
+  80% { background-position: 1rem 8rem; }
+  90% { background-position: -4rem 4rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   body::after { animation: none; }

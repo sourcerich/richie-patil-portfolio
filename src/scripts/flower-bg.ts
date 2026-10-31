@@ -24,6 +24,7 @@ const words = () => Array.from(document.querySelectorAll<HTMLElement>('[data-eng
     id: `${single ? 'mr' : 'name'}-${i}`,
     text: el.textContent?.trim() ?? '',
     single,
+    center: single,
     font: `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`,
     size: parseFloat(style.fontSize),
     x: rect.left,

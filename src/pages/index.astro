@@ -204,7 +204,7 @@ const pillSkills = [...page.skills].sort((a, b) => Number(b.key === 'ai') - Numb
   }
   .mr { position: relative; z-index: 1; pointer-events: none; color: #fff; }
   .ch { display: inline-block; }
-  .mr .ch { margin-inline: 0.2em; }
+  .mr { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 0.4em; max-width: 100%; }
   :global(html.engine-text) .ch { color: transparent; }
   .mr { font-size: clamp(4.5rem, 15vw, 13rem); line-height: 1.1; }
   .sticker { white-space: nowrap; }
@@ -394,7 +394,7 @@ const pillSkills = [...page.skills].sort((a, b) => Number(b.key === 'ai') - Numb
     .steps { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 40rem) {
-    .mr { font-size: 6.5rem; }
+    .mr { font-size: min(6.5rem, 21vw); }
     .mail { font-size: 1.1875rem; }
     .story { grid-template-columns: 1fr; gap: 0.25rem; }
     .story dd { margin-bottom: 0.625rem; }
