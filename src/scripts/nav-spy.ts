@@ -1,9 +1,9 @@
 import { filterRatio } from './safari-filters'
 
 const SVG = 'http://www.w3.org/2000/svg'
-const ANGLE = -0.42
-const PASSES = 3
-const PAINT_MS = 700
+const ANGLE = -0.12
+const PASSES = 6
+const PAINT_MS = 800
 const BOIL_MS = 160
 
 const scroller = document.getElementById('scroller')
@@ -24,7 +24,6 @@ interface Brush {
   paths: SVGPathElement[]
   boil: () => void
   layout: () => void
-  length: () => number
 }
 
 let uid = 0
@@ -36,7 +35,11 @@ const build = (link: HTMLAnchorElement): Brush => {
   const filter = svgEl('filter', { id: `${id}-f`, filterUnits: 'userSpaceOnUse' })
   const turbulence = svgEl('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.01 0.22', numOctaves: 2, seed: 9, result: 'noise' })
   const displace = svgEl('feDisplacementMap', { in: 'SourceGraphic', in2: 'noise', xChannelSelector: 'R', yChannelSelector: 'G' })
-  filter.append(turbulence, displace)
+  displace.setAttribute('result', 'rough')
+  const streaks = svgEl('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.02 0.9', numOctaves: 1, seed: 4, result: 'streaks' })
+  const streakAlpha = svgEl('feColorMatrix', { in: 'streaks', type: 'matrix', values: '0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  6 0 0 0 -1.15', result: 'streakMask' })
+  const dry = svgEl('feComposite', { in: 'rough', in2: 'streakMask', operator: 'in' })
+  filter.append(turbulence, displace, streaks, streakAlpha, dry)
   const wiggle = svgEl('filter', { id: `${id}-w`, filterUnits: 'userSpaceOnUse' })
   const wiggleNoise = svgEl('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.045', numOctaves: 1, seed: 1, result: 'wobble' })
   const wiggleShift = svgEl('feDisplacementMap', { in: 'SourceGraphic', in2: 'wobble', xChannelSelector: 'R', yChannelSelector: 'G' })
@@ -50,7 +53,8 @@ const build = (link: HTMLAnchorElement): Brush => {
   const clipped = svgEl('g')
   const frame = svgEl('g')
   const paint = svgEl('path', { ...strokeAttrs, stroke: 'var(--rust)' })
-  frame.append(paint)
+  const fringe = svgEl('path', { 'fill': 'none', 'stroke': 'var(--rust)', 'stroke-linecap': 'round' })
+  frame.append(paint, fringe)
   clipped.append(frame)
   outer.append(clipped)
   const maskClipped = svgEl('g')
@@ -65,8 +69,14 @@ const build = (link: HTMLAnchorElement): Brush => {
   svg.style.visibility = 'hidden'
   link.append(svg)
 
-  const paths = [paint, maskPath]
-  let length = 0
+  const paths = [paint, maskPath, fringe]
+  const random = (() => {
+    let state = 7 + uid * 13
+    return () => {
+      state = (state * 1664525 + 1013904223) % 4294967296
+      return state / 4294967296
+    }
+  })()
 
   const layout = () => {
     const w = svg.clientWidth
@@ -107,17 +117,35 @@ const build = (link: HTMLAnchorElement): Brush => {
       d += i ? ` L${a},${v}` : `M${a},${v}`
       d += ` L${b},${v}`
     }
-    for (const path of paths) {
+    let bristles = ''
+    for (let i = 0; i < rows; i++) {
+      const v = vMin + spacing * (i + 0.5)
+      const [a, b] = i % 2 ? [right, left] : [left, right]
+      const dir = Math.sign(b - a)
+      for (const [end, out] of [[a, -dir], [b, dir]] as const) {
+        for (let k = 0; k < 4; k++) {
+          const offset = (random() - 0.5) * width * 0.9
+          const reach = width * (0.15 + random() * 0.55)
+          bristles += ` M${end},${v + offset} L${end + out * reach},${v + offset + (random() - 0.5) * 2}`
+        }
+      }
+    }
+    for (const path of [paint, maskPath]) {
       path.setAttribute('d', d)
       path.setAttribute('stroke-width', String(width))
     }
+    fringe.setAttribute('d', bristles.trim())
+    fringe.setAttribute('stroke-width', String(Math.max(0.75, h * 0.035)))
     filter.setAttribute('x', String(left - width))
     filter.setAttribute('y', String(vMin - width * 1.5))
     filter.setAttribute('width', String(right - left + width * 2))
     filter.setAttribute('height', String(vMax - vMin + width * 3))
     displace.setAttribute('scale', String(h * 0.1 * filterRatio))
-    length = paint.getTotalLength()
-    for (const path of paths) path.style.strokeDasharray = String(length)
+    for (const path of paths) {
+      const total = path.getTotalLength()
+      path.dataset.len = String(total)
+      path.style.strokeDasharray = String(total)
+    }
   }
 
   let seed = 1
@@ -126,14 +154,14 @@ const build = (link: HTMLAnchorElement): Brush => {
     wiggleNoise.setAttribute('seed', String(seed))
   }
 
-  return { svg, paths, boil, layout, length: () => length }
+  return { svg, paths, boil, layout }
 }
 
 const brushes = links.map(build)
 const setProgress = (brush: Brush, done: boolean, animate: boolean) => {
   for (const path of brush.paths) {
     path.style.transition = animate ? `stroke-dashoffset ${PAINT_MS}ms linear` : 'none'
-    path.style.strokeDashoffset = String(done ? 0 : brush.length())
+    path.style.strokeDashoffset = done ? '0' : (path.dataset.len ?? '0')
   }
 }
 
