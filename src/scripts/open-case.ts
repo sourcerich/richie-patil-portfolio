@@ -18,7 +18,6 @@ document.querySelectorAll<HTMLAnchorElement>('[data-open]').forEach((a) => {
     const hash = a.getAttribute('href') ?? ''
     if (!openCase(hash, true)) return
     e.preventDefault()
-    history.replaceState(null, '', hash)
   })
 })
 

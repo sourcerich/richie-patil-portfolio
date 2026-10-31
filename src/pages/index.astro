@@ -391,6 +391,9 @@ const pillSkills = [...page.skills].sort((a, b) => Number(b.key === 'ai') - Numb
     .project-cell:nth-child(even) .shot { order: 0; }
     .shot { aspect-ratio: 16 / 9; max-height: 12rem; }
     .project-cell:has(details[open]) .shot { max-height: none; aspect-ratio: 16 / 10; }
+    .project-cell:has(details[open]) .project,
+    .project-cell:nth-child(even):has(details[open]) .project { grid-template-columns: minmax(0, 1fr); }
+    .project-cell:nth-child(even):has(details[open]) .shot { order: 0; }
     .steps { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 40rem) {
@@ -398,5 +401,24 @@ const pillSkills = [...page.skills].sort((a, b) => Number(b.key === 'ai') - Numb
     .mail { font-size: 1.1875rem; }
     .story { grid-template-columns: 1fr; gap: 0.25rem; }
     .story dd { margin-bottom: 0.625rem; }
+    .projects {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-inline: -1.125rem;
+      padding: 0 1.125rem 1rem;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 1.125rem;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .projects::-webkit-scrollbar { display: none; }
+    .project-cell { flex: 0 0 min(72vw, 24rem); scroll-snap-align: start; min-width: 0; }
+    .project { padding-block: 1.5rem 1.25rem; }
+    .project-body { min-width: 0; }
+    .gallery { grid-template-columns: minmax(0, 1fr); }
+    .case-links { overflow-wrap: anywhere; }
   }
 </style>

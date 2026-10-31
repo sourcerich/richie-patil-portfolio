@@ -60,6 +60,7 @@ const build = (link: HTMLAnchorElement): Brush => {
   const text = svgEl('text', { mask: `url(#${id}-m)` })
   text.textContent = label
   svg.append(defs, outer, text)
+  svg.style.visibility = 'hidden'
   link.append(svg)
 
   const paths = [paint, maskPath]
@@ -160,6 +161,7 @@ const mark = (index: number) => {
     link.setAttribute('aria-current', String(active))
     const brush = brushes[i]
     if (active && !was) {
+      brush.svg.style.visibility = 'visible'
       brush.svg.style.opacity = '1'
       setProgress(brush, false, false)
       void brush.svg.getBoundingClientRect()
@@ -167,7 +169,10 @@ const mark = (index: number) => {
     } else if (!active && was) {
       brush.svg.style.opacity = '0'
       window.setTimeout(() => {
-        if (links[i].getAttribute('aria-current') !== 'true') setProgress(brush, false, false)
+        if (links[i].getAttribute('aria-current') !== 'true') {
+          setProgress(brush, false, false)
+          brush.svg.style.visibility = 'hidden'
+        }
         brush.svg.style.opacity = '1'
       }, 280)
     }
