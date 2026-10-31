@@ -1,4 +1,5 @@
 /*
+ * How a frame of the garden reaches the screen, in a hand-made
  * cartoon look: the scene in flat toon colour, then one screen pass that
  * inks the outlines and lays paper grain over it.
  *
@@ -44,10 +45,12 @@ void main() {
   // the boil: shift where we look for edges, and how wide, by a noise that re-rolls each step
   vec2 wob = vec2(noise(vUv * 7.0 + uBoil), noise(vUv * 7.0 + uBoil + 17.3)) - 0.5;
   vec2 uv = vUv + wob * 2.0 * uPx / uRes;
-  float weight = uPx * (0.8 + 0.6 * noise(vUv * 38.0 - uBoil * 3.1));
+  float dc = dist(uv);
+  // lines thin out with distance, so far leaves are drawn lighter than near ones
+  float far = smoothstep(14.0, 30.0, dc);
+  float weight = uPx * (0.8 + 0.6 * noise(vUv * 38.0 - uBoil * 3.1)) * mix(1.15, 0.6, far);
   vec2 o = weight / uRes;
 
-  float dc = dist(uv);
   vec3 nc = nrm(uv);
   float edge = 0.0;
   for (int i = 0; i < 4; i++) {
@@ -58,6 +61,10 @@ void main() {
     // creases: the surface turns away
     edge = max(edge, smoothstep(0.55, 0.85, 1.0 - dot(nc, nrm(uv + dir))));
   }
+
+  // break the line up: a pen lifting now and then, re-rolled with the boil
+  edge *= smoothstep(0.04, 0.16, noise(vUv * uRes / (uPx * 14.0) + uBoil * 2.3));
+  edge *= mix(1.0, 0.7, far);
 
   vec4 col = texture2D(tColor, vUv);
   // paper grain on the drawing, stepped with the boil so it flickers like film

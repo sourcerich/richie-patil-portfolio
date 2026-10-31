@@ -2,6 +2,7 @@
 
 The source for [richiepatil.com](https://richiepatil.com): one page built with [Astro](https://astro.build), with little client-side JavaScript beyond the hero's three.js scene. Everything is on it: what I do, the work (each case opens in place), about and contact.
 
+Warm paper: butter-yellow paper in an ochre frame, brown ink, one warm colour per skill, and a little 3D desk on a floating island in the hero, drawn in three.js as a cartoon with boiling ink outlines (`src/scripts/desk/`). Hand-lettered type: Shantell Sans, and Kalam for the name in Devanagari, both SIL Open Font License, self-hosted from `public/fonts`.
 
 ## Layout
 

@@ -10,13 +10,13 @@ tags: ["Node.js", "TypeScript", "Express", "Sequelize", "Multi-tenant SaaS"]
 skills: [web]
 summary: "GrowthPipe, a lead-management CRM, and the site that feeds it: one partner for the software and the leads."
 problem: "Leads arrived from Meta and Google ads, WhatsApp and landing pages, and callers lost track of who to call back and what had already happened."
-build: "A multi-tenant CRM where a caller’s whole day is one screen: callbacks first, tap to call, log the outcome, move on. Each company’s data is kept separate at the database level, so isolation can’t be switched off by mistake, and every enquiry from the landing pages flows straight in."
+build: "A multi-tenant CRM where a caller’s whole day is one screen: callbacks first, tap to call, log the outcome, move on. Each tenant’s data is kept separate at the database level, so isolation can’t be switched off by mistake, and every enquiry from the landing pages flows straight in."
 outcome: "Tavco’s own team ran on it every day before it was sold to anyone, and it is now the product at the centre of Tavco Growth."
 metric: "Multi-tenant"
 metricLabel: "Isolation built into the database"
 gallery:
   - src: "/content/projects/tavco/02.webp"
-    alt: "GrowthPipe product section: a caller's whole day is one screen"
+    alt: "GrowthPipe product section: a caller’s whole day is one screen"
   - src: "/content/projects/tavco/03.webp"
     alt: "Services: Meta lead generation, Google Ads, WhatsApp automation, websites"
   - src: "/content/projects/tavco/04.webp"

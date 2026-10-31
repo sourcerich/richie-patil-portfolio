@@ -1,4 +1,5 @@
 /* Richie Patil — design tokens and shared classes.
+   Warm paper: butter-yellow paper inside an ochre frame,
    brown ink, and one warm colour per skill (rust, olive, marigold, rose).
    Hand-lettered type: Shantell Sans, drawn from handwriting, with its
    informality and bounce turned up so letters wobble and sit unevenly;
@@ -33,6 +34,7 @@
 :root {
   color-scheme: light;
   /* the paper, the frame around it, and the lighter paper cards are cut from */
+  /* a rich butter-yellow paper in an ochre frame */
   --color-bg: #fdeb95;
   --color-frame: #ebbf63;
   --color-cream: #fff7d4;

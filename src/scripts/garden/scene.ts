@@ -12,6 +12,7 @@
 import * as THREE from 'three'
 import { createInk } from './ink'
 import { leafGeometry, petalGeometry } from './shapes'
+import { createWake } from './wake'
 
 export interface GardenOptions {
   canvas: HTMLCanvasElement
@@ -36,6 +37,7 @@ const toon = (color: THREE.ColorRepresentation) =>
 
 /**
  * The flower, outer ring to inner, at a radius of about 1. `open` is how far
+ * each ring tips back. Colours: deep orange
  * outside, warming to gold in the middle.
  */
 const RINGS = [
@@ -43,11 +45,14 @@ const RINGS = [
   { n: 10, len: 0.64, width: 0.56, base: 0.16, open: 0.52, color: '#dd7a31', cup: 0.6, curl: -0.05 },
   { n: 9, len: 0.52, width: 0.5, base: 0.11, open: 0.78, color: '#de8a38', cup: 0.75, curl: 0.05 },
   { n: 8, len: 0.4, width: 0.42, base: 0.07, open: 1.02, color: '#de9c40', cup: 0.9, curl: 0.12 },
-  { n: 6, len: 0.28, width: 0.34, base: 0.03, open: 1.22, color: '#deaa46', cup: 1, curl: 0.18 }
+  { n: 6, len: 0.28, width: 0.34, base: 0.03, open: 1.22, color: '#deaa46', cup: 1, curl: 0.18 },
+  // the last, tight ones around the heart, still half closed
+  { n: 5, len: 0.18, width: 0.24, base: 0.015, open: 0.95, color: '#e5b94f', cup: 1.1, curl: 0.22 }
 ]
 /** How upright a petal stands in the closed bud. */
 const CLOSED = 1.48
 
+/** Leaves: warm khaki and tan, not green. */
 const LEAF_TINTS = ['#a8834e', '#b08c55', '#9c7a46', '#c4a068', '#8f7042']
 const PETAL_TINTS = ['#da7321', '#de8a38', '#d8682b', '#de9f43']
 
@@ -60,6 +65,11 @@ const spring = (x: number) => {
 
 const FOV = 30
 const CAM_Z = 22
+/** The depth the drifting bits live in, far to near. */
+const Z_FAR = -7
+const Z_NEAR = 7
+/** Far things wash toward the page's butter-yellow paper. */
+const HAZE = new THREE.Color('#f0d98a')
 
 export const createGarden = (opts: GardenOptions) => {
   const { canvas, anchor, reduced, compact } = opts
@@ -90,18 +100,22 @@ export const createGarden = (opts: GardenOptions) => {
   flower.add(head)
   scene.add(flower)
   const petals = RINGS.flatMap((ring, k) => {
-    const mat = toon(ring.color)
+    // petals within a ring differ a touch in tone, as real ones do
+    const mats = [-0.035, 0, 0.04].map(l => toon(new THREE.Color(ring.color).offsetHSL(0.004 * l * 10, 0, l)))
     const shapes = [2, 3].map(lobes => petalGeometry({ len: ring.len, width: ring.width, cup: ring.cup, curl: ring.curl, lobes }))
     return Array.from({ length: ring.n }, (_, i) => {
       const pivot = new THREE.Group()
       const angle = (i / ring.n) * Math.PI * 2 + k * 0.33 + (rand() - 0.5) * 0.2
       pivot.rotation.z = angle
-      const mesh = new THREE.Mesh(pick(shapes), mat)
+      const mesh = new THREE.Mesh(pick(shapes), pick(mats))
       mesh.position.y = ring.base
-      mesh.scale.setScalar(0.92 + rand() * 0.16)
+      const size = 0.92 + rand() * 0.16
+      mesh.scale.setScalar(size)
       pivot.add(mesh)
       head.add(pivot)
-      return { k, angle, mesh, bend: 0, phase: rand() * Math.PI * 2 }
+      // where this petal is in its slow life, 0 to 1: staggered around the ring
+      // so the bloom ripples instead of moving as one
+      return { k, angle, mesh, size, life: i / ring.n + k * 0.17, bend: 0, phase: rand() * Math.PI * 2 }
     })
   })
   // the heart: a knot of stamens
@@ -125,11 +139,14 @@ export const createGarden = (opts: GardenOptions) => {
   const flinchAt = () => (flinch > 1.6 ? 0 : Math.exp(-flinch * 3.5) * Math.cos(flinch * 13))
 
   // ——— leaves and petals in the air ———
-  const nLeaves = compact ? 30 : 70
-  const nPetals = compact ? 14 : 32
+  const nLeaves = compact ? 22 : 52
+  const nBroad = compact ? 10 : 24
+  const nPetals = compact ? 16 : 40
   const leafMesh = new THREE.InstancedMesh(leafGeometry(1, 0.42, 0.32, 0.35), toon('#ffffff'), nLeaves)
+  // a second, broader leaf with a deeper fold and curl, so the drift isn't one shape
+  const broadMesh = new THREE.InstancedMesh(leafGeometry(0.9, 0.7, 0.5, 0.6), toon('#ffffff'), nBroad)
   const petalMesh = new THREE.InstancedMesh(petalGeometry({ len: 0.62, width: 0.52, cup: 0.8, curl: 0.08, lobes: 2 }, 8), toon('#ffffff'), nPetals)
-  for (const m of [leafMesh, petalMesh]) {
+  for (const m of [leafMesh, broadMesh, petalMesh]) {
     m.frustumCulled = false
     m.instanceMatrix.setUsage(THREE.DynamicDrawUsage)
     scene.add(m)
@@ -146,6 +163,8 @@ export const createGarden = (opts: GardenOptions) => {
     amp: number
     phase: number
     scale: number
+    /** how stirred up it is by the wake, 0 to 3: livelier spin and sway */
+    excite: number
   }
   const color = new THREE.Color()
   const halfAt = (z: number) => {
@@ -154,7 +173,7 @@ export const createGarden = (opts: GardenOptions) => {
   }
   const bits: Bit[] = []
   const place = (b: Bit, anywhere: boolean) => {
-    b.pos.z = -5 + rand() * 9
+    b.pos.z = Z_FAR + rand() * (Z_NEAR - Z_FAR)
     const { hw, hh } = halfAt(b.pos.z)
     b.pos.x = anywhere ? (rand() * 2 - 1) * hw : -hw - 1
     b.pos.y = (rand() * 2 - 1) * hh
@@ -162,7 +181,6 @@ export const createGarden = (opts: GardenOptions) => {
   }
   const addBits = (mesh: THREE.InstancedMesh, n: number, tints: string[], size: [number, number]) => {
     for (let i = 0; i < n; i++) {
-      mesh.setColorAt(i, color.set(pick(tints)))
       const b: Bit = {
         mesh,
         i,
@@ -174,15 +192,23 @@ export const createGarden = (opts: GardenOptions) => {
         freq: 0.7 + rand() * 0.9,
         amp: 0.7 + rand() * 0.6,
         phase: rand() * Math.PI * 2,
-        scale: size[0] + rand() ** 1.6 * (size[1] - size[0])
+        scale: size[0] + rand() ** 1.6 * (size[1] - size[0]),
+        excite: 0
       }
       place(b, true)
+      // depth: what's near is bigger and truer in colour; what's far is smaller
+      // and washed toward the paper, like things seen through air
+      const near = (b.pos.z - Z_FAR) / (Z_NEAR - Z_FAR)
+      b.scale *= 0.65 + 0.7 * near
+      mesh.setColorAt(i, color.set(pick(tints)).lerp(HAZE, (1 - near) * 0.42))
       bits.push(b)
     }
     if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true
   }
 
   const ink = createInk(renderer, scene, camera)
+  const wake = createWake()
+  const air = { vx: 0, vy: 0, curl: 0 }
 
   // ——— layout: pixels to world units on the flower's plane (z = 0) ———
   let w = 1
@@ -210,8 +236,9 @@ export const createGarden = (opts: GardenOptions) => {
     placeFlower()
   }
   resize()
-  addBits(leafMesh, nLeaves, LEAF_TINTS, [0.3, 0.85])
-  addBits(petalMesh, nPetals, PETAL_TINTS, [0.35, 0.7])
+  addBits(leafMesh, nLeaves, LEAF_TINTS, [0.3, 0.9])
+  addBits(broadMesh, nBroad, LEAF_TINTS, [0.35, 0.8])
+  addBits(petalMesh, nPetals, PETAL_TINTS, [0.35, 0.75])
 
   // ——— input: where the pointer is, and how fast it's moving (px/s) ———
   const ptr = { x: -1e4, y: -1e4, vx: 0, vy: 0, on: false, at: 0 }
@@ -273,6 +300,9 @@ export const createGarden = (opts: GardenOptions) => {
   const dummy = new THREE.Object3D()
   const hit = new THREE.Vector2()
   let t = 0
+  // the bloom's own clock: runs with time, and is pushed along by scrolling
+  let bloom = 0
+  let bloomTarget = 0
   let shedIn = 2.5
   // the page scrolls inside #scroller on touch screens, in the window elsewhere
   const scroller = document.getElementById('scroller')
@@ -295,8 +325,15 @@ export const createGarden = (opts: GardenOptions) => {
     const now0 = pageScroll()
     const scrolled = now0 - lastScroll
     lastScroll = now0
+    // scrolling also winds the bloom's clock, easing toward where the page has been
+    if (!reduced) bloomTarget += scrolled * 0.004 + dt
+    bloom += (bloomTarget - bloom) * (1 - Math.exp(-dt * 2.1))
     ptr.vx *= Math.exp(-dt * 6)
     ptr.vy *= Math.exp(-dt * 6)
+    if (!reduced) {
+      if (ptr.on && Math.hypot(ptr.vx, ptr.vy) > 20) wake.splat(ptr.x / w, ptr.y / h, ptr.vx, ptr.vy, 0.06)
+      wake.step(dt)
+    }
     if (ptr.on) hit.copy(toWorld(ptr.x, ptr.y))
 
     // the flower turns toward the pointer and breathes
@@ -306,6 +343,10 @@ export const createGarden = (opts: GardenOptions) => {
     lean.y += (ly - lean.y) * (1 - Math.exp(-dt * 2.5))
     flower.rotation.set(lean.y * 0.32, lean.x * 0.38, 0)
     head.rotation.z = t * 0.03
+    // it drifts like a flower on its stem: a slow float and sway
+    head.position.set(Math.sin(t * 0.45) * 0.025, Math.sin(t * 0.7) * 0.035, 0)
+    head.rotation.x = Math.sin(t * 0.38 + 1) * 0.03
+    head.rotation.y = Math.sin(t * 0.31) * 0.035
     for (const p of petals) {
       const ring = RINGS[p.k]!
       // petals near the pointer bend back out of its way
@@ -321,7 +362,13 @@ export const createGarden = (opts: GardenOptions) => {
       p.bend += (want - p.bend) * (1 - Math.exp(-dt * 6))
       const open = openness(p.k)
       const breathe = 0.04 * Math.sin(t * 0.8 + p.phase)
-      p.mesh.rotation.x = CLOSED + (ring.open - CLOSED) * open + breathe - p.bend - flinchAt() * 0.35
+      // each petal lives a slow cycle (tight, unfolded, easing back): the
+      // flower never sits still but keeps flowing open and shut round the ring
+      const life = (p.life + bloom * 0.075) % 1
+      const edge = Math.abs(life - 0.5) * 2
+      const tuck = edge ** 3
+      p.mesh.rotation.x = CLOSED + (ring.open - CLOSED) * open + breathe - p.bend - flinchAt() * 0.35 + (tuck - 0.5) * 0.3 * open
+      p.mesh.scale.setScalar(p.size * (1 - 0.1 * tuck * open))
     }
 
     shedIn -= dt
@@ -337,23 +384,22 @@ export const createGarden = (opts: GardenOptions) => {
         b.vel.x += (fx - b.vel.x) * k
         b.vel.y += (fy - b.vel.y) * k
         b.vel.z *= Math.exp(-dt)
-        // the pointer's wake carries them along
-        if (ptr.on) {
-          const d = Math.hypot(b.pos.x - hit.x, b.pos.y - hit.y)
-          if (d < 2.2) {
-            const f = (1 - d / 2.2) ** 2
-            b.vel.x += ptr.vx * upp * f * dt * 3
-            b.vel.y -= ptr.vy * upp * f * dt * 3
-          }
-        }
+        // the pointer's wake carries them along, and eddies spin them up
+        const { hw, hh } = halfAt(b.pos.z)
+        wake.sample(b.pos.x / (2 * hw) + 0.5, 0.5 - b.pos.y / (2 * hh), air)
+        b.vel.x += air.vx * upp * dt * 3
+        b.vel.y -= air.vy * upp * dt * 3
+        const stir = Math.min(3, Math.abs(air.curl) * 0.003)
+        b.excite += (stir - b.excite) * (1 - Math.exp(-dt * (stir > b.excite ? 8 : 1.5)))
+        b.rot.z += air.curl * 0.002 * dt
         b.pos.addScaledVector(b.vel, dt)
         b.pos.y += scrolled * upp * (0.25 + 0.06 * (b.pos.z + 5))
         // turning: rockers sway, the rest tumble; all lean into the wind
         if (b.rock) {
-          b.rot.x = 0.4 + b.amp * Math.sin(t * b.freq + b.phase)
+          b.rot.x = 0.4 + b.amp * (1 + b.excite * 0.6) * Math.sin(t * b.freq + b.phase)
           b.rot.y = 0.5 * Math.sin(t * b.freq * 0.5 + b.phase)
         } else {
-          b.rot.x += b.spin.x * dt
+          b.rot.x += b.spin.x * dt * (1 + b.excite * 3)
           b.rot.y += b.spin.y * dt
         }
         const heading = Math.atan2(b.vel.y, b.vel.x) - Math.PI / 2
@@ -361,7 +407,6 @@ export const createGarden = (opts: GardenOptions) => {
         dr = Math.atan2(Math.sin(dr), Math.cos(dr))
         b.rot.z += dr * (1 - Math.exp(-dt * 1.2)) + b.spin.z * dt * 0.2
 
-        const { hw, hh } = halfAt(b.pos.z)
         const m = 1.2
         if (b.pos.x > hw + m) {
           b.pos.x = -hw - m
@@ -377,6 +422,7 @@ export const createGarden = (opts: GardenOptions) => {
       b.mesh.setMatrixAt(b.i, dummy.matrix)
     }
     leafMesh.instanceMatrix.needsUpdate = true
+    broadMesh.instanceMatrix.needsUpdate = true
     petalMesh.instanceMatrix.needsUpdate = true
 
     // the outlines boil about eight times a second
