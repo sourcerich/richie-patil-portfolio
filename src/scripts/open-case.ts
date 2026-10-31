@@ -1,7 +1,3 @@
-/*
- * Project links (the chips under each skill, or an address like /#p-rag)
- * scroll to that project and open its case.
- */
 import { lenis } from './smooth-scroll'
 
 const openCase = (hash: string, scroll: boolean) => {

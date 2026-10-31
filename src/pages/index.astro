@@ -1,8 +1,4 @@
 ---
-// The whole site, on one page: the hero, what I do, the work (each case
-// opens in place), about and contact. All the copy comes from content/.
-// Behind it, a three.js garden (scripts/garden): a flower opening behind
-// the name, and leaves and petals drifting through the page.
 import { getCollection, getEntry } from 'astro:content'
 import Base from '../layouts/Base.astro'
 import { site } from '../site'
@@ -21,7 +17,6 @@ const year = new Date().getFullYear()
 
 <Base title={page.seo.title} description={page.seo.description}>
   <canvas id="garden" class="garden" aria-hidden="true"></canvas>
-  <!-- three slightly different wobbles; the name cycles through them so its edges boil -->
   <svg class="defs" aria-hidden="true" focusable="false">
     {[3, 11, 23].map((seed, i) => (
       <filter id={`boil-${i}`}>
@@ -44,7 +39,6 @@ const year = new Date().getFullYear()
         <p class="mono kicker">{page.role}</p>
         <p class="mono available"><span class="pulse" aria-hidden="true"></span>{page.available}</p>
       </div>
-      <!-- the garden draws its flower behind this box; tap it to shake petals loose -->
       <div class="bloom" data-bloom>
         <h1 class="display name">
           <span>{page.name.split(' ')[0]}</span>
@@ -203,7 +197,6 @@ const year = new Date().getFullYear()
 </script>
 
 <style>
-  /* ——— the garden, fixed behind the page ——— */
   .garden {
     position: fixed;
     inset: 0;
@@ -221,7 +214,6 @@ const year = new Date().getFullYear()
     :global(html.garden-on) .name, :global(html.garden-on) .mr { animation: none; }
   }
 
-  /* ——— header ——— */
   .top {
     position: sticky;
     top: var(--frame-top);
@@ -230,9 +222,6 @@ const year = new Date().getFullYear()
     align-items: center;
     gap: 1.75rem;
     padding: 0.875rem var(--gutter) calc(0.875rem + 0.125rem);
-    /* The header's paper is on a pseudo-element, not the header itself: Safari 26
-       tints its status bar from the background of fixed/sticky elements near the
-       top edge (but ignores pseudo-elements), and we want that to be the frame. */
     background: transparent;
   }
   .top::before {
@@ -248,7 +237,6 @@ const year = new Date().getFullYear()
   .nav { display: flex; gap: 1.375rem; margin-left: auto; font-weight: 600; }
   .hire { padding: 0.5rem 1rem; background: var(--marigold); }
 
-  /* ——— hero ——— */
   .hero {
     display: flex;
     flex-direction: column;
@@ -272,9 +260,6 @@ const year = new Date().getFullYear()
   @keyframes pulse {
     to { box-shadow: 0 0 0 0.75rem transparent; }
   }
-  /* the flower is drawn behind this box. The name is plain white type with
-     no outline; it reads as hand-drawn because its edges boil, cycling
-     through three wobble filters a few times a second. */
   .bloom {
     position: relative;
     align-self: stretch;
@@ -339,7 +324,6 @@ const year = new Date().getFullYear()
   .stats strong { font-size: clamp(1.875rem, 3.2vw, 3rem); color: var(--color-ink); }
   .stats span { font-size: 0.875rem; color: var(--color-muted); max-width: 24ch; }
 
-  /* ——— sections ——— */
   .section { padding-top: var(--section-y); scroll-margin-top: 2.5rem; }
   .h2 { font-size: clamp(3.5rem, 9vw, 8.125rem); color: var(--color-ink); }
   .section-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.75rem 2.5rem; }
@@ -384,7 +368,6 @@ const year = new Date().getFullYear()
   .chip:hover { background: var(--color-ink); color: var(--color-cream); }
 
   .projects { align-items: start; }
-  /* an open case takes the full row */
   .project-cell:has(details[open]) { grid-column: 1 / -1; }
   .project-cell:has(details[open]) .shot { max-height: 27.5rem; }
   .project { padding: 0; overflow: hidden; scroll-margin-top: 5.625rem; }
@@ -413,8 +396,6 @@ const year = new Date().getFullYear()
   .pill-small { padding: 0.4375rem 0.875rem; font-size: 0.9375rem; background: var(--c); }
   .close-label, .case[open] .open-label { display: none; }
   .case[open] .close-label { display: inline; }
-  /* open: the button inverts. Closed it is the card's colour with an ink edge and
-     shadow; open it is ink with the card's colour as edge and shadow. */
   .case[open] summary { background: var(--color-ink); color: var(--color-cream); border-color: var(--c); box-shadow: 0.1875rem 0.1875rem 0 var(--c); }
   .case[open] summary:hover { box-shadow: 0.3125rem 0.3125rem 0 var(--c); }
   .case[open] summary:active { box-shadow: 0.0625rem 0.0625rem 0 var(--c); }
@@ -455,7 +436,6 @@ const year = new Date().getFullYear()
     color: var(--color-ink);
     box-shadow: 0.625rem 0.625rem 0 var(--color-ink);
   }
-  /* sized to the card, so the longest word always fits and nothing splits */
   .contact .h2 { color: var(--color-ink); font-size: min(8.125rem, 15cqw); }
   .contact .big { max-width: 46ch; }
   .mail {

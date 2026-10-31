@@ -1,6 +1,4 @@
 ---
-// Every page: <head>, the skip link, the ochre frame and paper grain over the
-// page, and the scripts every page shares.
 import '../styles/main.css'
 import { site } from '../site'
 
@@ -10,7 +8,6 @@ interface Props {
 }
 
 const { title, description } = Astro.props
-// Crawlers for link previews need absolute URLs.
 const pageUrl = site.url + Astro.url.pathname
 ---
 
@@ -34,10 +31,6 @@ const pageUrl = site.url + Astro.url.pathname
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="preload" as="font" type="font/woff2" href="/fonts/shantell-sans-latin.woff2" crossorigin>
     <link rel="preload" as="font" type="font/woff2" href="/fonts/nunito-latin.woff2" crossorigin>
-    <!--
-      Runs before first paint: flags that JS is on, so CSS hides
-      not-yet-revealed elements only when JS will reveal them.
-    -->
     <script is:inline>
       document.documentElement.classList.add('js')
     </script>
@@ -47,7 +40,6 @@ const pageUrl = site.url + Astro.url.pathname
     <div class="scroller" id="scroller">
       <div class="paper"><slot /></div>
     </div>
-    <!-- thin frame-coloured strips on the top and bottom screen edges: Safari tints its bars from these -->
     <div class="tint tint-top" aria-hidden="true"></div>
     <div class="tint tint-bottom" aria-hidden="true"></div>
     <div class="frame" aria-hidden="true"></div>

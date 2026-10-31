@@ -2,8 +2,6 @@ import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 
-// The YAML stays in /content at the repo root: the page copy (index.yml),
-// the longer About material (about.yml) and one file per project.
 const seo = z.object({ title: z.string(), description: z.string() })
 const base = './content'
 
@@ -64,12 +62,10 @@ const projects = defineCollection({
     imagePortrait: z.string().optional(),
     link: z.string().optional(),
     linkLabel: z.string().optional(),
-    // Public source code, shown when there's no live link.
     repo: z.string().optional(),
     confidential: z.boolean().optional(),
     gallery: z.array(z.object({ src: z.string(), alt: z.string() })).optional(),
     tags: z.array(z.string()),
-    // Keys of the skills in index.yml this project used; the first sets its colour.
     skills: z.array(z.string()).min(1),
     summary: z.string(),
     problem: z.string(),

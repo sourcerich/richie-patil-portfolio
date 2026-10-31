@@ -1,9 +1,3 @@
-/*
- * Starts the garden (scene.ts, loaded on demand so a visitor without WebGL
- * never downloads three.js), lets a tap on the flower shake petals loose,
- * and pauses it while the tab is hidden. Without WebGL the hero is simply
- * the name and the words on the paper.
- */
 const canvas = document.getElementById('garden') as HTMLCanvasElement | null
 const anchor = document.querySelector<HTMLElement>('[data-bloom]')
 
@@ -27,7 +21,6 @@ const boot = async () => {
   try {
     garden = createGarden({ canvas, anchor, reduced, compact })
   } catch {
-    // Context lost or refused: the hero stays words only.
     html.classList.remove('garden-on')
     return
   }

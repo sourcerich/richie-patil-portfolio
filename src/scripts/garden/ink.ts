@@ -1,15 +1,3 @@
-/*
- * How a frame of the garden reaches the screen, in a hand-made
- * cartoon look: the scene in flat toon colour, then one screen pass that
- * inks the outlines and lays paper grain over it.
- *
- * Outlines come from where depth jumps (silhouettes) and where the surface
- * turns sharply (creases, like a leaf's folded midrib), read from a second
- * render of the scene's normals. They're deliberately imperfect: each line
- * wobbles a pixel or two and varies in weight, and the wobble re-rolls
- * several times a second, so the lines "boil" like hand-drawn animation.
- * The background stays transparent, so the page's own paper shows through.
- */
 import * as THREE from 'three'
 
 const VS = `varying vec2 vUv;
@@ -42,11 +30,9 @@ float dist(vec2 uv) {
 vec3 nrm(vec2 uv) { return texture2D(tNormal, uv).xyz * 2.0 - 1.0; }
 
 void main() {
-  // the boil: shift where we look for edges, and how wide, by a noise that re-rolls each step
   vec2 wob = vec2(noise(vUv * 7.0 + uBoil), noise(vUv * 7.0 + uBoil + 17.3)) - 0.5;
   vec2 uv = vUv + wob * 2.0 * uPx / uRes;
   float dc = dist(uv);
-  // lines thin out with distance, so far leaves are drawn lighter than near ones
   float far = smoothstep(14.0, 30.0, dc);
   float weight = uPx * (0.8 + 0.6 * noise(vUv * 38.0 - uBoil * 3.1)) * mix(1.15, 0.6, far);
   vec2 o = weight / uRes;
@@ -56,31 +42,23 @@ void main() {
   for (int i = 0; i < 4; i++) {
     vec2 dir = i == 0 ? vec2(o.x, 0) : i == 1 ? vec2(-o.x, 0) : i == 2 ? vec2(0, o.y) : vec2(0, -o.y);
     float dn = dist(uv + dir);
-    // silhouettes: a jump in depth, relative to how far away it is
     edge = max(edge, smoothstep(0.02, 0.05, abs(dn - dc) / min(dn, dc)));
-    // creases: the surface turns away
     edge = max(edge, smoothstep(0.55, 0.85, 1.0 - dot(nc, nrm(uv + dir))));
   }
 
-  // break the line up: a pen lifting now and then, re-rolled with the boil
   edge *= smoothstep(0.04, 0.16, noise(vUv * uRes / (uPx * 14.0) + uBoil * 2.3));
   edge *= mix(1.0, 0.7, far);
 
   vec4 col = texture2D(tColor, vUv);
-  // paper grain on the drawing, stepped with the boil so it flickers like film
   float g = hash(floor(vUv * uRes / max(1.0, uPx * 0.8)) + uBoil * 13.0) - 0.5;
   col.rgb *= 1.0 + g * 0.05;
   vec3 rgb = mix(col.rgb, uInk, edge);
   float a = max(col.a, edge);
-  // the scene is drawn in linear light; the screen wants sRGB (and premultiplied alpha)
   rgb = linearToOutputTexel(vec4(rgb, 1.0)).rgb;
   gl_FragColor = vec4(rgb * a, a);
 }`
 
 export const createInk = (renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.PerspectiveCamera) => {
-  // An ordinary 8-bit target, stored as sRGB so it doesn't band. (A half-float one
-  // looks the same in Chromium, but Firefox often can't draw into it and the
-  // colour comes out empty, leaving only the outlines.)
   const colorRT = new THREE.WebGLRenderTarget(1, 1)
   colorRT.texture.colorSpace = THREE.SRGBColorSpace
   const normalRT = new THREE.WebGLRenderTarget(1, 1)
@@ -116,7 +94,6 @@ export const createInk = (renderer: THREE.WebGLRenderer, scene: THREE.Scene, cam
       uniforms.uRes.value.set(fw, fh)
       uniforms.uPx.value = 1.4 * dpr
     },
-    /** Draw a frame; `boil` steps the outline wobble (hold it still for no boil). */
     render(boil: number) {
       renderer.setClearColor(0x000000, 0)
       renderer.setRenderTarget(colorRT)

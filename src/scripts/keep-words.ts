@@ -1,9 +1,3 @@
-/*
- * Keeps short hyphenated words (multi-tenant, stop-loss, e-commerce) from
- * being split at the hyphen when a line wraps: each is wrapped in a
- * no-break span. Very long ones are left to wrap, so
- * they can never push a narrow screen wider than it is.
- */
 const MAX = 22
 const root = document.querySelector('main')
 
