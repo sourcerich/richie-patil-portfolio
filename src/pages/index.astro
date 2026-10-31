@@ -208,7 +208,7 @@ const words = (text: string) => text.split(' ')
   .mr { font-size: clamp(4.5rem, 15vw, 13rem); line-height: 1.1; }
   .sticker { white-space: nowrap; }
 
-  .stickers { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.875rem 0.625rem; margin-top: 2.25rem; }
+  .stickers { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.875rem 0.625rem; margin-top: calc(var(--frame-w) + 3rem); }
   .sticker {
     display: inline-block;
     padding: 0.75rem 1.25rem 0.875rem;
