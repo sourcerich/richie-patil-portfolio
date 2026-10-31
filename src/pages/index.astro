@@ -14,6 +14,7 @@ const colorOf = (keys: string[]) => skillByKey.get(keys[0]!)?.color ?? '#fff3df'
 const num = (i: number) => String(i + 1).padStart(2, '0')
 const year = new Date().getFullYear()
 const words = (text: string) => text.split(' ')
+const pillSkills = [...page.skills].sort((a, b) => Number(b.key === 'ai') - Number(a.key === 'ai'))
 ---
 
 <Base title={page.seo.title} description={page.seo.description}>
@@ -27,15 +28,10 @@ const words = (text: string) => text.split(' ')
         </div>
       </div>
       <ul class="stickers" aria-label="What I do">
-        {page.skills.map((s, i) => (
+        {pillSkills.map((s, i) => (
           <li style={`--c: ${s.color}; --r: ${[-6, 4, -3, 7][i % 4]}deg`}>
             <a href={`#skill-${s.key}`} class="sticker">{s.title}</a>
           </li>
-        ))}
-      </ul>
-      <ul class="stats">
-        {page.stats.map(s => (
-          <li><strong class="display">{s.value}</strong><span>{s.label}</span></li>
         ))}
       </ul>
     </section>
@@ -126,15 +122,6 @@ const words = (text: string) => text.split(' ')
           </div>
         </div>
         <div class="about-side">
-          <div class="panel" style="--c: var(--rust)" data-reveal>
-            <h3 class="panel-title">{about.approach.title}</h3>
-            <p class="mono sub">{about.approach.subtitle}</p>
-            <ol class="approach">
-              {about.approach.items.map((a, i) => (
-                <li><span class="mono n">{num(i)}</span><div><h4>{a.title}</h4><p>{a.body}</p></div></li>
-              ))}
-            </ol>
-          </div>
           <div class="panel" style="--c: var(--olive)" data-reveal>
             <h3 class="panel-title">{about.experience.title}</h3>
             <ol class="jobs">
@@ -149,6 +136,20 @@ const words = (text: string) => text.split(' ')
           </div>
         </div>
       </div>
+    </section>
+
+    <section id="approach" class="section wrap" aria-labelledby="approach-title">
+      <h2 id="approach-title" class="display h2" data-reveal>{about.approach.title}</h2>
+      <p class="mono sub" data-reveal>{about.approach.subtitle}</p>
+      <ol class="steps">
+        {about.approach.items.map((a, i) => (
+          <li data-reveal={i * 80}>
+            <span class="mono n">{num(i)}</span>
+            <h3 class="step-title">{a.title}</h3>
+            <p>{a.body}</p>
+          </li>
+        ))}
+      </ol>
     </section>
 
     <section id="contact" class="section wrap contact" aria-labelledby="contact-title">
@@ -225,16 +226,7 @@ const words = (text: string) => text.split(' ')
   }
   .sticker:hover { transform: rotate(0) translateY(-0.375rem) scale(1.05); box-shadow: 0.375rem 0.625rem 0 var(--color-outline); }
 
-  .stats {
-    align-self: stretch;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 2rem;
-    margin-top: clamp(2.25rem, 6vh, 4rem);
-    text-align: left;
-  }
-  .stats li { position: relative; display: grid; align-content: start; gap: 0.375rem; padding-top: 1.125rem; }
-  .stats li::before, .row::before, .panel::before, .foot::before {
+  .row::before, .panel::before, .steps li::before, .foot::before {
     content: '';
     position: absolute;
     left: 0;
@@ -243,8 +235,6 @@ const words = (text: string) => text.split(' ')
     border-top: 0.1875rem solid var(--color-outline);
     border-radius: 62.4375rem;
   }
-  .stats strong { font-size: clamp(2.25rem, 4.4vw, 4.5rem); color: var(--rust); line-height: 1; }
-  .stats span { font-size: 1rem; font-weight: 600; color: var(--color-ink); max-width: 24ch; line-height: 1.35; }
 
   .section { padding-top: var(--section-y); scroll-margin-top: 2.5rem; }
   .h2 {
@@ -349,10 +339,11 @@ const words = (text: string) => text.split(' ')
   .panel-title { font-weight: 800; font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.05; font-variation-settings: var(--hand-loud); }
   .panel p { line-height: 1.5; }
   .sub { margin-top: 0.375rem; }
-  .approach { display: grid; gap: 1.125rem; margin-top: 1.25rem; }
-  .approach li { display: grid; grid-template-columns: 2.4em 1fr; gap: 0.625rem; }
-  .approach h4 { font-size: 1.25rem; font-weight: 800; }
-  .approach .n { padding-top: 0.25rem; color: var(--rust); }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: 1.75rem; }
+  .steps li { position: relative; display: grid; align-content: start; gap: 0.5rem; padding-top: 1.5rem; }
+  .steps .n { color: var(--rust); }
+  .step-title { font-weight: 800; font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.05; font-variation-settings: var(--hand-loud); }
+  .steps p { font-size: 1.125rem; font-weight: 600; line-height: 1.5; max-width: 38ch; }
   .jobs { display: grid; margin-top: 0.875rem; }
   .jobs li { padding: 0.875rem 0; border-top: 0.125rem dashed color-mix(in srgb, var(--color-outline) 40%, transparent); }
   .jobs li:first-child { border-top: 0; }
@@ -400,12 +391,11 @@ const words = (text: string) => text.split(' ')
     .project-cell:nth-child(even) .shot { order: 0; }
     .shot { aspect-ratio: 16 / 9; max-height: 12rem; }
     .project-cell:has(details[open]) .shot { max-height: none; aspect-ratio: 16 / 10; }
-    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .steps { grid-template-columns: minmax(0, 1fr); }
   }
   @media (max-width: 40rem) {
     .mr { font-size: 6.5rem; }
     .mail { font-size: 1.1875rem; }
-    .stats { gap: 1.25rem; }
     .story { grid-template-columns: 1fr; gap: 0.25rem; }
     .story dd { margin-bottom: 0.625rem; }
   }

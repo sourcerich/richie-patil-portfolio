@@ -8,7 +8,7 @@ Warm paper: butter-yellow paper in an ochre frame, brown ink, one warm colour pe
 
 ```
 content/              Page copy and projects, as YAML
-  index.yml           Hero, stats, skills and contact
+  index.yml           Hero, skills and contact
   about.yml           Profile, approach, experience, stack
   projects/*.yml      One file per project, sorted by `order`
 src/

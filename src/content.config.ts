@@ -15,7 +15,6 @@ const index = defineCollection({
     role: z.string(),
     intro: z.string(),
     available: z.string(),
-    stats: z.array(z.object({ value: z.string(), label: z.string() })),
     skills: z.array(z.object({
       key: z.string(),
       title: z.string(),

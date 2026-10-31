@@ -39,22 +39,19 @@ const build = (link: HTMLAnchorElement): Brush => {
   const wiggleNoise = svgEl('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.045', numOctaves: 1, seed: 1, result: 'wobble' })
   const wiggleShift = svgEl('feDisplacementMap', { in: 'SourceGraphic', in2: 'wobble', xChannelSelector: 'R', yChannelSelector: 'G' })
   wiggle.append(wiggleNoise, wiggleShift)
-  const clip = svgEl('clipPath', { id: `${id}-c` })
-  const pill = svgEl('rect')
-  clip.append(pill)
   const mask = svgEl('mask', { id: `${id}-m`, maskUnits: 'userSpaceOnUse' })
   const defs = svgEl('defs')
-  defs.append(filter, wiggle, clip, mask)
+  defs.append(filter, wiggle, mask)
 
   const strokeAttrs = { 'fill': 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'filter': `url(#${id}-f)` }
   const outer = svgEl('g', { filter: `url(#${id}-w)` })
-  const clipped = svgEl('g', { 'clip-path': `url(#${id}-c)` })
+  const clipped = svgEl('g')
   const frame = svgEl('g')
   const paint = svgEl('path', { ...strokeAttrs, stroke: 'var(--rust)' })
   frame.append(paint)
   clipped.append(frame)
   outer.append(clipped)
-  const maskClipped = svgEl('g', { 'clip-path': `url(#${id}-c)` })
+  const maskClipped = svgEl('g')
   const maskFrame = svgEl('g')
   const maskPath = svgEl('path', { ...strokeAttrs, stroke: '#fff' })
   maskFrame.append(maskPath)
@@ -77,7 +74,6 @@ const build = (link: HTMLAnchorElement): Brush => {
     mask.setAttribute('y', '0')
     mask.setAttribute('width', String(w))
     mask.setAttribute('height', String(h))
-    for (const [name, value] of Object.entries({ x: 0, y: 0, width: w, height: h, rx: h / 2, ry: h / 2 })) pill.setAttribute(name, String(value))
     wiggle.setAttribute('x', String(-w))
     wiggle.setAttribute('y', String(-h))
     wiggle.setAttribute('width', String(w * 3))
@@ -96,10 +92,10 @@ const build = (link: HTMLAnchorElement): Brush => {
     const vMin = Math.min(...corners.map(c => c.v))
     const vMax = Math.max(...corners.map(c => c.v))
     const spacing = (vMax - vMin) / PASSES
-    const width = spacing * 1.6
-    const bleed = width * 0.3
-    const left = uMin - bleed
-    const right = uMax + bleed
+    const width = spacing * 1.35
+    const inset = width * 0.15
+    const left = uMin + inset
+    const right = uMax - inset
     const rows = PASSES
     let d = ''
     for (let i = 0; i < rows; i++) {
@@ -116,7 +112,7 @@ const build = (link: HTMLAnchorElement): Brush => {
     filter.setAttribute('y', String(vMin - width * 1.5))
     filter.setAttribute('width', String(right - left + width * 2))
     filter.setAttribute('height', String(vMax - vMin + width * 3))
-    displace.setAttribute('scale', String(h * 0.2))
+    displace.setAttribute('scale', String(h * 0.14))
     length = paint.getTotalLength()
     for (const path of paths) path.style.strokeDasharray = String(length)
   }

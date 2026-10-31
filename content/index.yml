@@ -11,13 +11,6 @@ role: "Full-stack & AI engineer"
 intro: "You get backends, data pipelines and AI that stay fast when traffic spikes."
 available: "Taking on new projects"
 
-# Numbers along the bottom of the hero.
-stats:
-  - { value: "5", label: "SaaS products run on my APIs" }
-  - { value: "45 s → 145 ms", label: "one slow request, fixed at the source" }
-  - { value: "1M+", label: "certificates the Sankalp platform can hold" }
-  - { value: "~85%", label: "accuracy predicting sunspot activity" }
-
 # What I do. `key` is what projects list under `skills`; `color` paints the
 # skill's card and every project that lists it first.
 skills:
@@ -28,15 +21,11 @@ skills:
   - key: "data"
     title: "Data pipelines"
     color: "#886a3d"
-    body: "Stop moving data by hand. I build the jobs that collect, clean and send your data to tools like Segment, Google Analytics and Power BI. They run on their own and ship through automated checks, so they keep working."
+    body: "Stop moving data by hand. I build the jobs that collect, clean and send your data to tools like Segment, Google Analytics and Power BI, then train models on it with scikit-learn and Pandas. They run on their own and ship through automated checks, so they keep working."
   - key: "ai"
     title: "AI assistants"
     color: "#d88b3e"
     body: "Imagine asking questions about your own documents and getting answers with the source attached. I build that with LangChain and Llama 3 or GPT, running on AWS Lambda, so you only pay when it’s used."
-  - key: "ml"
-    title: "Machine learning"
-    color: "#cda05e"
-    body: "Predictions you can check. I train models with scikit-learn and Pandas and test them on real data. My dissertation predicted sunspot activity with about 85% accuracy."
 
 contact:
   title: "What should we make?"

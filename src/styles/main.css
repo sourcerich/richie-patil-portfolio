@@ -177,7 +177,7 @@ html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
   }
 }
 
-.pill, .sticker, .chip, .h2, .shot, .row::before, .panel::before, .stats li::before, .foot::before {
+.pill, .sticker, .chip, .h2, .shot, .row::before, .panel::before, .steps li::before, .foot::before {
   animation: boil 0.54s steps(1) infinite;
 }
 .pill:nth-child(2n), .chip:nth-child(2n), .sticker:nth-child(2n), .row:nth-child(2n)::before { animation-delay: -0.18s; }
@@ -188,8 +188,8 @@ html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
   33% { filter: url(#boil-1); }
   66% { filter: url(#boil-2); }
 }
-main :is(h3, h4, .stats strong), .brand { animation: boil 0.54s steps(1) infinite; }
-main :is(p, dt, dd, .facts li, .stats span, .tags li), .foot a, .nav-link, .hire { animation: type 0.54s steps(1) infinite; }
+main :is(h3, h4), .brand { animation: boil 0.54s steps(1) infinite; }
+main :is(p, dt, dd, .facts li, .tags li), .foot a, .nav-link, .hire { animation: type 0.54s steps(1) infinite; }
 main :is(p, dt, dd, h3):nth-child(odd), .nav-link:nth-child(odd) { animation-delay: -0.27s; }
 @keyframes type {
   0% { filter: url(#type-0); }
@@ -209,7 +209,7 @@ html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; 
   .chip { padding-block: 0.5rem; }
 }
 @media (hover: none), (max-width: 40rem) {
-  main :is(p, dt, dd, .facts li, .stats span, .tags li), .foot a, .nav-link, .hire, .shot, .row::before { animation: none; }
+  main :is(p, dt, dd, .facts li, .tags li), .foot a, .nav-link, .hire, .shot, .row::before { animation: none; }
 }
 
 .project .row-title { animation: wobble 0.54s steps(1) infinite; }
