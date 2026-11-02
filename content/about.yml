@@ -1,15 +1,5 @@
 profile: "I’m Richie Vidyadhar Patil, a full-stack developer in Mumbai. I lead backend work for SaaS products. I studied Computer Science (AI and machine learning) at Amity University Mumbai, with a minor in Business Management, so I make technical calls with your business in mind."
 
-stack: "TypeScript, Python, R · Node.js, Express, React · Pandas, NumPy, scikit-learn, LangChain · AWS (Lambda, EC2, S3), Azure · MySQL, PostgreSQL, Snowflake · Docker, CI/CD, Git"
-
-recognition:
-  - "B.Tech, Computer Science (AI & ML), Amity University Mumbai, 2020–24"
-  - "Google Data Analytics Professional Certificate, 2024"
-  - "Analytics Olympiad, Top 59, 2023"
-  - "ISRO & IIRS START Programme, 2023"
-
-outside: "Strategy games, long runs, cooking, and a trail whenever I can get out of the city."
-
 approach:
   title: "How we’d work"
   subtitle: "What you can expect"
@@ -20,23 +10,3 @@ approach:
       body: "I build in small, tested steps, so you see progress early and problems show up while they’re still cheap to fix."
     - title: "Simple on purpose"
       body: "I turn messy requirements into something small and dependable that keeps working when traffic spikes."
-
-experience:
-  title: "Experience"
-  items:
-    - org: "Sunday Tech"
-      role: "Lead Developer"
-      when: "Sep 2024 – Present"
-      note: "I own the APIs behind five SaaS apps, mostly supply chain. I cut one 45-second request to 145 ms, and I lead a team of three across two projects."
-    - org: "Sunday Tech"
-      role: "Backend Developer Intern"
-      when: "Jun – Sep 2024"
-      note: "I fixed 20+ live problems and cut the time to resolve them by 17%. I wrote setup guides for 25+ outside services."
-    - org: "WNS Global Services"
-      role: "Intern Trainee (WTS)"
-      when: "Jan – May 2024"
-      note: "I tested insurance and claims software: 450+ test scenarios written and 1,000+ issues logged."
-    - org: "Celebal Technologies"
-      role: "Data Science Intern"
-      when: "Aug – Dec 2023"
-      note: "I studied 500K+ customer records to shape two marketing plans, and cleaned and moved 10 GB+ of raw data."

@@ -91,39 +91,7 @@ const words = (text: string) => text.split(' ')
 
     <section id="about" class="section wrap" aria-labelledby="about-title">
       <h2 id="about-title" class="display h2" data-reveal>About</h2>
-      <div class="about">
-        <div class="about-main">
-          <p class="big" data-reveal>{about.profile}</p>
-          <div class="facts" data-reveal>
-            <div>
-              <h3 class="mono">Stack</h3>
-              <p>{about.stack}</p>
-            </div>
-            <div>
-              <h3 class="mono">Recognition</h3>
-              <ul>{about.recognition.map(r => <li>{r}</li>)}</ul>
-            </div>
-            <div>
-              <h3 class="mono">Outside work</h3>
-              <p>{about.outside}</p>
-            </div>
-          </div>
-        </div>
-        <div class="about-side">
-          <div class="panel" style="--c: var(--olive)" data-reveal>
-            <h3 class="panel-title">{about.experience.title}</h3>
-            <ol class="jobs">
-              {about.experience.items.map(j => (
-                <li>
-                  <p class="mono when">{j.when}</p>
-                  <p class="org"><strong>{j.org}</strong> · {j.role}</p>
-                  <p class="note">{j.note}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </div>
+      <p class="big about" data-reveal>{about.profile}</p>
     </section>
 
     <section id="approach" class="section wrap" aria-labelledby="approach-title">
@@ -194,7 +162,7 @@ const words = (text: string) => text.split(' ')
   .mr { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 0.4em; max-width: 100%; }
   :global(html.engine-text) .ch { color: transparent; }
   .mr { font-size: clamp(4.5rem, 15vw, 13rem); line-height: 1.1; }
-  .row::before, .panel::before, .steps li::before, .foot::before {
+  .row::before, .steps li::before, .foot::before {
     content: '';
     position: absolute;
     left: 0;
@@ -289,27 +257,14 @@ const words = (text: string) => text.split(' ')
   .gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; -webkit-mask: url('/torn-edge.svg') center / 100% 100% no-repeat; mask: url('/torn-edge.svg') center / 100% 100% no-repeat; }
   .case-links { margin-top: 1.125rem; font-weight: 700; }
 
-  .about { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 7rem); margin-top: 2.5rem; align-items: start; }
-  .about-main { display: grid; gap: 2.5rem; }
-  .about-side { display: grid; gap: 2.5rem; }
+  .about { margin-top: 2.5rem; max-width: 58ch; }
   .big { font-size: clamp(1.25rem, 2.1vw, 2rem); line-height: 1.4; font-weight: 600; }
-  .panel { position: relative; padding-top: 1.5rem; }
-  .panel-title { font-weight: 800; font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.05; font-variation-settings: var(--hand-loud); }
-  .panel p { line-height: 1.5; }
   .sub { margin-top: 0.375rem; }
   .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: 1.75rem; }
   .steps li { position: relative; display: grid; align-content: start; gap: 0.5rem; padding-top: 1.5rem; }
   .steps .n { color: var(--rust); }
   .step-title { font-weight: 800; font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.05; font-variation-settings: var(--hand-loud); }
   .steps p { font-size: 1.125rem; font-weight: 600; line-height: 1.5; max-width: 38ch; }
-  .jobs { display: grid; margin-top: 0.875rem; }
-  .jobs li { padding: 0.875rem 0; border-top: 0.125rem dashed color-mix(in srgb, var(--color-outline) 40%, transparent); }
-  .jobs li:first-child { border-top: 0; }
-  .org { font-size: 1.1875rem; margin-top: 0.125rem; }
-  .note { margin-top: 0.25rem; color: color-mix(in srgb, var(--color-ink) 80%, transparent); }
-  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1.75rem; }
-  .facts h3 { display: inline-block; margin-bottom: 0.625rem; padding-bottom: 0.25rem; border-bottom: 0.1875rem solid var(--rust); }
-  .facts ul { display: grid; gap: 0.375rem; }
 
   .contact-block {
     scroll-margin-top: 6.25rem;
@@ -344,7 +299,7 @@ const words = (text: string) => text.split(' ')
   }
 
   @media (max-width: 60rem) {
-    .about, .row, .project, .project-cell:nth-child(even) .project { grid-template-columns: minmax(0, 1fr); }
+    .row, .project, .project-cell:nth-child(even) .project { grid-template-columns: minmax(0, 1fr); }
     .project-cell:nth-child(even) .shot { order: 0; }
     .shot { aspect-ratio: 16 / 9; max-height: 12rem; }
     .project-cell:has(details[open]) .shot { max-height: none; aspect-ratio: 16 / 10; }

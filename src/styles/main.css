@@ -173,7 +173,7 @@ html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
   }
 }
 
-.h2, .row::before, .panel::before, .steps li::before, .foot::before {
+.h2, .row::before, .steps li::before, .foot::before {
   animation: boil 0.54s steps(1) infinite;
 }
 .row:nth-child(2n)::before { animation-delay: -0.18s; }
@@ -185,7 +185,7 @@ html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
   66% { filter: url(#boil-2); }
 }
 main :is(h3, h4), .brand { animation: boil 0.54s steps(1) infinite; }
-main :is(p, dt, dd, .facts li, .tags li), .foot a, .nav-link, .hire { animation: type 0.54s steps(1) infinite; }
+main :is(p, dt, dd, .tags li), .foot a, .nav-link, .hire { animation: type 0.54s steps(1) infinite; }
 main :is(p, dt, dd, h3):nth-child(odd), .nav-link:nth-child(odd) { animation-delay: -0.27s; }
 @keyframes type {
   0% { filter: url(#type-0); }
@@ -204,7 +204,7 @@ html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; 
   .case-links a, .foot a, .socials a { padding-block: 0.625rem; display: inline-block; }
 }
 @media (hover: none), (max-width: 40rem) {
-  main :is(p, dt, dd, .facts li, .tags li), .foot a, .nav-link, .hire, .row::before { animation: none; }
+  main :is(p, dt, dd, .tags li), .foot a, .nav-link, .hire, .row::before { animation: none; }
 }
 
 .project .row-title { animation: wobble 0.54s steps(1) infinite; }
