@@ -19,7 +19,8 @@ const index = defineCollection({
       key: z.string(),
       title: z.string(),
       color: z.string(),
-      body: z.string()
+      body: z.string(),
+      tools: z.array(z.string())
     })).min(1),
     contact: z.object({ title: z.string(), body: z.string() })
   })

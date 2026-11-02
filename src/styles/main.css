@@ -202,7 +202,6 @@ html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; 
   :root { --frame-w: 2.25rem; --section-y: 4.5rem; }
   .wrap { padding-inline: 1.125rem; }
   .case-links a, .foot a, .socials a { padding-block: 0.625rem; display: inline-block; }
-  .chip { padding-block: 0.5rem; }
 }
 @media (hover: none), (max-width: 40rem) {
   main :is(p, dt, dd, .facts li, .tags li), .foot a, .nav-link, .hire, .row::before { animation: none; }

@@ -30,21 +30,18 @@ const words = (text: string) => text.split(' ')
     <section id="skills" class="section wrap" aria-labelledby="skills-title">
       <h2 id="skills-title" class="display h2" data-reveal>What I do</h2>
       <ol class="rows skills">
-        {page.skills.map((s, i) => {
-          const used = projects.filter(p => p.skills.includes(s.key))
-          return (
-            <li id={`skill-${s.key}`} class="row skill" style={`--c: ${s.color}`} data-reveal={i * 80}>
-              <h3 class="row-title">{s.title}</h3>
-              <div class="row-body">
-                <p class="lead">{s.body}</p>
-                <p class="mono used-label">Proof of work</p>
-                <ul class="chips">
-                  {used.map(p => <li><a href={`#p-${p.slug}`} class="chip" data-open>{p.title}</a></li>)}
-                </ul>
-              </div>
-            </li>
-          )
-        })}
+        {page.skills.map((s, i) => (
+          <li id={`skill-${s.key}`} class="row skill" style={`--c: ${s.color}`} data-reveal={i * 80}>
+            <h3 class="row-title">{s.title}</h3>
+            <div class="row-body">
+              <p class="lead">{s.body}</p>
+              <p class="mono used-label">What I cover</p>
+              <ul class="chips">
+                {s.tools.map(tool => <li>{tool}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
       </ol>
     </section>
 
@@ -244,17 +241,8 @@ const words = (text: string) => text.split(' ')
   .row p { line-height: 1.55; }
   .lead { font-size: clamp(1.1875rem, 1.7vw, 1.625rem); font-weight: 600; line-height: 1.45; max-width: 52ch; }
   .used-label { margin-top: 1.5rem; }
-  .chips { display: flex; flex-wrap: wrap; gap: 0.25rem 0; margin-top: 0.625rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.375rem 0; margin-top: 0.625rem; font-size: 1.0625rem; font-weight: 600; }
   .chips li:not(:last-child)::after { content: '·'; margin-inline: 0.75rem; color: var(--color-outline); }
-  .chip {
-    display: inline-block;
-    padding-block: 0.25rem;
-    font-weight: 600;
-    font-size: 1.0625rem;
-    background: linear-gradient(currentColor, currentColor) left bottom / 0 0.125rem no-repeat;
-    transition: background-size .45s var(--ease-out);
-  }
-  .chip:hover { background-size: 100% 0.125rem; }
 
   .projects { gap: 0; }
   .project { grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr); align-items: center; container-type: inline-size; }

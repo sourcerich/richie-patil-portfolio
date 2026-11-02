@@ -18,14 +18,17 @@ skills:
     title: "Web apps & backends"
     color: "#b84a08"
     body: "Your product needs a backend that stays fast. I build it with React and TypeScript on the front and Node.js behind. Five SaaS products run on my APIs, including a CRM that serves many companies at once, and I cut one 45-second request to 145 ms because I found what was really slowing it down."
+    tools: ["REST APIs", "React & TypeScript", "Node.js & Express", "Database design", "Database migrations", "Performance tuning", "SEO", "Authentication", "Deployment", "Containers", "CI/CD"]
   - key: "data"
     title: "Data pipelines"
     color: "#886a3d"
     body: "Stop moving data by hand. I build the jobs that collect, clean and send your data to tools like Segment, Google Analytics and Power BI, then train models on it with scikit-learn and Pandas. They run on their own and ship through automated checks, so they keep working."
+    tools: ["ETL pipelines", "Web scraping", "Data cleaning", "Scheduled jobs", "SQL & Snowflake", "Power BI dashboards", "Google Analytics", "Segment", "Containers", "CI/CD"]
   - key: "ai"
     title: "AI assistants"
     color: "#d88b3e"
     body: "Imagine asking questions about your own documents and getting answers with the source attached. I build that with LangChain and Llama 3 or GPT, running on AWS Lambda, so you only pay when it’s used."
+    tools: ["Questions over your documents", "LangChain", "Llama 3 & GPT", "Vector search", "AWS Lambda", "API Gateway", "Serverless deployment"]
 
 contact:
   title: "What should we make?"
