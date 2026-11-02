@@ -42,19 +42,19 @@ const pageUrl = site.url + Astro.url.pathname
       {[3, 11, 23].map((seed, i) => (
         <filter id={`boil-${i}`} x="-10%" y="-10%" width="120%" height="120%">
           <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed={seed} result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.6" xChannelSelector="R" yChannelSelector="G" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       ))}
       {[2, 13, 31].map((seed, i) => (
         <filter id={`wob-${i}`} x="-4%" y="-12%" width="108%" height="124%">
           <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed={seed} result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5" xChannelSelector="R" yChannelSelector="G" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       ))}
       {[5, 17, 29].map((seed, i) => (
         <filter id={`type-${i}`} x="-2%" y="-10%" width="104%" height="120%">
           <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed={seed} result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="1" xChannelSelector="R" yChannelSelector="G" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.6" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       ))}
     </svg>

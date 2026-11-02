@@ -4980,7 +4980,7 @@ ${n.hasColor2?`  uniform vec3 uColor2;
       vec3 outlineColor = mix(uBgColor, uOutlineColor, outlineValue);
 
       // superimpose the page text (drawn by HeroText), distorted by the same stepped noise as the logo uvs
-      float textMask = texture2D(tText, vUv + n0 * 0.0012).a;
+      float textMask = texture2D(tText, vUv + n0 * 0.0008).a;
       vec3 finalColor = mix(sceneColor, vec3(1.0), textMask);
 
       // apply final scene color
