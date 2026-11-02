@@ -1,32 +1,38 @@
 import { lenis } from './smooth-scroll'
 
-const openCase = (hash: string, scroll: boolean) => {
-  if (!hash.startsWith('#p-')) return false
-  const card = document.getElementById(decodeURIComponent(hash.slice(1)))
-  if (!card) return false
-  const details = card.querySelector('details')
-  if (details) details.open = true
-  if (scroll) {
-    if (lenis) lenis.scrollTo(card, { offset: -160 })
-    else card.scrollIntoView({ block: 'start' })
-  }
-  return true
+const dialogs = Array.from(document.querySelectorAll<HTMLDialogElement>('.work-dialog'))
+let opener: HTMLElement | null = null
+
+const open = (dialog: HTMLDialogElement, from: HTMLElement | null) => {
+  opener = from
+  lenis?.stop()
+  dialog.showModal()
 }
 
-document.querySelectorAll<HTMLAnchorElement>('[data-open]').forEach((a) => {
-  a.addEventListener('click', (e) => {
-    const hash = a.getAttribute('href') ?? ''
-    if (!openCase(hash, true)) return
-    e.preventDefault()
+document.querySelectorAll<HTMLButtonElement>('.tile').forEach((tile) => {
+  tile.addEventListener('click', () => {
+    const dialog = document.getElementById(`p-${tile.dataset.work}`)
+    if (dialog instanceof HTMLDialogElement) open(dialog, tile)
   })
 })
 
-openCase(location.hash, false)
-window.addEventListener('hashchange', () => openCase(location.hash, false))
-
-document.querySelectorAll<HTMLImageElement>('.project .shot').forEach((shot) => {
-  shot.addEventListener('click', () => {
-    const details = shot.closest('.project')?.querySelector('details')
-    if (details) details.open = !details.open
+dialogs.forEach((dialog) => {
+  dialog.addEventListener('click', (event) => {
+    const target = event.target as Element
+    if (target === dialog || target.closest('[data-close]')) dialog.close()
+  })
+  dialog.addEventListener('close', () => {
+    lenis?.start()
+    opener?.focus()
+    opener = null
   })
 })
+
+const fromHash = () => {
+  if (!location.hash.startsWith('#p-')) return
+  const dialog = document.getElementById(decodeURIComponent(location.hash.slice(1)))
+  if (dialog instanceof HTMLDialogElement && !dialog.open) open(dialog, null)
+}
+
+fromHash()
+window.addEventListener('hashchange', fromHash)

@@ -207,7 +207,7 @@ html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; 
   main :is(p, dt, dd, .tags li), .foot a, .nav-link, .hire, .row::before { animation: none; }
 }
 
-.project .row-title { animation: wobble 0.54s steps(1) infinite; }
+.tile-title, .sheet .row-title { animation: wobble 0.54s steps(1) infinite; }
 @keyframes wobble {
   0% { filter: url(#wob-0); }
   33% { filter: url(#wob-1); }
