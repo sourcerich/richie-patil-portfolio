@@ -92,10 +92,7 @@ const words = (text: string) => text.split(' ')
     <section id="about" class="section wrap" aria-labelledby="about-title">
       <h2 id="about-title" class="display h2" data-reveal>About</h2>
       <p class="big about" data-reveal>{about.profile}</p>
-    </section>
-
-    <section id="approach" class="section wrap" aria-labelledby="approach-title">
-      <h2 id="approach-title" class="display h2" data-reveal>{about.approach.title}</h2>
+      <h3 class="step-head" data-reveal>{about.approach.title}</h3>
       <p class="mono sub" data-reveal>{about.approach.subtitle}</p>
       <ol class="steps">
         {about.approach.items.map((a, i) => (
@@ -260,6 +257,7 @@ const words = (text: string) => text.split(' ')
   .about { margin-top: 2.5rem; max-width: 58ch; }
   .big { font-size: clamp(1.25rem, 2.1vw, 2rem); line-height: 1.4; font-weight: 600; }
   .sub { margin-top: 0.375rem; }
+  .step-head { margin-top: clamp(3rem, 7vw, 5.5rem); font-weight: 800; font-size: clamp(2rem, 4.5vw, 3.75rem); line-height: 1; font-variation-settings: var(--hand-loud); }
   .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: 1.75rem; }
   .steps li { position: relative; display: grid; align-content: start; gap: 0.5rem; padding-top: 1.5rem; }
   .steps .n { color: var(--rust); }
@@ -273,6 +271,7 @@ const words = (text: string) => text.split(' ')
     container-type: inline-size;
     gap: 1.625rem;
   }
+  .contact { display: flex; flex-direction: column; justify-content: flex-end; min-height: calc(100cqh + var(--frame-w) - 6.5rem); }
   .contact .h2 { font-size: min(11rem, 17cqw); }
   .contact .big { max-width: 46ch; }
   .mail {
