@@ -25,6 +25,7 @@ const words = () => Array.from(document.querySelectorAll<HTMLElement>('[data-eng
     text: el.textContent?.trim() ?? '',
     single,
     center: single,
+    alt: el.dataset.alt,
     font: `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`,
     size: parseFloat(style.fontSize),
     x: rect.left,
@@ -40,12 +41,14 @@ const gl = document.createElement('canvas').getContext('webgl2')
 if (!gl) reveal()
 window.setTimeout(reveal, 45000)
 
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 const post = () => {
   const target = frame?.contentWindow
   if (!target || !scroller) return
   const max = scroller.scrollHeight - scroller.clientHeight
   target.postMessage({ type: 'scroll', progress: max > 0 ? scroller.scrollTop / max : 0, top: scroller.scrollTop, vh: scroller.clientHeight }, location.origin)
-  target.postMessage({ type: 'words', words: words() }, location.origin)
+  target.postMessage({ type: 'words', reduced, words: words() }, location.origin)
 }
 
 if (frame && scroller) {

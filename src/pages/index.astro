@@ -26,7 +26,7 @@ const highlight = (text: string) => text
       <div class="fold">
         <div class="bloom" data-bloom>
           <h1 class="deva mr" aria-label={page.name}>
-            {words(page.nameMr).map(word => <span class="ch" data-engine-word data-single aria-hidden="true">{word}</span>)}
+            {words(page.nameMr).map((word, i) => <span class="ch" data-engine-word data-single data-alt={page.name.split(' ')[i]} aria-hidden="true">{word}</span>)}
           </h1>
         </div>
       </div>
