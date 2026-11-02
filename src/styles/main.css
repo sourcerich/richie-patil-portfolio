@@ -199,8 +199,8 @@ html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
   33% { filter: url(#boil-1); }
   66% { filter: url(#boil-2); }
 }
-main :is(h3, h4), .brand { animation: boil 0.54s steps(1) infinite; }
-main :is(p, dt, dd, .tags li), .foot a, .nav-link, .hire { animation: type 0.54s steps(1) infinite; }
+main :is(h3, h4), .brand, .tile-metric strong, .about-facts dd, .mail { animation: boil 0.54s steps(1) infinite; }
+main :is(p, dt, dd, .tags li, .chips li), .foot a, .nav-link, .hire, .socials .pill, .close, .tile-meta .n { animation: type 0.54s steps(1) infinite; }
 main :is(p, dt, dd, h3):nth-child(odd), .nav-link:nth-child(odd) { animation-delay: -0.27s; }
 @keyframes type {
   0% { filter: url(#type-0); }
@@ -219,8 +219,7 @@ html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; 
   .case-links a, .foot a, .socials a { padding-block: 0.625rem; display: inline-block; }
 }
 @media (hover: none), (max-width: 40rem) {
-  .scroller { animation: none; }
-  main :is(p, dt, dd, .tags li), .foot a, .nav-link, .hire { animation: none; }
+  main :is(p, dt, dd), .scroller { animation: none; }
 }
 
 .tile-title, .sheet .row-title { animation: wobble 0.54s steps(1) infinite; }
