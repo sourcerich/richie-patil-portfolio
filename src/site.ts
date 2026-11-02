@@ -4,8 +4,8 @@ export const site = {
   email: 'richiepatilwork@gmail.com',
   nav: [
     { label: 'Skills', to: '#skills' },
-    { label: 'Work', to: '#work' },
-    { label: 'About', to: '#about' }
+    { label: 'About', to: '#about' },
+    { label: 'Work', to: '#work' }
   ],
   socials: [
     { label: 'LinkedIn', to: 'https://www.linkedin.com/in/richiepatil/' },

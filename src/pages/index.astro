@@ -50,6 +50,26 @@ const highlight = (text: string) => text
       </ol>
     </section>
 
+    <section id="about" class="section wrap" aria-labelledby="about-title">
+      <h2 id="about-title" class="display h2" data-reveal>About</h2>
+      <p class="big about" data-reveal set:html={highlight(about.profile)} />
+      <dl class="about-facts" data-reveal>
+        {about.facts.map(f => <div><dt class="mono">{f.label}</dt><dd>{f.value}</dd></div>)}
+      </dl>
+      <p class="ps" data-reveal>{about.ps}</p>
+      <h3 class="step-head" data-reveal>{about.approach.title}</h3>
+      <p class="mono sub" data-reveal>{about.approach.subtitle}</p>
+      <ol class="steps">
+        {about.approach.items.map((a, i) => (
+          <li data-reveal={i * 80}>
+            <span class="mono n">{num(i)}</span>
+            <h3 class="step-title">{a.title}</h3>
+            <p>{a.body}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
     <section id="work" class="section wrap" aria-labelledby="work-title">
       <div class="section-head">
         <div>
@@ -89,26 +109,6 @@ const highlight = (text: string) => text
                 </details>
               </div>
             </article>
-          </li>
-        ))}
-      </ol>
-    </section>
-
-    <section id="about" class="section wrap" aria-labelledby="about-title">
-      <h2 id="about-title" class="display h2" data-reveal>About</h2>
-      <p class="big about" data-reveal set:html={highlight(about.profile)} />
-      <dl class="about-facts" data-reveal>
-        {about.facts.map(f => <div><dt class="mono">{f.label}</dt><dd>{f.value}</dd></div>)}
-      </dl>
-      <p class="ps" data-reveal>{about.ps}</p>
-      <h3 class="step-head" data-reveal>{about.approach.title}</h3>
-      <p class="mono sub" data-reveal>{about.approach.subtitle}</p>
-      <ol class="steps">
-        {about.approach.items.map((a, i) => (
-          <li data-reveal={i * 80}>
-            <span class="mono n">{num(i)}</span>
-            <h3 class="step-title">{a.title}</h3>
-            <p>{a.body}</p>
           </li>
         ))}
       </ol>
