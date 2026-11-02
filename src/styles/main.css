@@ -188,7 +188,7 @@ html.js [data-reveal]:not([data-rv]) { visibility: hidden; }
   }
 }
 
-.h2, .row::before, .steps li::before, .foot::before {
+.h2 {
   animation: boil 0.54s steps(1) infinite;
 }
 .row:nth-child(2n)::before { animation-delay: -0.18s; }
@@ -220,7 +220,7 @@ html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; 
 }
 @media (hover: none), (max-width: 40rem) {
   .scroller { animation: none; }
-  main :is(p, dt, dd, .tags li), .foot a, .nav-link, .hire, .row::before { animation: none; }
+  main :is(p, dt, dd, .tags li), .foot a, .nav-link, .hire { animation: none; }
 }
 
 .tile-title, .sheet .row-title { animation: wobble 0.54s steps(1) infinite; }

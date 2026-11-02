@@ -178,9 +178,18 @@ const highlight = (text: string) => text
     position: absolute;
     left: 0;
     right: 0;
-    top: 0;
-    border-top: 0.1875rem solid var(--color-outline);
-    border-radius: 62.4375rem;
+    top: -0.5rem;
+    height: 1rem;
+    background: var(--color-outline);
+    -webkit-mask: url('/rule-0.svg') center / 100% 100% no-repeat;
+    mask: url('/rule-0.svg') center / 100% 100% no-repeat;
+    animation: rule 0.54s steps(1) infinite;
+    pointer-events: none;
+  }
+  @keyframes rule {
+    0% { -webkit-mask-image: url('/rule-0.svg'); mask-image: url('/rule-0.svg'); }
+    33% { -webkit-mask-image: url('/rule-1.svg'); mask-image: url('/rule-1.svg'); }
+    66% { -webkit-mask-image: url('/rule-2.svg'); mask-image: url('/rule-2.svg'); }
   }
 
   .section { padding-top: var(--section-y); scroll-margin-top: 2.5rem; }
