@@ -178,18 +178,9 @@ const highlight = (text: string) => text
     position: absolute;
     left: 0;
     right: 0;
-    top: -0.25rem;
-    height: 0.75rem;
-    background: var(--color-outline);
-    -webkit-mask: url('/rule-0.svg') center / 100% 100% no-repeat;
-    mask: url('/rule-0.svg') center / 100% 100% no-repeat;
-    animation: rule 0.54s steps(1) infinite;
-    pointer-events: none;
-  }
-  @keyframes rule {
-    0% { -webkit-mask-image: url('/rule-0.svg'); mask-image: url('/rule-0.svg'); }
-    33% { -webkit-mask-image: url('/rule-1.svg'); mask-image: url('/rule-1.svg'); }
-    66% { -webkit-mask-image: url('/rule-2.svg'); mask-image: url('/rule-2.svg'); }
+    top: 0;
+    border-top: 0.1875rem solid var(--color-outline);
+    border-radius: 62.4375rem;
   }
 
   .section { padding-top: var(--section-y); scroll-margin-top: 2.5rem; }
@@ -242,7 +233,6 @@ const highlight = (text: string) => text
     object-fit: cover;
     -webkit-mask: url('/torn-edge.svg') center / 100% 100% no-repeat;
     mask: url('/torn-edge.svg') center / 100% 100% no-repeat;
-    animation: torn 0.54s steps(1) infinite;
     transition: transform .45s var(--ease-spring);
   }
   .tile:hover .shot, .tile:focus-visible .shot { transform: translateY(-0.375rem) rotate(-0.6deg); }
@@ -294,14 +284,6 @@ const highlight = (text: string) => text
     margin: 0 auto;
     padding: clamp(1.25rem, 4vw, 3rem);
     background: var(--color-cream);
-    -webkit-mask: url('/torn-edge.svg') center / 100% 100% no-repeat;
-    mask: url('/torn-edge.svg') center / 100% 100% no-repeat;
-    animation: torn 0.54s steps(1) infinite;
-  }
-  @keyframes torn {
-    0% { -webkit-mask-image: url('/torn-edge.svg'); mask-image: url('/torn-edge.svg'); }
-    33% { -webkit-mask-image: url('/torn-edge-1.svg'); mask-image: url('/torn-edge-1.svg'); }
-    66% { -webkit-mask-image: url('/torn-edge-2.svg'); mask-image: url('/torn-edge-2.svg'); }
   }
   .close { justify-self: end; padding: 0.5rem 0; border: 0; background: none; color: var(--color-ink); font: inherit; cursor: pointer; }
   .shot-large {
@@ -312,7 +294,6 @@ const highlight = (text: string) => text
     object-fit: cover;
     -webkit-mask: url('/torn-edge.svg') center / 100% 100% no-repeat;
     mask: url('/torn-edge.svg') center / 100% 100% no-repeat;
-    animation: torn 0.54s steps(1) infinite;
   }
   .sheet .n { color: color-mix(in srgb, var(--color-ink) 70%, transparent); }
   .metric { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.375rem 0.875rem; }
@@ -324,7 +305,7 @@ const highlight = (text: string) => text
   .story { display: grid; grid-template-columns: 6.875rem minmax(0, 68ch); gap: 0.75rem 1rem; margin-top: 0.75rem; }
   .story dt { padding-top: 0.25rem; }
   .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1rem; margin-top: 0.75rem; }
-  .gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; -webkit-mask: url('/torn-edge.svg') center / 100% 100% no-repeat; mask: url('/torn-edge.svg') center / 100% 100% no-repeat; animation: torn 0.54s steps(1) infinite; }
+  .gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; -webkit-mask: url('/torn-edge.svg') center / 100% 100% no-repeat; mask: url('/torn-edge.svg') center / 100% 100% no-repeat; }
   .case-links { margin-top: 0.75rem; font-weight: 700; }
 
   .about { margin-top: 2.5rem; max-width: 58ch; }
