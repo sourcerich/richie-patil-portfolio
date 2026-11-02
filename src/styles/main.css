@@ -199,7 +199,7 @@ main :is(p, dt, dd, h3):nth-child(odd), .nav-link:nth-child(odd) { animation-del
 
 .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-html.js .scroller, html.js .top { transition: opacity 1.2s ease; }
+html.js .scroller, html.js .top { transition: opacity 1.2s ease, filter 1.4s ease; }
 html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; visibility: hidden; transition: none; }
 
 @media (max-width: 40rem) {
@@ -218,3 +218,5 @@ html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; 
   33% { filter: url(#wob-1); }
   66% { filter: url(#wob-2); }
 }
+
+html.ink .scroller, html.ink .top { filter: grayscale(1) contrast(1.2); }

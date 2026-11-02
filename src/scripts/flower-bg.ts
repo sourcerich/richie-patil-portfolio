@@ -69,6 +69,7 @@ if (frame && scroller) {
     if (event.data?.type === 'ready') queue()
     if (event.data?.type === 'words-ready') document.documentElement.classList.add('engine-text')
     if (event.data?.type === 'intro-done') reveal()
+    if (event.data?.type === 'ink') root.classList.toggle('ink', Boolean(event.data.on))
   })
 }
 
