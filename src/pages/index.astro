@@ -13,6 +13,11 @@ const skillByKey = new Map(page.skills.map(s => [s.key, s]))
 const colorOf = (keys: string[]) => skillByKey.get(keys[0]!)?.color ?? '#fff3df'
 const num = (i: number) => String(i + 1).padStart(2, '0')
 const words = (text: string) => text.split(' ')
+const highlight = (text: string) => text
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/\*([^*]+)\*/g, '<mark>$1</mark>')
 ---
 
 <Base title={page.seo.title} description={page.seo.description}>
@@ -91,7 +96,11 @@ const words = (text: string) => text.split(' ')
 
     <section id="about" class="section wrap" aria-labelledby="about-title">
       <h2 id="about-title" class="display h2" data-reveal>About</h2>
-      <p class="big about" data-reveal>{about.profile}</p>
+      <p class="big about" data-reveal set:html={highlight(about.profile)} />
+      <dl class="about-facts" data-reveal>
+        {about.facts.map(f => <div><dt class="mono">{f.label}</dt><dd>{f.value}</dd></div>)}
+      </dl>
+      <p class="ps" data-reveal>{about.ps}</p>
       <h3 class="step-head" data-reveal>{about.approach.title}</h3>
       <p class="mono sub" data-reveal>{about.approach.subtitle}</p>
       <ol class="steps">
@@ -255,6 +264,18 @@ const words = (text: string) => text.split(' ')
   .case-links { margin-top: 1.125rem; font-weight: 700; }
 
   .about { margin-top: 2.5rem; max-width: 58ch; }
+  .about :global(mark) {
+    background: none;
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--rust);
+    text-decoration-thickness: 0.16em;
+    text-underline-offset: 0.14em;
+  }
+  .about-facts { display: grid; grid-template-columns: repeat(3, minmax(0, max-content)); justify-content: start; gap: 1rem 3rem; margin-top: 2rem; }
+  .about-facts dt { color: var(--color-muted); }
+  .about-facts dd { margin-top: 0.25rem; font-weight: 800; font-size: 1.1875rem; }
+  .ps { margin-top: 1.75rem; max-width: 46ch; font-size: 1.0625rem; font-weight: 600; color: var(--color-muted); }
   .big { font-size: clamp(1.25rem, 2.1vw, 2rem); line-height: 1.4; font-weight: 600; }
   .sub { margin-top: 0.375rem; }
   .step-head { margin-top: clamp(3rem, 7vw, 5.5rem); font-weight: 800; font-size: clamp(2rem, 4.5vw, 3.75rem); line-height: 1; font-variation-settings: var(--hand-loud); }
@@ -309,6 +330,7 @@ const words = (text: string) => text.split(' ')
   }
   @media (max-width: 40rem) {
     .mr { font-size: min(6.5rem, 21vw); }
+    .about-facts { grid-template-columns: minmax(0, 1fr); }
     .mail { font-size: 1.1875rem; padding-block: 0.625rem; }
     .story { grid-template-columns: 1fr; gap: 0.25rem; }
     .story dd { margin-bottom: 0.625rem; }

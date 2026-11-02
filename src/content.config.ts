@@ -30,6 +30,8 @@ const about = defineCollection({
   loader: glob({ pattern: 'about.yml', base }),
   schema: z.object({
     profile: z.string(),
+    facts: z.array(z.object({ label: z.string(), value: z.string() })),
+    ps: z.string(),
     approach: z.object({
       title: z.string(),
       subtitle: z.string(),

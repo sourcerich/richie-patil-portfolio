@@ -1,4 +1,11 @@
-profile: "I’m Richie Vidyadhar Patil, a full-stack developer in Mumbai. I lead backend work for SaaS products. I studied Computer Science (AI and machine learning) at Amity University Mumbai, with a minor in Business Management, so I make technical calls with your business in mind."
+profile: "I’m Richie Patil, a backend-leaning full-stack developer in Mumbai. At GenX I *lead the backend team for SaaS products*, designing and optimising client workflow. I like turning messy requirements into something *intuitive, easy and dependable*."
+
+facts:
+  - { label: "Based in", value: "Mumbai" }
+  - { label: "Currently", value: "Lead Developer, GenX" }
+  - { label: "Available", value: "For new projects" }
+
+ps: "P.S. Away from the keyboard: strategy games, long runs, cooking, and trails whenever I can get out of the city."
 
 approach:
   title: "How we’d work"
