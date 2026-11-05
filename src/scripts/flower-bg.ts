@@ -61,7 +61,8 @@ const post = () => {
   if (scroller.scrollTop > 1 && morph < 1) morph = 1
   sendMorph()
   const max = scroller.scrollHeight - scroller.clientHeight
-  target.postMessage({ type: 'scroll', progress: max > 0 ? scroller.scrollTop / max : 0, top: scroller.scrollTop, vh: scroller.clientHeight }, location.origin)
+  const contact = (document.getElementById('contact-title')?.getBoundingClientRect().top ?? Infinity) < scroller.clientHeight * 0.65
+  target.postMessage({ type: 'scroll', progress: max > 0 ? scroller.scrollTop / max : 0, top: scroller.scrollTop, vh: scroller.clientHeight, contact }, location.origin)
   target.postMessage({ type: 'words', reduced, words: words() }, location.origin)
 }
 
