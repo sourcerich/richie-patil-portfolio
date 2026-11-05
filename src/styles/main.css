@@ -234,5 +234,3 @@ html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; 
   33% { filter: url(#wob-1); }
   66% { filter: url(#wob-2); }
 }
-
-html.ink .scroller, html.ink .top { filter: grayscale(1) contrast(1.2); }
