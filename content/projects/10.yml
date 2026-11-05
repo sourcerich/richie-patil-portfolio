@@ -1,0 +1,20 @@
+slug: "tavco-growth"
+order: 2
+title: "Tavco Growth"
+type: "Marketing website"
+year: "2026"
+image: "/content/projects/tavco-digital/01.webp"
+imagePortrait: "/content/projects/portrait/tavco-digital.webp"
+tags: ["Astro", "React", "Tailwind", "GSAP", "WebGL", "Cloudflare"]
+skills: [web]
+summary: "The site for Tavco Growth’s marketing team: Meta, Google and WhatsApp campaigns for real-estate developers, with a page for every service and a free-audit form."
+problem: "A full-service marketing offer is hard to explain in one page, and buyers comparing agencies want to see that every channel is covered and judged on bookings, not clicks."
+build: "A fast static site with a page for every service, a process section and a free-audit form that sends each enquiry straight to the team. It is built with Astro and Tailwind, with a WebGL background and smooth scrolling, and runs on Cloudflare."
+outcome: "One place that explains the whole offer and turns visitors into audit requests."
+metric: "Booked visits"
+metricLabel: "Campaigns reported on bookings, not clicks"
+gallery:
+  - src: "/content/projects/tavco-digital/02.webp"
+    alt: "Services list: Meta, Google, WhatsApp, websites, strategy and reporting"
+  - src: "/content/projects/tavco-digital/03.webp"
+    alt: "Process: audit and align, build and launch, optimise daily, report and refine"

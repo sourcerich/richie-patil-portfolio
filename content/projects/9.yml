@@ -1,5 +1,5 @@
 slug: "ladm-ncl"
-order: 3
+order: 4
 title: "LADM NCL Portal"
 type: "Company portal"
 year: "2026"
@@ -10,5 +10,5 @@ summary: "A portal that takes land and asset surveys from field entry to compens
 problem: "Land and asset surveys for resettlement produce large, detailed records that pass through several people before compensation can be approved."
 build: "Separate flows for asset and land surveys, with online, offline and hand-typed records in one place. Long forms capture each survey, and searchable tables follow every record from compensation started to approval by the nodal officer."
 outcome: "The entire survey-to-compensation workflow now lives in one portal, replacing spreadsheets and paper files."
-metric: "2 surveys"
+metric: "Complex Survey Tasks"
 metricLabel: "Asset and land, in one portal"

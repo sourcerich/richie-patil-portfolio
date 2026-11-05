@@ -80,8 +80,8 @@ const highlight = (text: string) => text
           <li class="work-cell" style={`--c: ${colorOf(p.skills)}`} data-reveal={(i % 3) * 80}>
             <button type="button" class="tile" data-work={p.slug} aria-haspopup="dialog">
               {p.image
-                ? <img class="shot" src={p.image} alt="" loading="lazy" decoding="async" width="1200" height="900">
-                : <span class="shot nda"><span class="mono">Client work · under NDA</span></span>}
+                ? <span class="frame"><img class="shot" src={p.image} alt="" loading="lazy" decoding="async" width="1200" height="900"></span>
+                : <span class="frame"><span class="shot nda"><span class="mono">Client work · under NDA</span></span></span>}
               <span class="tile-meta">
                 <span class="mono n">{p.type} · {p.year}</span>
                 <span class="tile-title">{p.title}</span>
@@ -91,7 +91,7 @@ const highlight = (text: string) => text
             <dialog id={`p-${p.slug}`} class="work-dialog" data-lenis-prevent aria-labelledby={`t-${p.slug}`} style={`--c: ${colorOf(p.skills)}`}>
               <div class="sheet">
                 <button type="button" class="close mono" data-close>Close ✕</button>
-                {p.image && <img class="shot-large" src={p.image} alt="" loading="lazy" decoding="async" width="1200" height="750">}
+                {p.image && <span class="frame"><img class="shot-large" src={p.image} alt="" loading="lazy" decoding="async" width="1200" height="750"></span>}
                 <p class="mono n">{num(i)} · {p.type} · {p.year}</p>
                 <h3 id={`t-${p.slug}`} class="row-title">{p.title}</h3>
                 <p class="metric"><strong class="display">{p.metric}</strong> <span class="mono">{p.metricLabel}</span></p>
@@ -104,7 +104,7 @@ const highlight = (text: string) => text
                 </dl>
                 {p.gallery && (
                   <div class="gallery">
-                    {p.gallery.map(g => <img src={g.src} alt={g.alt} loading="lazy" decoding="async">)}
+                    {p.gallery.map(g => <span class="frame"><img src={g.src} alt={g.alt} loading="lazy" decoding="async"></span>)}
                   </div>
                 )}
                 <p class="case-links">
@@ -231,11 +231,26 @@ const highlight = (text: string) => text
     height: auto;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    -webkit-mask: url('/torn-edge.svg') center / 100% 100% no-repeat;
-    mask: url('/torn-edge.svg') center / 100% 100% no-repeat;
+    display: block;
+    border-radius: inherit;
+  }
+  .frame {
+    position: relative;
+    display: block;
+    border-radius: 1.25rem;
+    overflow: hidden;
     transition: transform .45s var(--ease-spring);
   }
-  .tile:hover .shot, .tile:focus-visible .shot { transform: translateY(-0.375rem) rotate(-0.6deg); }
+  .frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 0.1875rem solid var(--color-outline);
+    border-radius: inherit;
+    pointer-events: none;
+    animation: wobble 0.54s steps(1) infinite;
+  }
+  .tile:hover .frame, .tile:focus-visible .frame { transform: translateY(-0.375rem) rotate(-0.6deg); }
   .nda {
     display: grid;
     place-items: center;
@@ -289,11 +304,8 @@ const highlight = (text: string) => text
   .shot-large {
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 10;
-    max-height: 26rem;
-    object-fit: cover;
-    -webkit-mask: url('/torn-edge.svg') center / 100% 100% no-repeat;
-    mask: url('/torn-edge.svg') center / 100% 100% no-repeat;
+    display: block;
+    border-radius: inherit;
   }
   .sheet .n { color: color-mix(in srgb, var(--color-ink) 70%, transparent); }
   .metric { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.375rem 0.875rem; }
@@ -304,8 +316,8 @@ const highlight = (text: string) => text
   .tags li:not(:last-child)::after { content: '·'; margin-inline: 0.5rem; }
   .story { display: grid; grid-template-columns: 6.875rem minmax(0, 68ch); gap: 0.75rem 1rem; margin-top: 0.75rem; }
   .story dt { padding-top: 0.25rem; }
-  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1rem; margin-top: 0.75rem; }
-  .gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; -webkit-mask: url('/torn-edge.svg') center / 100% 100% no-repeat; mask: url('/torn-edge.svg') center / 100% 100% no-repeat; }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1rem; align-items: start; margin-top: 0.75rem; }
+  .gallery img { display: block; width: 100%; height: auto; border-radius: inherit; }
   .case-links { margin-top: 0.75rem; font-weight: 700; }
 
   .about { margin-top: 2.5rem; max-width: 58ch; }

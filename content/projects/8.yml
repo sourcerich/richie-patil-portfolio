@@ -1,6 +1,6 @@
 slug: "tavcogrowth"
-order: 2
-title: "TavcoGrowth"
+order: 3
+title: "GrowthPipe"
 type: "Sales software"
 year: "2026"
 image: "/content/projects/tavco/01.webp"
@@ -12,12 +12,14 @@ summary: "GrowthPipe, a CRM that keeps every lead and call in one place, plus th
 problem: "Leads came in from Meta and Google ads, WhatsApp and landing pages, and callers lost track of who to call back and what had already happened."
 build: "A CRM built for many companies at once, where a caller’s whole day is one screen: callbacks first, tap to call, log the result, move on. Each company’s data is kept apart inside the database, so nobody can see another’s by mistake, and every enquiry from the landing pages arrives automatically."
 outcome: "Tavco’s own team ran on it every day before anyone else bought it, and it is now the product at the centre of Tavco Growth."
-metric: "Kept apart"
+metric: "Website + CRM"
 metricLabel: "Each company’s data separated in the database"
 gallery:
+  - src: "/content/projects/tavco/05.webp"
+    alt: "GrowthPipe phone app: today’s callbacks and queue"
   - src: "/content/projects/tavco/02.webp"
-    alt: "GrowthPipe product section: a caller’s whole day is one screen"
-  - src: "/content/projects/tavco/03.webp"
-    alt: "Services: Meta lead generation, Google Ads, WhatsApp automation, websites"
+    alt: "Logging a call: outcome, callback time and a ready WhatsApp message"
   - src: "/content/projects/tavco/04.webp"
-    alt: "Team section with engineering and marketing figures"
+    alt: "Capturing leads from Meta, 99acres and Excel, and routing each source"
+  - src: "/content/projects/tavco/03.webp"
+    alt: "Reports: calls by outcome, speed to first call and saved reports"

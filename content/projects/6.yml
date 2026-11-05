@@ -11,5 +11,5 @@ summary: "A Lord of the Rings parody visual novel with branching endings, storyb
 problem: "A college side project, and my first real go at pacing, choices and story structure."
 build: "I storyboarded every branch, then built custom art and UI in Ren’Py."
 outcome: "A finished, playable story with several endings."
-metric: "Branching"
+metric: "Storytelling and Branching plotlines"
 metricLabel: "Multiple endings"

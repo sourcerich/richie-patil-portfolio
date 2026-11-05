@@ -1,5 +1,5 @@
 slug: "rag"
-order: 5
+order: 6
 title: "RAG Decision Assistant"
 repo: "https://github.com/sourcerich/localLlmRAG"
 type: "AI assistant"

@@ -111,7 +111,7 @@ body::after {
   z-index: 59;
   pointer-events: none;
   opacity: .34;
-  background: url('/grain.png') repeat;
+  background: url('/grain.webp') repeat;
   background-size: 12rem 12rem;
   animation: grain .9s steps(10) infinite;
 }

@@ -11,5 +11,5 @@ summary: "A Flutter app that makes Amity’s slow student portal quick on a phon
 problem: "The old portal was slow and awkward on phones, and phones are where students use it."
 build: "I worked out how the portal talks to its server, then built a Flutter app for iOS and Android with secure login and offline access."
 outcome: "A mobile-first rebuild of a legacy portal, on iOS and Android from one codebase."
-metric: "1 → 2"
+metric: "Multiplatform Development"
 metricLabel: "One codebase, two platforms"
