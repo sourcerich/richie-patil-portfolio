@@ -351,6 +351,10 @@ const highlight = (text: string) => text
   }
   .contact { display: flex; flex-direction: column; justify-content: flex-end; min-height: calc(100cqh + var(--frame-w) - 6.5rem); }
   .contact .h2 { font-size: min(11rem, 17cqw); }
+  @media (min-width: 48rem) {
+    .contact .h2 { font-size: min(11rem, 8cqw); white-space: nowrap; }
+    .contact .mail { font-size: min(5.5rem, 5.6cqw); }
+  }
   .contact .big { max-width: 46ch; }
   .mail {
     justify-self: start;
