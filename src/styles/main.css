@@ -91,13 +91,18 @@ body {
   mask-image: linear-gradient(to bottom, transparent var(--fade-from), #000 var(--fade-to));
 }
 .blur-top {
-  position: fixed;
-  top: var(--frame-w);
-  left: var(--frame-w);
-  right: var(--frame-w);
-  height: 5.5rem;
+  position: sticky;
+  top: 0;
+  height: 0;
   z-index: 2;
   pointer-events: none;
+}
+/* The scroller's mask makes it a backdrop root, so this blurs only the page content, not the scene behind it. */
+.blur-top::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5.5rem;
   -webkit-backdrop-filter: blur(0.875rem);
   backdrop-filter: blur(0.875rem);
   -webkit-mask-image: linear-gradient(to bottom, #000, transparent);
@@ -211,8 +216,8 @@ main :is(p, dt, dd, h3):nth-child(odd), .nav-link:nth-child(odd) { animation-del
 
 .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-html.js .scroller, html.js .top, html.js .blur-top { transition: opacity 1.2s ease, filter 1.4s ease; }
-html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top, html.js:not(.intro-done) .blur-top { opacity: 0; visibility: hidden; transition: none; }
+html.js .scroller, html.js .top { transition: opacity 1.2s ease, filter 1.4s ease; }
+html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; visibility: hidden; transition: none; }
 
 @media (max-width: 40rem) {
   :root { --frame-w: 2.25rem; --section-y: 4.5rem; }
