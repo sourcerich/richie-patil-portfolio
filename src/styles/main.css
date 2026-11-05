@@ -85,22 +85,23 @@ body {
   scrollbar-width: none;
   container-type: size;
   container-name: scroll;
-  --shred-y: calc(var(--frame-w) * 1.3 + 0.5rem);
-  --shred-h: 1.5rem;
-  -webkit-mask-image: url('/shred-edge-0.svg'), linear-gradient(#000, #000);
-  mask-image: url('/shred-edge-0.svg'), linear-gradient(#000, #000);
-  -webkit-mask-size: 100% var(--shred-h), 100% calc(100% - var(--shred-y) - var(--shred-h));
-  mask-size: 100% var(--shred-h), 100% calc(100% - var(--shred-y) - var(--shred-h));
-  -webkit-mask-position: 0 var(--shred-y), 0 calc(var(--shred-y) + var(--shred-h));
-  mask-position: 0 var(--shred-y), 0 calc(var(--shred-y) + var(--shred-h));
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  animation: shred 0.54s steps(1) infinite;
+  --fade-from: calc(var(--frame-w) * 1.3);
+  --fade-to: calc(var(--frame-w) * 1.3 + 4.5rem);
+  -webkit-mask-image: linear-gradient(to bottom, transparent var(--fade-from), #000 var(--fade-to));
+  mask-image: linear-gradient(to bottom, transparent var(--fade-from), #000 var(--fade-to));
 }
-@keyframes shred {
-  0% { -webkit-mask-image: url('/shred-edge-0.svg'), linear-gradient(#000, #000); mask-image: url('/shred-edge-0.svg'), linear-gradient(#000, #000); }
-  33% { -webkit-mask-image: url('/shred-edge-1.svg'), linear-gradient(#000, #000); mask-image: url('/shred-edge-1.svg'), linear-gradient(#000, #000); }
-  66% { -webkit-mask-image: url('/shred-edge-2.svg'), linear-gradient(#000, #000); mask-image: url('/shred-edge-2.svg'), linear-gradient(#000, #000); }
+.blur-top {
+  position: fixed;
+  top: var(--frame-w);
+  left: var(--frame-w);
+  right: var(--frame-w);
+  height: 5.5rem;
+  z-index: 2;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(0.875rem);
+  backdrop-filter: blur(0.875rem);
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent);
+  mask-image: linear-gradient(to bottom, #000, transparent);
 }
 .scroller::-webkit-scrollbar { display: none; }
 .nb { white-space: nowrap; }
@@ -210,8 +211,8 @@ main :is(p, dt, dd, h3):nth-child(odd), .nav-link:nth-child(odd) { animation-del
 
 .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-html.js .scroller, html.js .top { transition: opacity 1.2s ease, filter 1.4s ease; }
-html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; visibility: hidden; transition: none; }
+html.js .scroller, html.js .top, html.js .blur-top { transition: opacity 1.2s ease, filter 1.4s ease; }
+html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top, html.js:not(.intro-done) .blur-top { opacity: 0; visibility: hidden; transition: none; }
 
 @media (max-width: 40rem) {
   :root { --frame-w: 2.25rem; --section-y: 4.5rem; }
@@ -219,7 +220,6 @@ html.js:not(.intro-done) .scroller, html.js:not(.intro-done) .top { opacity: 0; 
   .case-links a, .foot a, .socials a { padding-block: 0.625rem; display: inline-block; }
 }
 @media (hover: none), (max-width: 40rem) {
-  .scroller { animation: none; }
   main :is(p, dt, dd, .tags li), .foot a, .nav-link, .hire, .row::before { animation: none; }
 }
 
