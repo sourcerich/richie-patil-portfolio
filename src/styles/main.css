@@ -180,7 +180,7 @@ button { font: inherit; color: inherit; }
   padding-block: 0.375rem;
   color: var(--color-ink);
   font-weight: 700;
-  background: linear-gradient(var(--c, currentColor), var(--c, currentColor)) left bottom / 0 0.1875rem no-repeat;
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 0.1875rem no-repeat;
   transition: background-size .45s var(--ease-out);
 }
 .pill:hover, .pill:focus-visible { background-size: 100% 0.1875rem; }
