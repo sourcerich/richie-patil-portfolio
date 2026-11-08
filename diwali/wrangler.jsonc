@@ -1,0 +1,15 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "richie-patil-diwali",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./site",
+    "html_handling": "drop-trailing-slash"
+  },
+  "routes": [
+    { "pattern": "diwali.richiepatil.com", "custom_domain": true }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

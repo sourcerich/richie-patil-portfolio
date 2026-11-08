@@ -4,9 +4,10 @@ import { defineConfig } from 'eslint/config'
 import tseslint from 'typescript-eslint'
 import astro from 'eslint-plugin-astro'
 import stylistic from '@stylistic/eslint-plugin'
+import globals from 'globals'
 
 export default defineConfig(
-  { ignores: ['dist/**', '.astro/**', '.wrangler/**', 'public/**', 'node_modules/**'] },
+  { ignores: ['dist/**', '.astro/**', '.wrangler/**', 'public/**', 'diwali/site/assets/**', 'diwali/site/scene-build/**', 'node_modules/**'] },
   js.configs.recommended,
   tseslint.configs.recommended,
   astro.configs.recommended,
@@ -15,6 +16,10 @@ export default defineConfig(
     rules: {
       '@typescript-eslint/no-explicit-any': 'off'
     }
+  },
+  {
+    files: ['diwali/site/*.js'],
+    languageOptions: { globals: globals.browser }
   },
   {
     files: ['**/*.astro'],

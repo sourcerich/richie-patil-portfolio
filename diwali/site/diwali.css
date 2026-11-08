@@ -1,0 +1,255 @@
+@font-face {
+  font-family: 'Shantell Sans';
+  font-style: normal;
+  font-weight: 300 800;
+  font-display: swap;
+  src: url('/fonts/shantell-sans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/kalam-700-devanagari.woff2') format('woff2');
+  unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
+}
+
+:root {
+  --color-night: #14092e;
+  --color-cream: #fff3d6;
+  --color-gold: #ffcf70;
+  --color-ember: #e0431f;
+  --font-body: 'Shantell Sans', 'Comic Sans MS', system-ui, sans-serif;
+  --font-deva: 'Kalam', 'Noto Sans Devanagari', sans-serif;
+  --hand: 'INFM' 75, 'BNCE' 30;
+  --ease-out: cubic-bezier(.215, .61, .355, 1);
+  --frame-w: 4rem;
+  --gutter: clamp(1.125rem, 3.6vw, 3.5rem);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  height: 100%;
+  background: var(--color-night);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-night);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  font-variation-settings: var(--hand);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+.deva { font-family: var(--font-deva); font-weight: 700; }
+.defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.flower-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+}
+
+/* warm light that floods the bottom of the page once the diyas are lit */
+.glow {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(70% 50% at 50% 100%, rgba(255, 168, 60, .5), transparent 70%),
+    radial-gradient(40% 30% at 50% 88%, rgba(255, 214, 120, .35), transparent 70%);
+  mix-blend-mode: screen;
+  transition: opacity 2.4s var(--ease-out);
+}
+body.lit .glow { opacity: 1; }
+
+.top {
+  position: fixed;
+  inset: calc(var(--frame-w) * 0.66 + env(safe-area-inset-top, 0rem)) 0 auto 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.75rem;
+  padding-inline: calc(var(--frame-w) + var(--gutter));
+  color: var(--color-gold);
+}
+.brand { font-weight: 800; font-size: 1.3125rem; }
+.back { font-weight: 600; }
+.back:hover, .brand:hover { text-decoration: underline; text-decoration-thickness: 0.14em; text-underline-offset: 0.2em; }
+
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--frame-w) calc(var(--frame-w) + var(--gutter)) calc(var(--frame-w) + 1rem);
+}
+
+.hero {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+.mr {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 0.4em;
+  max-width: 100%;
+  font-size: clamp(3.5rem, 11vw, 9.5rem);
+  line-height: 1.1;
+  color: #fff;
+  pointer-events: none;
+}
+.ch { display: inline-block; }
+html.engine-text .ch { color: transparent; }
+.wish {
+  margin: 0;
+  max-width: 34rem;
+  font-size: clamp(1.0625rem, 1.8vw, 1.5rem);
+  font-weight: 600;
+  color: var(--color-cream);
+}
+
+.lamps {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+}
+.field {
+  display: grid;
+  justify-items: center;
+  gap: 0.125rem;
+}
+.row {
+  display: flex;
+  justify-content: center;
+  gap: 0.375rem;
+}
+
+/* one diya: a clay bowl with a flame that is hidden until it is lit */
+.diya {
+  --d: clamp(2rem, 4.6vw, 3.75rem);
+  position: relative;
+  display: block;
+  width: var(--d);
+  height: calc(var(--d) * 0.78);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+.diya svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: boil 0.54s steps(1) infinite;
+  pointer-events: none;
+}
+.diya .bowl { fill: #9b3f14; stroke: #2a0d05; stroke-width: 2.4; stroke-linejoin: round; }
+.diya .rim { fill: #6a260c; stroke: #2a0d05; stroke-width: 2.4; stroke-linejoin: round; }
+.diya .wick { fill: #2a0d05; }
+.diya .aura { opacity: 0; transition: opacity 1.4s var(--ease-out); }
+.diya .flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  opacity: 0;
+  transform: scale(0.15);
+  transition: opacity 0.5s var(--ease-out), transform 0.7s cubic-bezier(.34, 1.56, .64, 1);
+}
+.diya .flame-outer { fill: #ff8a1f; stroke: #8a2a05; stroke-width: 1.6; stroke-linejoin: round; }
+.diya .flame-inner { fill: #ffe27a; }
+.diya.is-lit .aura { opacity: 0.9; }
+.diya.is-lit .flame { opacity: 1; transform: scale(1); animation: flicker 0.9s steps(1) infinite; }
+.diya.is-lit .flame { animation-delay: var(--flick, 0s); }
+
+.diya--lead {
+  --d: clamp(5.5rem, 12vw, 9.5rem);
+  cursor: pointer;
+  animation: beckon 2.4s ease-in-out infinite;
+  -webkit-tap-highlight-color: transparent;
+}
+.diya--lead:hover { transform: scale(1.04); }
+.diya--lead:focus-visible { outline: 0.1875rem solid var(--color-gold); outline-offset: 0.5rem; border-radius: 1rem; }
+.diya--lead.is-lit { animation: none; cursor: default; }
+.diya--lead.is-lit:hover { transform: none; }
+
+.status {
+  margin: 0.25rem 0 0;
+  min-height: 1.5em;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+
+.wish, .status { animation: type 0.54s steps(1) infinite; }
+
+@keyframes boil {
+  0% { filter: url(#boil-0); }
+  33% { filter: url(#boil-1); }
+  66% { filter: url(#boil-2); }
+}
+@keyframes type {
+  0% { filter: url(#type-0); }
+  33% { filter: url(#type-1); }
+  66% { filter: url(#type-2); }
+}
+@keyframes flicker {
+  0% { transform: scale(1, 1) skewX(0deg); }
+  25% { transform: scale(0.96, 1.07) skewX(-3deg); }
+  50% { transform: scale(1.03, 0.95) skewX(2deg); }
+  75% { transform: scale(0.98, 1.04) skewX(-1deg); }
+}
+@keyframes beckon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+html.js:not(.intro-done) .top, html.js:not(.intro-done) .stage { opacity: 0; visibility: hidden; transition: none; }
+html.js .top, html.js .stage { transition: opacity 1.2s ease; }
+
+@media (max-width: 40rem) {
+  :root { --frame-w: 2.25rem; }
+  .stage { padding-inline: calc(var(--frame-w) + 0.75rem); }
+  .top { padding-inline: calc(var(--frame-w) + 0.75rem); }
+  .mr { font-size: min(6.5rem, 21vw); }
+  .back { display: none; }
+  .field .diya { --d: clamp(1.6rem, 8vw, 2.5rem); }
+}
+@media (max-height: 44rem) {
+  .row:nth-child(n+4) { display: none; }
+}
+@media (max-height: 32rem) {
+  .row:nth-child(n+3) { display: none; }
+  .wish { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .diya svg, .wish, .status, .diya--lead, .diya.is-lit .flame { animation: none; }
+  .glow, .diya .aura, .diya .flame { transition-duration: 0s; }
+}
