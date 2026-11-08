@@ -26,6 +26,8 @@
   --gutter: clamp(1.125rem, 3.6vw, 3.5rem);
   /* these three match the sizes the scene uses to place the sea of diyas and the wish */
   --sea-h: clamp(13rem, 38vh, 21rem);
+  --toran-h: 6rem;
+  --panel-h: 6.5rem;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -80,7 +82,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: calc(var(--frame-w) + 6rem) calc(var(--frame-w) + var(--gutter)) calc(var(--frame-w) + var(--sea-h));
+  padding: calc(var(--frame-w) + var(--toran-h)) calc(var(--frame-w) + var(--gutter)) calc(var(--frame-w) + var(--sea-h));
   pointer-events: none;
 }
 .hero {
@@ -104,7 +106,7 @@ body {
 }
 .ch { display: inline-block; }
 html.engine-text .ch { color: transparent; }
-.panel { min-height: 6.5rem; width: min(100%, 40rem); }
+.panel { min-height: var(--panel-h); width: min(100%, 40rem); }
 
 .lead-hit {
   position: fixed;
@@ -123,11 +125,19 @@ html.js:not(.intro-done) .stage { opacity: 0; visibility: hidden; transition: no
 html.js .stage { transition: opacity 1.2s ease; }
 
 @media (max-height: 44rem) {
-  :root { --sea-h: 11rem; }
-  .panel { min-height: 5rem; }
+  :root { --sea-h: 11rem; --panel-h: 5rem; }
 }
 @media (max-width: 40rem) {
-  :root { --frame-w: 2.25rem; --sea-h: clamp(12rem, 34vh, 16rem); }
+  :root { --frame-w: 2.25rem; --sea-h: clamp(12rem, 34vh, 16rem); --panel-h: 9rem; }
   .stage { padding-inline: calc(var(--frame-w) + 0.75rem); }
   .mr { font-size: min(5.6rem, 17vw); }
+}
+@media (max-width: 40rem) and (max-height: 40rem) {
+  .mr { font-size: min(4.2rem, 14vw); }
+}
+/* a phone held sideways: a thin frame, a small toran and a low sea of diyas */
+@media (max-height: 30rem) {
+  :root { --frame-w: 2.25rem; --sea-h: clamp(7rem, 36vh, 9.375rem); --toran-h: 3.75rem; --panel-h: 4.5rem; }
+  .stage { padding-inline: calc(var(--frame-w) + var(--gutter)); }
+  .mr { font-size: min(5rem, 11vw); }
 }

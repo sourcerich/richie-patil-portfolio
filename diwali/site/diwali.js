@@ -88,7 +88,7 @@ const showWishes = async () => {
   await sleep(reduced ? 0 : 900)
   stage.dataset.stage = 'wishes'
   wishesWrap.removeAttribute('aria-hidden')
-  announce.textContent = 'दिवा लागला. शुभ दीपावली. तुमचे घर प्रकाशाने आणि हास्याने उजळून निघो, आज आणि वर्षभर.'
+  announce.textContent = 'Diya lit. Shubh Deepavali. May your home glow with light and laughter, today and all year.'
   wishesTitle.focus({ preventScroll: true })
   await swapTitle()
 }
