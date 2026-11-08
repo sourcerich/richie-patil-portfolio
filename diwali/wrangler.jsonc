@@ -7,7 +7,7 @@
     "html_handling": "drop-trailing-slash"
   },
   "routes": [
-    { "pattern": "diwali.richiepatil.com", "custom_domain": true }
+    { "pattern": "diwali.richiepatil.com", "custom_domain": true, "zone_name": "richiepatil.com" }
   ],
   "observability": {
     "enabled": true

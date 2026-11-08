@@ -2,7 +2,6 @@ const frame = document.getElementById('flower-bg')
 const root = document.documentElement
 const stage = document.getElementById('main')
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-const sleep = ms => new Promise(resolve => window.setTimeout(resolve, ms))
 
 const lead = document.getElementById('lead')
 const title = document.getElementById('title')
@@ -74,9 +73,10 @@ for (const type of ['pointermove', 'pointerdown', 'pointerup']) {
 window.addEventListener('resize', queue)
 void document.fonts.ready.then(queue)
 
-// after the last diya catches the title becomes "शुभ दीपावली"
-const swapTitle = async () => {
-  await sleep(reduced ? 0 : 500)
+// a moment after the tap, while the flames are still spreading, the title becomes "शुभ दीपावली"
+const TITLE_DELAY = 1000
+
+const swapTitle = () => {
   const [first, second] = title.querySelectorAll('.ch')
   first.textContent = 'शुभ'
   second.textContent = 'दीपावली'
@@ -84,13 +84,12 @@ const swapTitle = async () => {
   queue()
 }
 
-const showWishes = async () => {
-  await sleep(reduced ? 0 : 900)
+// when the last diya has caught: the wish is announced and its heading takes focus
+const showWishes = () => {
   stage.dataset.stage = 'wishes'
   wishesWrap.removeAttribute('aria-hidden')
   announce.textContent = 'Diya lit. Shubh Deepavali. May your home glow with light and laughter, today and all year.'
   wishesTitle.focus({ preventScroll: true })
-  await swapTitle()
 }
 
 window.addEventListener('message', (event) => {
@@ -104,7 +103,7 @@ window.addEventListener('message', (event) => {
     Object.assign(lead.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px` })
     lead.hidden = false
   }
-  if (type === 'diya-lit-all') void showWishes()
+  if (type === 'diya-lit-all') showWishes()
 })
 
 lead.addEventListener('click', () => {
@@ -112,4 +111,5 @@ lead.addEventListener('click', () => {
   stage.dataset.stage = 'lighting'
   lead.classList.add('is-lit')
   frame?.contentWindow?.postMessage({ type: 'light' }, location.origin)
+  window.setTimeout(swapTitle, reduced ? 0 : TITLE_DELAY)
 })
