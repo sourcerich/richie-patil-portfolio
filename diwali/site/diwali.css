@@ -15,15 +15,27 @@
   unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20A8, U+20B9, U+20F0, U+25CC, U+A830-A839, U+A8E0-A8FF, U+11B00-11B09;
 }
 
+@property --p {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: -10%;
+}
+
+/* the hero page's colours: pale paper, ink brown text, rust and marigold accents */
 :root {
-  --color-night: #14092e;
-  --color-cream: #fff3d6;
-  --color-gold: #ffcf70;
-  --color-ember: #e0431f;
+  --color-bg: #ffec95;
+  --color-frame: #ecc168;
+  --color-cream: #fff7d4;
+  --color-ink: #4a2315;
+  --color-outline: #9f4a16;
+  --rust: #b84a08;
+  --marigold: #d88b3e;
   --font-body: 'Shantell Sans', 'Comic Sans MS', system-ui, sans-serif;
   --font-deva: 'Kalam', 'Noto Sans Devanagari', sans-serif;
   --hand: 'INFM' 75, 'BNCE' 30;
+  --hand-loud: 'INFM' 100, 'BNCE' 70;
   --ease-out: cubic-bezier(.215, .61, .355, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
   --frame-w: 4rem;
   --gutter: clamp(1.125rem, 3.6vw, 3.5rem);
 }
@@ -32,7 +44,7 @@
 
 html {
   height: 100%;
-  background: var(--color-night);
+  background: var(--color-frame);
   -webkit-text-size-adjust: 100%;
 }
 
@@ -40,8 +52,8 @@ body {
   margin: 0;
   height: 100%;
   overflow: hidden;
-  background: var(--color-night);
-  color: var(--color-cream);
+  background: var(--color-frame);
+  color: var(--color-ink);
   font-family: var(--font-body);
   font-variation-settings: var(--hand);
   font-size: 1.0625rem;
@@ -49,9 +61,38 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 59;
+  pointer-events: none;
+  opacity: .34;
+  background: url('/grain.webp') repeat;
+  background-size: 12rem 12rem;
+  animation: grain .9s steps(10) infinite;
+}
+
 a { color: inherit; text-decoration: none; }
 .deva { font-family: var(--font-deva); font-weight: 700; }
 .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.mono {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 .flower-bg {
   position: fixed;
@@ -63,36 +104,6 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
-/* warm light that floods the bottom of the page once the diyas are lit */
-.glow {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-  background:
-    radial-gradient(70% 50% at 50% 100%, rgba(255, 168, 60, .5), transparent 70%),
-    radial-gradient(40% 30% at 50% 88%, rgba(255, 214, 120, .35), transparent 70%);
-  mix-blend-mode: screen;
-  transition: opacity 2.4s var(--ease-out);
-}
-body.lit .glow { opacity: 1; }
-
-.top {
-  position: fixed;
-  inset: calc(var(--frame-w) * 0.66 + env(safe-area-inset-top, 0rem)) 0 auto 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.75rem;
-  padding-inline: calc(var(--frame-w) + var(--gutter));
-  color: var(--color-gold);
-}
-.brand { font-weight: 800; font-size: 1.3125rem; }
-.back { font-weight: 600; }
-.back:hover, .brand:hover { text-decoration: underline; text-decoration-thickness: 0.14em; text-underline-offset: 0.2em; }
-
 .stage {
   position: fixed;
   inset: 0;
@@ -100,18 +111,16 @@ body.lit .glow { opacity: 1; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--frame-w) calc(var(--frame-w) + var(--gutter)) calc(var(--frame-w) + 1rem);
+  padding: var(--frame-w) calc(var(--frame-w) + var(--gutter)) calc(var(--frame-w) + 0.75rem);
 }
 
+/* the title: the engine draws it in white, as on the hero page */
 .hero {
   flex: 1;
   min-height: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.25rem;
-  text-align: center;
 }
 .mr {
   margin: 0;
@@ -120,44 +129,75 @@ body.lit .glow { opacity: 1; }
   justify-content: center;
   column-gap: 0.4em;
   max-width: 100%;
-  font-size: clamp(3.5rem, 11vw, 9.5rem);
+  font-size: clamp(3.25rem, 10vw, 9rem);
   line-height: 1.1;
   color: #fff;
+  text-align: center;
   pointer-events: none;
 }
 .ch { display: inline-block; }
 html.engine-text .ch { color: transparent; }
+
+/* the prompt and the wishes share one spot, so nothing jumps when they swap */
+.panel {
+  display: grid;
+  width: min(100%, 40rem);
+  min-height: 9rem;
+}
+.panel > * { grid-area: 1 / 1; }
+.prompt { align-self: end; text-align: center; transition: opacity .6s var(--ease-out); }
+.status {
+  margin: 0 0 0.5rem;
+  min-height: 1.5em;
+  font-weight: 700;
+  font-size: 1.1875rem;
+  animation: type 0.54s steps(1) infinite;
+}
+.wishes-wrap {
+  align-self: start;
+  display: grid;
+  gap: 0.375rem;
+  opacity: 0;
+  visibility: hidden;
+}
 .wish {
   margin: 0;
   max-width: 34rem;
-  font-size: clamp(1.0625rem, 1.8vw, 1.5rem);
-  font-weight: 600;
-  color: var(--color-cream);
+  justify-self: center;
+  text-align: center;
+  font-size: clamp(1.375rem, 2.4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.3;
+  --p: -10%;
+  -webkit-mask-image: linear-gradient(100deg, #000 var(--p), transparent calc(var(--p) + 8%));
+  mask-image: linear-gradient(100deg, #000 var(--p), transparent calc(var(--p) + 8%));
+  animation: type 0.54s steps(1) infinite;
 }
 
-.lamps {
-  display: grid;
-  justify-items: center;
-  gap: 0.5rem;
+[data-stage='lighting'] .hint, [data-stage='wishes'] .hint { opacity: 0; }
+[data-stage='wishes'] .prompt { opacity: 0; }
+[data-stage='wishes'] .wishes-wrap { opacity: 1; visibility: visible; }
+[data-stage='wishes'] .wish {
+  animation: ink-in 1.4s steps(22) 0.5s both, type 0.54s steps(1) infinite;
 }
-.field {
+
+/* the diyas */
+.lamps {
+  --lead: clamp(5.5rem, 12vw, 8.5rem);
+  position: relative;
   display: grid;
   justify-items: center;
   gap: 0.125rem;
 }
-.row {
-  display: flex;
-  justify-content: center;
-  gap: 0.375rem;
-}
+.field { display: grid; justify-items: center; gap: 0.0625rem; }
+.row { display: flex; justify-content: center; gap: 0.375rem; }
 
-/* one diya: a clay bowl with a flame that is hidden until it is lit */
 .diya {
   --d: clamp(2rem, 4.6vw, 3.75rem);
   position: relative;
   display: block;
   width: var(--d);
-  height: calc(var(--d) * 0.78);
+  height: calc(var(--d) * 0.84);
   padding: 0;
   border: 0;
   background: none;
@@ -169,46 +209,86 @@ html.engine-text .ch { color: transparent; }
   width: 100%;
   height: 100%;
   overflow: visible;
-  animation: boil 0.54s steps(1) infinite;
   pointer-events: none;
+  animation: boil 0.54s steps(1) infinite;
 }
-.diya .bowl { fill: #9b3f14; stroke: #2a0d05; stroke-width: 2.4; stroke-linejoin: round; }
-.diya .rim { fill: #6a260c; stroke: #2a0d05; stroke-width: 2.4; stroke-linejoin: round; }
-.diya .wick { fill: #2a0d05; }
-.diya .aura { opacity: 0; transition: opacity 1.4s var(--ease-out); }
+.diya .bowl { fill: var(--marigold); stroke: var(--color-ink); stroke-width: 3; stroke-linejoin: round; }
+.diya .rim { fill: var(--rust); stroke: var(--color-ink); stroke-width: 3; stroke-linejoin: round; }
+.diya .wick { fill: var(--color-ink); }
+.diya .hatch { fill: none; stroke: var(--color-ink); stroke-width: 2.2; stroke-linecap: round; opacity: 0.7; }
+.diya .rays { opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; }
+.diya .rays path { fill: none; stroke: var(--color-ink); stroke-width: 2.8; stroke-linecap: round; }
 .diya .flame {
   transform-box: fill-box;
   transform-origin: 50% 100%;
   opacity: 0;
   transform: scale(0.15);
-  transition: opacity 0.5s var(--ease-out), transform 0.7s cubic-bezier(.34, 1.56, .64, 1);
+  transition: opacity 0.4s var(--ease-out), transform 0.6s var(--ease-spring);
 }
-.diya .flame-outer { fill: #ff8a1f; stroke: #8a2a05; stroke-width: 1.6; stroke-linejoin: round; }
-.diya .flame-inner { fill: #ffe27a; }
-.diya.is-lit .aura { opacity: 0.9; }
-.diya.is-lit .flame { opacity: 1; transform: scale(1); animation: flicker 0.9s steps(1) infinite; }
-.diya.is-lit .flame { animation-delay: var(--flick, 0s); }
+.diya .flame-outer { fill: #e8590c; stroke: var(--color-ink); stroke-width: 2.6; stroke-linejoin: round; }
+.diya .flame-inner { fill: #ffd24d; }
+.diya.is-lit .flame { opacity: 1; transform: scale(1); animation: flicker 0.9s steps(1) infinite; animation-delay: var(--flick, 0s); }
+.diya.is-lit .rays { opacity: 1; animation: sway 0.54s steps(1) infinite; animation-delay: var(--flick, 0s); }
 
 .diya--lead {
-  --d: clamp(5.5rem, 12vw, 9.5rem);
+  --d: var(--lead);
   cursor: pointer;
-  animation: beckon 2.4s ease-in-out infinite;
   -webkit-tap-highlight-color: transparent;
+  /* generous hit area */
+  margin: -0.5rem;
+  padding: 0.5rem;
+  width: calc(var(--d) + 1rem);
+  height: calc(var(--d) * 0.84 + 1rem);
+  transition: transform .45s var(--ease-spring);
 }
-.diya--lead:hover { transform: scale(1.04); }
-.diya--lead:focus-visible { outline: 0.1875rem solid var(--color-gold); outline-offset: 0.5rem; border-radius: 1rem; }
-.diya--lead.is-lit { animation: none; cursor: default; }
+.diya--lead svg { position: absolute; inset: 0.5rem; width: var(--d); height: calc(var(--d) * 0.84); }
+.diya--lead:not(.is-lit) { animation: beckon 2.4s ease-in-out infinite; }
+.diya--lead:hover { transform: translateY(-0.25rem) rotate(-2deg); }
+.diya--lead:focus-visible { outline: 0.1875rem solid var(--rust); outline-offset: 0.25rem; border-radius: 1rem; }
+.diya--lead.is-lit { cursor: default; animation: none; }
 .diya--lead.is-lit:hover { transform: none; }
 
-.status {
-  margin: 0.25rem 0 0;
-  min-height: 1.5em;
+/* "tap here", drawn by hand beside the big diya */
+.hint {
+  position: absolute;
+  top: -0.25rem;
+  left: calc(50% + var(--lead) / 2 + 0.75rem);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25rem;
+  color: var(--color-ink);
   font-weight: 700;
-  color: #fff;
-  text-align: center;
+  pointer-events: none;
+  transition: opacity .4s var(--ease-out);
+  animation: nudge 1.08s steps(1) infinite;
 }
+.hint svg { width: 3.5rem; height: auto; transform: scaleX(-1); }
+.hint span { padding-top: 2.25rem; }
 
-.wish, .status { animation: type 0.54s steps(1) infinite; }
+/* the ink ring that spreads when the first flame catches */
+.splat {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--lead) * 0.25);
+  width: 4rem;
+  height: 4rem;
+  margin: -2rem 0 0 -2rem;
+  border: 0.3125rem solid var(--color-ink);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  filter: url(#wob-1);
+}
+.splat.is-on { animation: splat 1.1s steps(9) forwards; }
+
+.sparks {
+  position: fixed;
+  inset: 0;
+  z-index: 12;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 
 @keyframes boil {
   0% { filter: url(#boil-0); }
@@ -220,36 +300,67 @@ html.engine-text .ch { color: transparent; }
   33% { filter: url(#type-1); }
   66% { filter: url(#type-2); }
 }
+@keyframes grain {
+  0%, 100% { background-position: 0 0; }
+  10% { background-position: -2rem -4rem; }
+  20% { background-position: -6rem 2rem; }
+  30% { background-position: 3rem -9rem; }
+  40% { background-position: -2rem 9rem; }
+  50% { background-position: -6rem 4rem; }
+  60% { background-position: 6rem 0; }
+  70% { background-position: -9rem -9rem; }
+  80% { background-position: 2rem 6rem; }
+  90% { background-position: -4rem 3rem; }
+}
 @keyframes flicker {
   0% { transform: scale(1, 1) skewX(0deg); }
   25% { transform: scale(0.96, 1.07) skewX(-3deg); }
   50% { transform: scale(1.03, 0.95) skewX(2deg); }
   75% { transform: scale(0.98, 1.04) skewX(-1deg); }
 }
+@keyframes sway {
+  0% { transform: rotate(0deg) scale(1); }
+  33% { transform: rotate(-3deg) scale(1.06); }
+  66% { transform: rotate(3deg) scale(0.96); }
+}
 @keyframes beckon {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
 }
+@keyframes nudge {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(0.25rem, -0.125rem); }
+}
+@keyframes splat {
+  0% { opacity: 1; transform: scale(0.5); border-width: 0.4375rem; }
+  100% { opacity: 0; transform: scale(5.5); border-width: 0.125rem; }
+}
+@keyframes ink-in {
+  from { --p: -10%; }
+  to { --p: 110%; }
+}
 
-html.js:not(.intro-done) .top, html.js:not(.intro-done) .stage { opacity: 0; visibility: hidden; transition: none; }
-html.js .top, html.js .stage { transition: opacity 1.2s ease; }
+html.js:not(.intro-done) .stage { opacity: 0; visibility: hidden; transition: none; }
+html.js .stage { transition: opacity 1.2s ease; }
 
 @media (max-width: 40rem) {
   :root { --frame-w: 2.25rem; }
   .stage { padding-inline: calc(var(--frame-w) + 0.75rem); }
-  .top { padding-inline: calc(var(--frame-w) + 0.75rem); }
-  .mr { font-size: min(6.5rem, 21vw); }
-  .back { display: none; }
+  .mr { font-size: min(5.6rem, 17vw); }
+  .panel { min-height: 10rem; }
   .field .diya { --d: clamp(1.6rem, 8vw, 2.5rem); }
+  .hint { left: auto; right: -0.5rem; top: -1.75rem; }
 }
-@media (max-height: 44rem) {
+@media (max-height: 56rem) {
+  .panel { min-height: 8rem; }
   .row:nth-child(n+4) { display: none; }
 }
-@media (max-height: 32rem) {
+@media (max-height: 44rem) {
   .row:nth-child(n+3) { display: none; }
-  .wish { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .diya svg, .wish, .status, .diya--lead, .diya.is-lit .flame { animation: none; }
-  .glow, .diya .aura, .diya .flame { transition-duration: 0s; }
+  .diya svg, .status, .wish, .diya--lead:not(.is-lit), .hint, .diya.is-lit .flame, .diya.is-lit .rays, body::after { animation: none; }
+  [data-stage='wishes'] .wish { animation: none; --p: 110%; }
+  .splat.is-on { animation: none; }
+  .diya .flame, .prompt, .hint { transition-duration: 0s; }
 }

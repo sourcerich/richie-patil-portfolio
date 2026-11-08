@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Happy Diwali · Richie Patil</title>
-    <meta name="description" content="Shubh Deepavali. Light one diya and watch the rest follow.">
-    <meta name="theme-color" content="#14092e">
+    <title>Happy Diwali</title>
+    <meta name="description" content="Shubh Deepavali. Light a diya and read the Diwali wishes.">
+    <meta name="theme-color" content="#ecc168">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Happy Diwali · Richie Patil">
-    <meta property="og:description" content="Shubh Deepavali. Light one diya and watch the rest follow.">
+    <meta property="og:title" content="Happy Diwali">
+    <meta property="og:description" content="Shubh Deepavali. Light a diya and read the Diwali wishes.">
     <meta property="og:url" content="https://diwali.richiepatil.com/">
     <link rel="canonical" href="https://diwali.richiepatil.com/">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -31,6 +31,18 @@
         <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="23" result="noise" />
         <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.6" xChannelSelector="R" yChannelSelector="G" />
       </filter>
+      <filter id="wob-0" x="-4%" y="-12%" width="108%" height="124%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="2" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="wob-1" x="-4%" y="-12%" width="108%" height="124%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="13" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="wob-2" x="-4%" y="-12%" width="108%" height="124%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="31" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
       <filter id="type-0" x="-2%" y="-10%" width="104%" height="120%">
         <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="5" result="noise" />
         <feDisplacementMap in="SourceGraphic" in2="noise" scale="1" xChannelSelector="R" yChannelSelector="G" />
@@ -45,33 +57,47 @@
       </filter>
     </svg>
 
-    <iframe id="flower-bg" class="flower-bg" src="/scene.html?palette=diwali" title="" aria-hidden="true" tabindex="-1"></iframe>
-    <div class="glow" aria-hidden="true"></div>
+    <iframe id="flower-bg" class="flower-bg" src="/scene.html" title="" aria-hidden="true" tabindex="-1"></iframe>
 
-    <header class="top">
-      <a class="brand" href="https://richiepatil.com">Richie Patil</a>
-      <a class="back" href="https://richiepatil.com">richiepatil.com ↗</a>
-    </header>
-
-    <main id="main" class="stage">
+    <main id="main" class="stage" data-stage="idle">
       <section class="hero">
-        <h1 class="deva mr" aria-label="Happy Diwali">
-          <span class="ch" data-engine-word data-single data-alt="Happy" aria-hidden="true">शुभ</span>
-          <span class="ch" data-engine-word data-single data-alt="Diwali" aria-hidden="true">दीपावली</span>
+        <h1 class="deva mr" id="title" aria-label="Light a diya">
+          <span class="ch" data-engine-word data-single data-alt="Light" aria-hidden="true">दिवा</span>
+          <span class="ch" data-engine-word data-single data-alt="a diya" aria-hidden="true">लावा</span>
         </h1>
-        <p class="wish">May your year glow as bright as a thousand diyas.</p>
+      </section>
+
+      <section class="panel">
+        <div class="prompt" id="prompt">
+          <p class="status" id="status" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="wishes-wrap" id="wishes-wrap" aria-hidden="true">
+          <h2 class="sr-only" id="wishes-title" tabindex="-1">Diwali wishes</h2>
+          <p class="wish">May your home glow with light and laughter, today and all year.</p>
+        </div>
       </section>
 
       <section class="lamps" aria-label="Diyas">
         <button class="diya diya--lead" type="button" id="lead" aria-label="Light the diya"></button>
+        <span class="hint" id="hint" aria-hidden="true">
+          <svg viewBox="0 0 120 70" focusable="false">
+            <path d="M6 12 Q50 2 82 30 Q92 40 96 52" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+            <path d="M84 50 L97 56 L100 42" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span>tap here</span>
+        </span>
+        <span class="splat" id="splat" aria-hidden="true"></span>
         <div class="field" id="field" aria-hidden="true"></div>
-        <p class="status" id="status" role="status" aria-live="polite">Tap the diya to light it</p>
       </section>
     </main>
 
+    <canvas class="sparks" id="sparks" aria-hidden="true"></canvas>
+
     <template id="diya-tpl">
-      <svg viewBox="0 0 100 78" focusable="false" aria-hidden="true">
-        <circle class="aura" cx="50" cy="24" r="46" fill="url(#aura-grad)" />
+      <svg viewBox="0 0 100 84" focusable="false" aria-hidden="true">
+        <g class="rays"><path d="M74.4 11.1L83.8 7.7M66.7 .1L73.1 -7.6M54.5 -5.6L56.3 -15.5M45.5 -5.6L43.7 -15.5M33.3 .1L26.9 -7.6M25.6 11.1L16.2 7.7" /></g>
+        <path class="hatch" d="M24 78l5-4M36 80l5-4M48 81l5-4M60 80l5-4M72 78l5-4" />
         <path class="bowl" d="M5 34 Q50 26 95 34 Q93 70 50 74 Q7 70 5 34Z" />
         <path class="rim" d="M5 34 Q50 26 95 34 Q50 42 5 34Z" />
         <path class="wick" d="M48 33 Q50 25 52 33Z" />
@@ -81,12 +107,8 @@
         </g>
       </svg>
     </template>
-    <svg class="defs" aria-hidden="true" focusable="false">
-      <radialGradient id="aura-grad">
-        <stop offset="0" stop-color="#ffb347" stop-opacity=".75" />
-        <stop offset="1" stop-color="#ff7a1a" stop-opacity="0" />
-      </radialGradient>
-    </svg>
+
+    <p class="sr-only" id="announce" role="status" aria-live="polite"></p>
 
     <script type="module" src="/diwali.js"></script>
   </body>
