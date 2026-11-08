@@ -16,9 +16,9 @@
 }
 
 :root {
-  --color-frame: #ecc168;
-  --color-ink: #52101c;
-  --rust: #c2271f;
+  --color-frame: #4a1a10;
+  --color-ink: #ffe2b0;
+  --rust: #ff9d4a;
   --font-body: 'Shantell Sans', 'Comic Sans MS', system-ui, sans-serif;
   --font-deva: 'Kalam', 'Noto Sans Devanagari', sans-serif;
   --hand: 'INFM' 75, 'BNCE' 30;

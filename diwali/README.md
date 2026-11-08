@@ -2,7 +2,8 @@
 
 A separate Cloudflare Worker (static assets only) for the Diwali page. It loads the portfolio's flower scene with
 `?diwali`, which adds the sea of diyas (instanced 3D bowls and flames), the rising embers, a marigold toran and the wish
-inside the engine. The page itself only lays out the title and keeps an invisible button over the big diya.
+inside the engine, on a dark painted night with the flower left out. The toran is made from the engine's own leaf and
+petal geometry. The page itself only lays out the title and keeps an invisible button over the big diya.
 
 - `site/`: the page (`index.html`, `diwali.css`, `diwali.js`) plus the scene build, fonts and scene assets it needs.
 - `wrangler.jsonc`: Worker `richie-patil-diwali`, served on `diwali.richiepatil.com` as a custom domain.
