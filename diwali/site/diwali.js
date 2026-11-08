@@ -50,10 +50,6 @@ const post = () => {
   frame?.contentWindow?.postMessage({ type: 'words', reduced, words: words() }, location.origin)
 }
 
-const setMorph = (value) => {
-  frame?.contentWindow?.postMessage({ type: 'morph', value }, location.origin)
-}
-
 let queued = false
 const queue = () => {
   if (queued) return
@@ -64,21 +60,8 @@ const queue = () => {
   })
 }
 
-let introDone = false
-let englishQueued = false
-
-// the title reads Marathi first and turns into English a moment after the page appears
-const showEnglish = async () => {
-  if (englishQueued || reduced || !introDone || !root.classList.contains('engine-text')) return
-  englishQueued = true
-  await sleep(1600)
-  if (stage.dataset.stage === 'idle') setMorph(1)
-}
-
 const reveal = () => {
   root.classList.add('intro-done')
-  introDone = true
-  void showEnglish()
 }
 
 const gl = document.createElement('canvas').getContext('webgl2')
@@ -91,18 +74,13 @@ for (const type of ['pointermove', 'pointerdown', 'pointerup']) {
 window.addEventListener('resize', queue)
 void document.fonts.ready.then(queue)
 
-// after the last diya catches: the title becomes "शुभ दीपावली", in Marathi only
+// after the last diya catches the title becomes "शुभ दीपावली"
 const swapTitle = async () => {
-  if (!reduced) {
-    setMorph(0)
-    await sleep(750)
-  }
+  await sleep(reduced ? 0 : 500)
   const [first, second] = title.querySelectorAll('.ch')
   first.textContent = 'शुभ'
   second.textContent = 'दीपावली'
-  first.removeAttribute('data-alt')
-  second.removeAttribute('data-alt')
-  title.setAttribute('aria-label', 'Shubh Deepavali')
+  title.setAttribute('aria-label', 'शुभ दीपावली')
   queue()
 }
 
@@ -110,7 +88,7 @@ const showWishes = async () => {
   await sleep(reduced ? 0 : 900)
   stage.dataset.stage = 'wishes'
   wishesWrap.removeAttribute('aria-hidden')
-  announce.textContent = 'Diya lit. Shubh Deepavali. May your home glow with light and laughter, today and all year.'
+  announce.textContent = 'दिवा लागला. शुभ दीपावली. तुमचे घर प्रकाशाने आणि हास्याने उजळून निघो, आज आणि वर्षभर.'
   wishesTitle.focus({ preventScroll: true })
   await swapTitle()
 }
@@ -119,10 +97,7 @@ window.addEventListener('message', (event) => {
   if (event.origin !== location.origin || event.source !== frame?.contentWindow) return
   const { type } = event.data ?? {}
   if (type === 'ready') queue()
-  if (type === 'words-ready') {
-    root.classList.add('engine-text')
-    void showEnglish()
-  }
+  if (type === 'words-ready') root.classList.add('engine-text')
   if (type === 'intro-done') reveal()
   if (type === 'diya-layout') {
     const { x, y, w, h } = event.data.lead

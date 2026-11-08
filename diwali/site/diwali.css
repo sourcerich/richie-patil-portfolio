@@ -80,7 +80,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: calc(var(--frame-w) + 3rem) calc(var(--frame-w) + var(--gutter)) calc(var(--frame-w) + var(--sea-h));
+  padding: calc(var(--frame-w) + 6rem) calc(var(--frame-w) + var(--gutter)) calc(var(--frame-w) + var(--sea-h));
   pointer-events: none;
 }
 .hero {
